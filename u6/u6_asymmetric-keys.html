@@ -1,0 +1,929 @@
+<!DOCTYPE html><html><head>
+      <title>UD6 Encriptación asimétrica</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css);
+code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}@font-face{font-family:"Material Icons";font-style:normal;font-weight:400;src:local("Material Icons"),local("MaterialIcons-Regular"),url("data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAfIAAsAAAAADDAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kosY21hcAAAAYAAAADTAAACjtP6ytBnbHlmAAACVAAAAxgAAAQ4zRtvlGhlYWQAAAVsAAAALwAAADYRwZsnaGhlYQAABZwAAAAcAAAAJAeKAzxobXR4AAAFuAAAABIAAAA8OGQAAGxvY2EAAAXMAAAAIAAAACAG5AfwbWF4cAAABewAAAAfAAAAIAEfAERuYW1lAAAGDAAAAVcAAAKFkAhoC3Bvc3QAAAdkAAAAYgAAAK2vz7wkeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkPsQ4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVLy4xKzzX4chhrmK4QpQmBEkBwAZygyweJzFkr0NwjAQhZ+TEP6CRUfHBEwRUWaQTICyQbpMwRCskA5RUIONxG0RnnNpKAIV4qzPku/8c353ACYAYrIjCWCuMAh2ptf0/hiL3p/gyPUWa3osqlt0L1zu9r71z8dGrJRykFoauXQd932Lj5vhG+MjxGeYI8MKETObMpslf5EyP8tg+vHun5r539PvlvXzaVhRFVQDTPEWKVQR90KhnnC5Ek67vUKN4VuFasM/ldARj43CCkCsEjpJSoVVgRyU0GVSK6wUpFFCx8lFgX0BiXpRPQB4nE2TTWjcRhTH3xttpDhxN7uxPlp3u/FK7moRPixafRijNosxSw/LUsIwNcaEHPZggo/FmEKMCKWU4kNOOftQSlhE8alnH0Ix9BqWnHooPRrTQ0+mnu2bXTu2pPdGM9LM/6c3fwECTM4gBBMYQNqxzLrZAjqYSlqu2TAHZQA0/DQJH6FtzqGDnvbt4Ggwvzw/nL8EfH8kW0fsuRqhgWXZnY7M1picaUL7Du5BHeDzMIl83dAt016wH1qmvtSMo5R6YRJHTR//FXsff/nj/tc/5K9P5d+nP22+fFK5u7v3K39SW3y+OtDKO3L85vD09PD9z5X17a2N1g4tqk01RlqX7gyoEmnsWQtVr4rtZMmukEaFBZxzefkCn11cyKMLZgshRwgTYNoLNXCBz2ja7HvZG7hDpPSNfoo5vs0knK/9hb+rNpu+8kHPgk/Ao4kK3tWtTpSEtvkA9c+wE6UaUdwieNkaHg55tBEtRiEPw1s0+FtrtTcc9two2lhMknV7PZF/cs6+uUFTmpTGbEx7sQCPSLOttHS3GRltqp7SNzVSKzl6aWnZT/CX5k6/v9N3Hh8fHBwffJVjhrC6OgH5dkIt/tPsq+d/PD5Qz7G7efzq1THFjdZVPe/N6ulQ3JnDWSE5junsFsVIiFwL/htf1S5gJ3BfOcUxfHKLnzqpFpyfZ9cX+/5WB6a+Y0pHpzkNrYNVDwMsikK+y7WuLCRg/oFHkA8VT3rDg5ZnU6ktzzINymV0m74Xd5pfIGXyFeVEQSShkzqG7TBBa2OxVRKitLXv7h3uuftXnXq7lz2tZ/WnWa9dx9dCjDhHzmuVQATlmljr9dZErUydSo2Hbi/b1vXtrOeGCk2/8s3ZlO8+ueJT8BVlw5pGw2oYccdSiHHqx0RlabHqdNR9jAETl6PreJcPBnnfpTLnOQ8C3OV8AmQGzouV1iZdeb5SSIoVc8W8/kcDtksUH5FrU6/aqBqNWcMEzxG4DAQ14qRQhi9mWU0rzepKezbjfgCwQKxVYq5ajRgpRqy45CqwkJydcEkbTkvRz8P5/2ZpDTN4nGNgZGBgAOKb6v+/xvPbfGXgZmEAgeuB2kkI+v8bFgbmKiCXg4EJJAoAPyAKhQB4nGNgZGBg1vmvwxDDwgACQJKRARXwAwAzZQHQeJxjYQCCFAYGFgbSMQAcWACdAAAAAAAAAAwALgBgAIQAmADSAQgBIgE8AVABoAHeAfwCHHicY2BkYGDgZ7BgYGMAASYg5gJCBob/YD4DAA/hAWQAeJxlkbtuwkAURMc88gApQomUJoq0TdIQzEOpUDokKCNR0BuzBiO/tF6QSJcPyHflE9Klyyekz2CuG8cr7547M3d9JQO4xjccnJ57vid2cMHqxDWc40G4Tv1JuEF+Fm6ijRfhM+oz4Ra6eBVu4wZvvMFpXLIa40PYQQefwjVc4Uu4Tv1HuEH+FW7i1mkKn6Hj3Am3sHC6wm08Ou8tpSZGe1av1PKggjSxPd8zJtSGTuinyVGa6/Uu8kxZludCmzxMEzV0B6U004k25W35fj2yNlCBSWM1paujKFWZSbfat+7G2mzc7weiu34aczzFNYGBhgfLfcV6iQP3ACkSaj349AxXSN9IT0j16JepOb01doiKbNWt1ovippz6sVYYwsXgX2rGVFIkq7Pl2PNrI6qW6eOshj0xaSq9mpNEZIWs8LZUfOouNkVXxp/d5woqebeYIf4D2J1ywQB4nG3LOw6AIBAE0B384B+PAkgEa+QwNnYmHt+EpXSal5lkSBBnoP8oCFSo0aCFRIceA0ZMmLFAYSW88rmvtMUjG3RiQ9HvpfusM6zWNmtc5H/iPewha50tOt5PS/QBx2IeSwAA") format("woff")}.admonition{box-shadow:0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);position:relative;margin:1.5625em 0;padding:0 1.2rem;border-left:.4rem solid rgba(68,138,255,.8);border-radius:.2rem;background-color:rgba(255,255,255,.05);overflow:auto}.admonition>p{margin-top:.8rem}.admonition>.admonition-title{margin:0 -1.2rem;padding:.8rem 1.2rem .8rem 3.6rem;border-bottom:1px solid rgba(68,138,255,.2);background-color:rgba(68,138,255,.1);font-weight:700}.admonition>.admonition-title:before{position:absolute;left:1.2rem;font-size:1.5rem;color:rgba(68,138,255,.8);content:"\E3C9"}.admonition>.admonition-title:before{font-family:Material Icons;font-style:normal;font-variant:normal;font-weight:400;line-height:2rem;text-transform:none;white-space:nowrap;speak:none;word-wrap:normal;direction:ltr}.admonition.abstract,.admonition.summary,.admonition.tldr{border-left-color:rgba(0,176,255,.8)}.admonition.abstract>.admonition-title,.admonition.summary>.admonition-title,.admonition.tldr>.admonition-title{background-color:rgba(0,176,255,.1);border-bottom-color:rgba(0,176,255,.2)}.admonition.abstract>.admonition-title:before,.admonition.summary>.admonition-title:before,.admonition.tldr>.admonition-title:before{color:#00b0ff;content:"\E8D2"}.admonition.hint,.admonition.tip{border-left-color:rgba(0,191,165,.8)}.admonition.hint>.admonition-title,.admonition.tip>.admonition-title{background-color:rgba(0,191,165,.1);border-bottom-color:rgba(0,191,165,.2)}.admonition.hint>.admonition-title:before,.admonition.tip>.admonition-title:before{color:#00bfa5;content:"\E80E"}.admonition.info,.admonition.todo{border-left-color:rgba(0,184,212,.8)}.admonition.info>.admonition-title,.admonition.todo>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.info>.admonition-title:before,.admonition.todo>.admonition-title:before{color:#00b8d4;content:"\E88E"}.admonition.check,.admonition.done,.admonition.success{border-left-color:rgba(0,200,83,.8)}.admonition.check>.admonition-title,.admonition.done>.admonition-title,.admonition.success>.admonition-title{background-color:rgba(0,200,83,.1);border-bottom-color:rgba(0,200,83,.2)}.admonition.check>.admonition-title:before,.admonition.done>.admonition-title:before,.admonition.success>.admonition-title:before{color:#00c853;content:"\E876"}.admonition.faq,.admonition.help,.admonition.question{border-left-color:rgba(100,221,23,.8)}.admonition.faq>.admonition-title,.admonition.help>.admonition-title,.admonition.question>.admonition-title{background-color:rgba(100,221,23,.1);border-bottom-color:rgba(100,221,23,.2)}.admonition.faq>.admonition-title:before,.admonition.help>.admonition-title:before,.admonition.question>.admonition-title:before{color:#64dd17;content:"\E887"}.admonition.attention,.admonition.caution,.admonition.warning{border-left-color:rgba(255,145,0,.8)}.admonition.attention>.admonition-title,.admonition.caution>.admonition-title,.admonition.warning>.admonition-title{background-color:rgba(255,145,0,.1);border-bottom-color:rgba(255,145,0,.2)}.admonition.attention>.admonition-title:before{color:#ff9100;content:"\E417"}.admonition.caution>.admonition-title:before,.admonition.warning>.admonition-title:before{color:#ff9100;content:"\E002"}.admonition.fail,.admonition.failure,.admonition.missing{border-left-color:rgba(255,82,82,.8)}.admonition.fail>.admonition-title,.admonition.failure>.admonition-title,.admonition.missing>.admonition-title{background-color:rgba(255,82,82,.1);border-bottom-color:rgba(255,82,82,.2)}.admonition.fail>.admonition-title:before,.admonition.failure>.admonition-title:before,.admonition.missing>.admonition-title:before{color:#ff5252;content:"\E14C"}.admonition.bug,.admonition.danger,.admonition.error{border-left-color:rgba(255,23,68,.8)}.admonition.bug>.admonition-title,.admonition.danger>.admonition-title,.admonition.error>.admonition-title{background-color:rgba(255,23,68,.1);border-bottom-color:rgba(255,23,68,.2)}.admonition.danger>.admonition-title:before{color:#ff1744;content:"\E3E7"}.admonition.error>.admonition-title:before{color:#ff1744;content:"\E14C"}.admonition.bug>.admonition-title:before{color:#ff1744;content:"\E868"}.admonition.example,.admonition.snippet{border-left-color:rgba(0,184,212,.8)}.admonition.example>.admonition-title,.admonition.snippet>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.example>.admonition-title:before,.admonition.snippet>.admonition-title:before{color:#00b8d4;content:"\E242"}.admonition.cite,.admonition.quote{border-left-color:rgba(158,158,158,.8)}.admonition.cite>.admonition-title,.admonition.quote>.admonition-title{background-color:rgba(158,158,158,.1);border-bottom-color:rgba(158,158,158,.2)}.admonition.cite>.admonition-title:before,.admonition.quote>.admonition-title:before{color:#9e9e9e;content:"\E244"}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/catamaran/v27/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
+}
+.markdown-preview.markdown-preview .box_bg_lightgrey {
+  background-color: #f5f5f5;
+  border: 2px solid #969696;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .box_bg_lightgreen {
+  background-color: #f5faf5;
+  border: 2px solid #969b96;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .contenedor {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto 30px auto;
+}
+.markdown-preview.markdown-preview .fondo {
+  background: url(https://balmisdigigs.github.io/digitalizacion.github.io/imagenes/fondos/quote.png);
+  background-size: cover;
+  width: 75%;
+  height: 160px;
+  border-radius: 10px;
+  position: relative;
+}
+.markdown-preview.markdown-preview .cita {
+  font-family: Arial;
+  font-style: italic;
+  font-weight: 600;
+  text-align: justify;
+  line-height: 1.5rem;
+  opacity: 0.6;
+  color: white;
+  padding: 5rem;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  font-size: 1.3rem;
+  transform: translate(-50%, -50%);
+}
+.markdown-preview.markdown-preview .abre_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-left: 30px;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, -15%);
+}
+.markdown-preview.markdown-preview .cierra_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-right: 30px;
+  right: 0%;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, 55%);
+}
+.markdown-preview.markdown-preview .autor {
+  font-family: Arial;
+  color: white;
+  margin: 0px;
+  padding-left: 30px;
+  position: absolute;
+  top: 83%;
+  font-size: 1rem;
+}
+.markdown-preview.markdown-preview .flotante {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: center;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: space-between;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: row;
+  }
+}
+.markdown-preview.markdown-preview .flotante_izq {
+  margin-right: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: auto;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: auto;
+  }
+}
+.markdown-preview.markdown-preview .galeria_imagenes {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: row;
+  }
+}
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  const configureMermaidIconPacks = () => {
+    window["mermaid"].registerIconPacks([
+      {
+        name: "logos",
+        loader: () =>
+          fetch("https://unpkg.com/@iconify-json/logos@1/icons.json").then(
+            (res) => res.json()
+          ),
+      },
+    ]);
+  };
+
+  if (document.readyState !== 'loading') {
+    configureMermaidIconPacks();
+  } else {
+    document.addEventListener("DOMContentLoaded", () => {
+      configureMermaidIconPacks();
+    });
+  }
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="unidad-6-técnicas-de-programación-segura-encriptación-asimétrica">Unidad 6. Técnicas de programación segura. Encriptación asimétrica </h1>
+<p><a href="./u6_symmetric-key.pdf">Descargar estos apuntes</a></p>
+<h2 id="índice">Índice </h2>
+
+<div class="md-toc">
+<details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#encriptación-asimétrica" class="md-toc-link"><p>Encriptación asimétrica</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#clave-pública-y-clave-privada" class="md-toc-link">
+            <p>Clave pública y clave privada</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#firma-digital" class="md-toc-link">
+            <p>Firma digital</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#certificados-digitales" class="md-toc-link">
+            <p>Certificados digitales</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#generación-de-pares-de-claves" class="md-toc-link">
+            <p>Generación de pares de claves</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#generación-de-claves-desde-java" class="md-toc-link">
+            <p>Generación de claves desde Java</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#cifrado-y-descifrado-usando-un-par-de-claves" class="md-toc-link">
+            <p>Cifrado y descifrado usando un par de claves</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#cifrado-asimétrico-con-gnupg" class="md-toc-link">
+            <p>Cifrado asimétrico con GnuPG</p>
+
+          </a></div>
+        </div>
+      </details>
+    
+</div>
+<div style="page-break-after:always;"></div>
+<h2 id="encriptación-asimétrica">Encriptación asimétrica </h2>
+<h3 id="clave-pública-y-clave-privada">Clave pública y clave privada </h3>
+<p>La criptografía asimétrica o <strong>criptografía de clave pública</strong> supuso una auténtica revolución en su momento. Permitía el intercambio seguro de información (confidencialidad, autenticación y no repudio) entre interlocutores que no compartían ningún secreto.</p>
+<p>Se creó en los años 70 a partir del trabajo de <em>Diffie y Hellman</em> por una parte y de <em>Rivest, Shamir y Adleman</em> por otra.</p>
+<p>Se basa en la existencia de un par de claves, una pública y otra privada, entre las cuales existe una relación matemática, de manera que es muy difícil obtener la clave privada a partir de la pública. Sin embargo, es muy sencillo obtener la clave pública a partir de la privada.</p>
+<div class="admonition info">
+<p class="admonition-title">Algoritmo RSA</p>
+<p>En la familia de algoritmos RSA (Rivest, Shamir y Adleman) la clave pública consiste en un número que es el producto de dos factores primos muy grandes (mayores que 10^100) y la clave privada se deriva de la factorización de dicho número, es decir, los dos factores primos.</p>
+<p>Requiere poco procesamiento multiplicar dos números primos tan grandes, pero requiere una cantidad enorme de cálculos encontrar la factorización del número.</p>
+</div>
+<p>A diferencia del cifrado simétrico, el el cifrado asimétrico se usan funciones diferentes para cifrar y descifrar los mensajes.</p>
+<ul>
+<li>Para <strong>encriptación</strong> se usa la <strong>clave pública</strong>. Cualquiera puede tener acceso a la clave pública, mediante la cual, usando la función de cifrado, se encripta la información dirigida a un destinatario concreto (el propietario de la clave privada asociada).</li>
+<li>Para <strong>desencriptación</strong> se usa la <strong>clave privada</strong>, que debe mantenerse a buen recaudo ya que sólo con esa clave y la función de descifrado se puede desencriptar un mensaje cifrado con la clave pública correspondiente.</li>
+</ul>
+<p>Entre los algoritmos de cifrado asimétrico más utilizados se encuentran</p>
+<ul>
+<li>Rivest Shamir Adleman (RSA). Basado en la factorización de números primos grandes.</li>
+<li>Digital Signature Standard (DSS), que incorpora Digital Signature Algorithm (DSA).</li>
+<li>Elliptical Curve Cryptography (ECC). Está basado en las matemáticas de las curvas elípticas</li>
+<li>the Diffie-Hellman exchange method.</li>
+<li>TLS/SSL protocol.</li>
+</ul>
+<p><img src="./assets/imgs/asymmetric-encryption-primitive.png" alt="cifrado asimétrico" style="display:block;margin:0 auto;width:75%;max-width:400px;"></p>
+<h3 id="firma-digital">Firma digital </h3>
+<p>Con la firma digital Para cifrar y descifrar un mensaje necesitamos una clave y escoger el tipo de cifrado que queremos. En JCA se procede de la siguiente forma:</p>
+<p><img src="./assets/imgs/proceso-firma-digital.png" alt="cifrado asimétrico" style="display:block;margin:0 auto;width:75%;max-width:400px;"></p>
+<p>El proceso básico que se sigue para la firma electrónica es el siguiente:</p>
+<ol>
+<li>El usuario dispone de un documento electrónico (una hoja de cálculo, un pdf, una imagen, incluso un formulario en una página web) y de un <strong>certificado</strong> (clave pública y clave privada) que le pertenece y le identifica.</li>
+<li>La aplicación o dispositivo digital utilizados para la firma realiza un <strong>resumen del documento</strong>. El resumen de un documento de gran tamaño puede llegar a ser tan solo de unas líneas. Este resumen es único y cualquier modificación del documento implica también una modificación del resumen.</li>
+<li>La aplicación utiliza la clave privada para codificar el resumen.</li>
+<li>La aplicación crea otro documento electrónico que contiene ese resumen codificado. Este nuevo documento es la firma electrónica.</li>
+</ol>
+<p>El resultado de todo este proceso es un documento electrónico obtenido a partir del documento original y de las claves del firmante. La firma electrónica, por tanto, es el mismo documento electrónico resultante.</p>
+<p><img src="./assets/imgs/digital-signature-sign-verify.png" alt="verificación de firma digital" style="display:block;margin:0 auto;width:75%;max-width:400px;"></p>
+<h4 id="integridad">Integridad </h4>
+<p>Como estamos comparando funciones de resumen de un documento, se puede detectar de forma muy sencilla si el documento ha sufrido alguna modificación respecto al momento en el que se firmó, garantizando de esta forma la integridad de la información firmada.</p>
+<h4 id="autenticación-y-no-repudio">Autenticación y no repudio </h4>
+<p>Por las características de los algoritmos de cifrado se puede determinar, a partir del resumen cifrado con la clave privada, mediante el uso de la clave pública, que el mensaje recibido lo generó el propietario de la clave privada.</p>
+<p>Con esta característica se puede probar y demostrar que el mensaje lo firmó el emisor y no cualquier otra persona, garantizando por un lado la autoría y por otro evitando que el emisor niegue haber generado esa información.</p>
+<h3 id="certificados-digitales">Certificados digitales </h3>
+<p>Un certificado digital es un documento electrónico expedido por una <strong>Autoridad de Certificación</strong> e identifica a una persona (física o jurídica) con un par de claves.Tiene como misión validar y certificar que una firma electrónica se corresponde con una persona o entidad concreta.</p>
+<p>Contiene la información necesaria para firmar electrónicamente e identificar a su propietario con sus datos: nombre, NIF, algoritmo y claves de firma, fecha de expiración y organismo que lo expide.</p>
+<p>La Autoridad de Certificación da fe de que la firma electrónica se corresponde con un usuario concreto. Esa es la razón por la que los certificados están firmados, a su vez, por la Autoridad de Certificación.</p>
+<h4 id="claves-digitales">Claves digitales </h4>
+<p>En un certificado, las claves digitales son los elementos esenciales para la firma e identificación del firmante. Existen dos claves, la <strong>clave privada</strong> y <strong>clave pública</strong>, y trabajan de forma complementaria. <em>Lo que cifra o codifica una clave sólo lo puede descifrar o decodificar la otra</em>.</p>
+<p>La diferencia entre ellas es que la clave privada está pensada para que nunca salga del certificado y esté siempre bajo el control del firmante. En cambio, la clave pública se puede repartir o enviar a otros usuarios.</p>
+<p>En ocasiones, se habla de Certificado Privado para referirse al certificado que contiene la clave privada y la pública y del Certificado Público para referirse al certificado que sólo contiene la clave pública.</p>
+<div class="admonition info">
+<p class="admonition-title">Creación de Certificados digitales</p>
+</div>
+<p>Obtener el Certificado Digital depende de si el certificado está contenido en una tarjeta, como el DNIe, o de si el certificado se guarda en un fichero software.</p>
+<p>En ambos procesos hay un paso que es la identificación del responsable o usuario del certificado, lo cual requiere que éste <strong>se persone en las oficinas de una Autoridad de Registro</strong>. Estas oficinas corroboran la identidad.<br>
+!!!</p>
+<h4 id="infraestructura-de-clave-pública-pki">Infraestructura de clave pública (PKI) </h4>
+<p>Una infraestructura de clave pública (PKI) es una combinación de hardware, software, procedimientos de seguridad y marco legal que, en su conjunto, permite la ejecución con garantías de operaciones criptográficas, cumpliendo los requisitos de integridad, confidencialidad, autenticación y no repudio.</p>
+<p>Una PKI permite establecer y gestionar asociaciones entre claves públicas e identidades de personas y organizaciones.</p>
+<p>La cuestión entonces es determinar si un certificado es válido o de confianza, ol o que es lo mismo, si representa a la persona u organización que aparece como titular y propietario  del certificado.</p>
+<p>Para dar por válido un certificado digital su firma digital debe ser válida y su emisor debe ser un emisor de confianza. Por lo tanto, ahora queda determinar qué emisores son de confianza.</p>
+<div class="admonition warning">
+<p class="admonition-title">Autenticidad de los certificados</p>
+</div>
+<p>Los certificados deben estar firmados por una AC por dos motivos</p>
+<ol>
+<li>Garantizar su integridad, de forma que cualquier intento de modificación del certificado lo invalide.</li>
+<li>Identificar al creador del certificado digital. Todo el sistema está basado en una relación de confianza, en la que la AC que ha firmado el certificado es un emisor de confianza, normalmente instituciones públicas o privadas de reconocido prestigio<br>
+!!!</li>
+</ol>
+<p>En nuestro sistema podemos ver y modificar qué entidades de certificación consideramos como seguras, es decir, que los certificados que éstas hayan firmado los tomaremos como válidos.</p>
+<p><a href="https://docs.microsoft.com/es-es/exchange/trusted-root-certification-authorities-for-federation-trusts-exchange-2013-help">Autoridades de confianza para apps de Azure</a></p>
+<p>En Windows, si ejecutamos <code>certmgr.msc</code> podemos acceder a la configuración de certificados del sistema. En OSX lo podemos hacer con la aplicación <code>Llavero</code>.</p>
+<p>Para nuestra navegación, la información de qué certificados considera el navegador como seguros, depende de en qué AC confiemos (por defecto en la instalación vienen configurados los más comunes)</p>
+<p><a href="https://www.adminfacil.es/como-ver-los-certificados-instalados-en-google-chrome/">Ver certificados y AC en Chrome</a></p>
+<div class="admonition danger">
+<p class="admonition-title">Certificados autofirmados</p>
+<p><strong>Hemos de tener en cuenta que, con herramientas como las que proporciona Java, SSH o GnuPG cualquiera puede generar un certificado digital con la información que quiera</strong></p>
+<p>Para las pruebas vamos a firmar nuestros propios certificados. Incluso dentro de una compañía podemos ejercer nosotros mismos como Autoridad de Certificación de Confianza, firmando nuestros certificados.</p>
+<p>Debemos preparar la configuración de nuestros sistemas para que <strong>confíen</strong> en esos certificados autofirmados, asumiendo el riesgo que esto conlleva.</p>
+</div>
+<h3 id="generación-de-pares-de-claves">Generación de pares de claves </h3>
+<p>La generación y gestión de pares de claves implica dos aspectos fundamentales.</p>
+<p>Por un lado, tenemos la creación de las claves. Las claves las podemos haber descargado, generado con alguna de las utilidades disponibles para ellos o bien, como veremos a continuación, se pueden generar desde una aplicación, igual que hacemos con las claves simétricas.</p>
+<p>Por otro lado, tenemos la gestión del almacenamiento de las claves. Las claves no dejan de ser archivos, que podemos tratar como archivos especiales, pero que usualmente se almacenan en repositorios especiales, denominados <code>keyrings</code> a los que puede acceder una aplicación y desde los que gestionamos las relaciones de confianza.</p>
+<p>El JCA nos proporciona clases generadoras de claves. Estas clases se apoyan en buenos algoritmos de generación de números aleatorios para satisfacer unos requisitos mínimos de seguridad.</p>
+<div class="admonition info">
+<p class="admonition-title">SecureRandom</p>
+<p>La generación de números aleatorios juega un papel fundamental en la criptografía, siendo uno de los <strong>Engine</strong> que proporciona el JCA junto con un amplio grupo de algoritmos.</p>
+<p>La clase <strong>SecureRandom</strong> genera número aleatorios empleando alguno de los algoritmos disponibles y se puede utilizar un objeto de tipo SecureRandom para que los utilicen las clases generadoras de claves, tanto simétricas como asimétricas</p>
+</div>
+<h4 id="tipos-de-ficheros-para-certificados-digitales">Tipos de ficheros para certificados digitales </h4>
+<p>Hay varios tipos de ficheros que se utilizan para guardar certificados digitales siguiendo el estándar X.509. Generalmente uncertificado no contiene sólo la clave, sino que tiene información adicional.</p>
+<p>Esxiten dos posibles codificaciones para almacenar certificados X.509</p>
+<ul>
+<li>der: Es una codificación binaria</li>
+<li>dem: Es una codificación en formato texto guardado en Base64 y tienen un encabezado y pie que delimita el contenido del certificado</li>
+</ul>
+<p>Veamos un ejemplo de certificado con codificación dem</p>
+<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code>-----BEGIN CERTIFICATE----- 
+MIIDijCCAvOgAwIBAgIJAKRvtQxONVZoMA0GCSqGSIb3DQEBBAUAMIGLMQswCQYD 
+VQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTESMBAGA1UEBxMJU3Vubnl2YWxl 
+MSAwHgYDVQQKExdBcnViYSBXaXJlbGVzcyBOZXR3b3JrczEMMAoGA1UECxMDVEFD 
+MSMwIQYDVQQDExpteXNlcnZlci5hcnViYW5ldHdvcmtzLmNvbTAeFw0wODA0MzAy 
+MzM3MDJaFw0xMDA0MzAyMzM3MDJaMIGLMQswCQYDVQQGEwJVUzETMBEGA1UECBMK 
+Q2FsaWZvcm5pYTESMBAGA1UEBxMJU3Vubnl2YWxlMSAwHgYDVQQKExdBcnViYSBX 
+aXJlbGVzcyBOZXR3b3JrczEMMAoGA1UECxMDVEFDMSMwIQYDVQQDExpteXNlcnZl 
+ci5hcnViYW5ldHdvcmtzLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA 
+zRwqc9prVXycGhHcsAjGPzC2MKU4DhXSr86Z89Jk8/cXEJBJ0C/NgdAqqDgxneUh 
+nVyxGxODa7BNGAWSagdCsKLrbkchr479E3xLfgdc3UzAJITLGCXGiQ66NwQDyM5I 
+G/xKYm4oqgyOE/lFTTkK0M8V0NmmJynyOCYC/AwQKjMCAwEAAaOB8zCB8DAdBgNV 
+HQ4EFgQUM5btT6IlPGkLTTPvFccTVURO1p0wgcAGA1UdIwSBuDCBtYAUM5btT6Il 
+PGkLTTPvFccTVURO1p2hgZGkgY4wgYsxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpD 
+YWxpZm9ybmlhMRIwEAYDVQQHEwlTdW5ueXZhbGUxIDAeBgNVBAoTF0FydWJhIFdp 
+cmVsZXNzIE5ldHdvcmtzMQwwCgYDVQQLEwNUQUMxIzAhBgNVBAMTGm15c2VydmVy 
+LmFydWJhbmV0d29ya3MuY29tggkApG+1DE41VmgwDAYDVR0TBAUwAwEB/zANBgkq 
+hkiG9w0BAQQFAAOBgQBp71WeF6dKvqUSO1JFsVhBeUesbEgx9+tx6eP328uL0oSC 
+fQ6EaiXZVbrQt+PMqG0F80+4wxVXug9EW5Ob9M/opaCGI+cgtpLCwSf6CjsmAcUc 
+b6EjG/l4HW2BztYJfx15pk51M49TYS7okDKWYRT10y65xcyQdfUKvfDC1k5P9Q<span class="token operator">==</span> 
+-----END CERTIFICATE-----
+</code></pre><p>Además de la codificación, tenemos formatos de fichero estándar para guardar los certificados usando una de las codificaciones anteriores</p>
+<ul>
+<li>cer, crt, der: Contienen certificados X.509 estándares codificados como <code>der</code></li>
+<li>p12: Realmente hace referencia a toda una familia de estándares asociados al algoritmo RSA y definen el formato de almacenamiento de distintos tipos de claves, los PKCS#n (PKCS#8, PKCS#12, etc). Pueden contener, además de los datos del certificado, una clave privada. Si contiene la clave privada, ésta estará protegida por una contraseña que será necesaria para acceder a la clave privada. <a href="https://es.wikipedia.org/wiki/PKCS">PKCS en Wikipedia</a></li>
+</ul>
+<h3 id="generación-de-claves-desde-java">Generación de claves desde Java </h3>
+<p>Usando las clases del JCA, estos son los pasos que debemos seguir para generar un par de claves desde código</p>
+<ol>
+<li>El primer paso para obtener un par de claves es obtener un objeto <em>keyPairGenerator</em> para el algoritmo que queramos utilizar.</li>
+<li>A continuación se inicializa el generador del par de claves llamando a alguna de las versiones del método <em>initialize</em>. En nuestro caso indicaremos el tamaño de clave para el algoritmo seleccionado y un generador de números aleatorios.</li>
+<li>El último paso es generar el par de claves y guardarlas en los objetos PrivateKey y PublicKey respectivamente.</li>
+<li>A partir de ese momento ya se pueden usar las claves para cifrar, descifrar e incluso para firmar. Sin embargo, si queremos reutilizar estas claves, lo que tendremos que hacer será guardarlas en sendos archivos.</li>
+</ol>
+<p>A continuación podemos ver un ejemplo de generación de claves, almacenamiento de las claves en un fichero y visualización de la clave obtenida.</p>
+<pre data-role="codeBlock" data-info="java{14,15,18-20,39,52}" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U6S4_1_GenerateRsaKeyPair</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-final">final</span> <span class="token keyword keyword-int">int</span> tamanoClaveAsimetrica <span class="token operator">=</span> <span class="token number">1024</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">String</span> algoritmoClaveAsimetrica <span class="token operator">=</span> <span class="token string">"RSA"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">String</span> ficheroClavePublica <span class="token operator">=</span> <span class="token string">"claves/clavepublica.der"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">String</span> ficheroClavePrivada <span class="token operator">=</span> <span class="token string">"claves/claveprivada.pkcs8"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Elijo un algoritmo de generación de números aleatorios de los denominados</span>
+            <span class="token comment">// altamente seguros para generar el par de claves</span>
+            <span class="token class-name">SecureRandom</span> algoritmoSeguro <span class="token operator">=</span> <span class="token class-name">SecureRandom</span><span class="token punctuation">.</span><span class="token function">getInstanceStrong</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Preparo el generados de claves para usar el algortimo RSA</span>
+            <span class="token class-name">KeyPairGenerator</span> genParClaves <span class="token operator">=</span> <span class="token class-name">KeyPairGenerator</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>algoritmoClaveAsimetrica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            genParClaves<span class="token punctuation">.</span><span class="token function">initialize</span><span class="token punctuation">(</span>tamanoClaveAsimetrica<span class="token punctuation">,</span> algoritmoSeguro<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Creo el par de claves y lo guardo en objetos</span>
+            <span class="token class-name">KeyPair</span> parClaves <span class="token operator">=</span> genParClaves<span class="token punctuation">.</span><span class="token function">generateKeyPair</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">PublicKey</span> clavePublica <span class="token operator">=</span> parClaves<span class="token punctuation">.</span><span class="token function">getPublic</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">PrivateKey</span> clavePrivada <span class="token operator">=</span> parClaves<span class="token punctuation">.</span><span class="token function">getPrivate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Guardamos la clave pública en un archivo y la visualizamos</span>
+            <span class="token comment">// La clave se guarda con codificación DER y en formato X.509</span>
+            <span class="token function">guardaClavePublicaX509</span><span class="token punctuation">(</span>clavePublica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// Guardamos la clave privada en un archivo y la visualizamos</span>
+            <span class="token comment">// La clave se guarda con codificación DER y en formato PKCS#8</span>
+            <span class="token function">guardaClavePrivadaPKCS8</span><span class="token punctuation">(</span>clavePrivada<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchAlgorithmException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No se ha encontrado la implementación del algortimo en ningún Provider"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">guardaClavePublicaX509</span><span class="token punctuation">(</span><span class="token class-name">PublicKey</span> clavePublica<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">(</span><span class="token class-name">FileOutputStream</span> publicKeyFile <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">FileOutputStream</span><span class="token punctuation">(</span>ficheroClavePublica<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">X509EncodedKeySpec</span> codificacionClavePublica <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">X509EncodedKeySpec</span><span class="token punctuation">(</span>clavePublica<span class="token punctuation">.</span><span class="token function">getEncoded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> algoritmoClaveAsimetrica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            publicKeyFile<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>clavePublica<span class="token punctuation">.</span><span class="token function">getEncoded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// Visualizamos la clave por consola</span>
+            <span class="token class-name">MostrarClaveBase64</span><span class="token punctuation">(</span>codificacionClavePublica<span class="token punctuation">.</span><span class="token function">getEncoded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    codificacionClavePublica<span class="token punctuation">.</span><span class="token function">getFormat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ficheroClavePublica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Error almacenando la clave pública en "</span> <span class="token operator">+</span> ficheroClavePublica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>                
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">guardaClavePrivadaPKCS8</span><span class="token punctuation">(</span><span class="token class-name">PrivateKey</span> clavePrivada<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">(</span><span class="token class-name">FileOutputStream</span> privateKeyFile <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">FileOutputStream</span><span class="token punctuation">(</span>ficheroClavePrivada<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">PKCS8EncodedKeySpec</span> codificacionClavePrivada <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">PKCS8EncodedKeySpec</span><span class="token punctuation">(</span>clavePrivada<span class="token punctuation">.</span><span class="token function">getEncoded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> algoritmoClaveAsimetrica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            privateKeyFile<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>clavePrivada<span class="token punctuation">.</span><span class="token function">getEncoded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// Visualizamos la clave por consola</span>
+            <span class="token class-name">MostrarClaveBase64</span><span class="token punctuation">(</span>codificacionClavePrivada<span class="token punctuation">.</span><span class="token function">getEncoded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    codificacionClavePrivada<span class="token punctuation">.</span><span class="token function">getFormat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ficheroClavePrivada<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Error almacenando la clave privada en "</span> <span class="token operator">+</span> ficheroClavePrivada<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>        
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token class-name">MostrarClaveBase64</span><span class="token punctuation">(</span><span class="token keyword keyword-byte">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> clave<span class="token punctuation">,</span> <span class="token class-name">String</span> formatoClave<span class="token punctuation">,</span> <span class="token class-name">String</span> ficheroClave<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Clave guardada en formato "</span> <span class="token operator">+</span> formatoClave 
+                <span class="token operator">+</span> <span class="token string">" en fichero "</span> <span class="token operator">+</span> ficheroClave<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Base64</span><span class="token punctuation">.</span><span class="token function">getEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">encodeToString</span><span class="token punctuation">(</span>clave<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">replaceAll</span><span class="token punctuation">(</span><span class="token string">"(.{76})"</span><span class="token punctuation">,</span> <span class="token string">"$1\n"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>Esta sería la salida proporcionada</p>
+<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code>Clave guardada en formato X.509 en fichero claves/clavepublica.der
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC4UFRgEIm3lFKO75QmqTPvkDs0fM6NUm2FHQcA
+cQHawLx9/WKXh9xkx/xYZZcc4L2YQYcwTu4jfk889iGKGLn2Kh4ywBY+g8uZ6ljM5PT6f95dU6Zd
+xATWOn1qsizBubf7kKhBL7xDnKU5do3XYzrSjme+9uIsgS7HQ7K0MbKrpQIDAQAB
+
+Clave guardada en formato PKCS<span class="token comment">#8 en fichero claves/claveprivada.pkcs8</span>
+MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBALhQVGAQibeUUo7vlCapM++QOzR8
+zo1SbYUdBwBxAdrAvH39YpeH3GTH/FhllxzgvZhBhzBO7iN+Tzz2IYoYufYqHjLAFj6Dy5nqWMzk
+9Pp/3l1Tpl3EBNY6fWqyLMG5t/uQqEEvvEOcpTl2jddjOtKOZ7724iyBLsdDsrQxsqulAgMBAAEC
+gYA97xBLL4N3YqnTSgIYc6b2Cxs56e5mYppWrohZx5996GHuXCSzEn4mh2TuN0Tt+T78WJiazQsM
+djceHv7qLqDd2kWn3IR0gX207KxwjG0I/sAP2z/i9NZ7DPL+FUv8lmeYUfDj8h3wkyhmBqn+tan1
+0xIOcZUrr/yRhrjZLI1SCQJBAPEc4uWSbyBLHVC6SNga7XWNmwi8Mq4PZJdhW9RJWDxg9zOlC/HV
+rV60ddbfW/ldIqCH33DUge5U5YhD6Mla/XMCQQDDsahcwTksp2bJowMTRgFHT094sihtSlQ7sgdI
+uAemuMvBmVTHleFBWMqz1rAN6A/76yef3WK4I+nsmeCGa+yHAkEA7BR1kYT8q+kATi/n7TkIcoZx
+W28yTD2kJ5jbWhNqgswKn5WmCWdH9qfJjddrbdEke3wuaoKYqeyURgUAJE+kQwJADhEsQBanrH0Q
+F3h/VRhYKS8bUFrGKy0Hpw7iFSkda6+m/fCutnYgrhja4ViSaT2AQKSjwYsheIkkXJynFiKV6wJA
+PUHXqlvfgPr4w2U+Ddq7h/gp59kO0uojGrEBO0B2wt3PuuSQlZlMN97Ly9QmB6LYRtw6woCZZZOD
+<span class="token assign-left variable">ePqA7rf8IA</span><span class="token operator">==</span>
+</code></pre><p>En el ejemplo anterior en lugar de utilizar clases estándar para volcar el contenido binario de las claves a un archivo en formato raw, se utilizan clases codificadoras para generar ficheros binarios en formatos estándares, tanto para la clave pública como para la privada.</p>
+<p>Esto tiene la enorme ventaja de que se pueden utilizar las claves generadas con herramientas estándar como openssl. Además, facilita la tarea ya que las claves pública y privada para criptografía asimétrica son objetos compuestos.</p>
+<div class="admonition info">
+<p class="admonition-title">Codificación Base64</p>
+<p>Base64 es un grupo de esquemas de codificación de binario a texto que representa los datos binarios mediante una cadena.</p>
+<p>Los esquemas de codificación Base64 son comúnmente usados cuando se necesita codificar datos binarios para que sean almacenados y transferidos sobre un medio diseñado para tratar con datos textuales. Esto es para asegurar que los datos se mantienen intactos y sin modificaciones durante la transmisión.</p>
+<p>Los valores codificados en Base64 como texto se muestran en filas de 76 caracteres como máximo, para mejor legibilidad, y siguiendo convenciones habituales.</p>
+<p>Para verlos en pantalla se añade un salto de línea después de cada grupo de 76 caracteres usando  <code>replaceAll("(.{76})", "$1\n")</code>.</p>
+</div>
+<p>Las claves que se han guardado con el programa tienen las siguientes características:</p>
+<ul>
+<li>La clave pública se guarda en un fichero <code>clavepublica.der</code>, con el formato de la estructura <em>SubjectPublicKeyInfo</em> en formato <em>ASN.1</em> definido en el estándar <em>X.509</em>, y con codificación <em>DER (binaria)</em>. Para eso se ha utilizado la clase codificadora <strong>X509EncodedKeySpec</strong>.</li>
+<li>La clave privada se guarda en un fichero <code>claveprivada.pkcs8</code>, en formato <em>PKCS#8</em>, y con codificación <em>DER (binaria)</em>. Para eso se ha utilizado la clase codificadora <strong>PKCS8EncodedKeySpec</strong>.</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Codificaciones por defecto</p>
+<p>Las codificaciones usadas en el programa coinciden con las codificacione por defecto que usan las clases PrivateKey y PublicKey, como se puede ver en los valores proporcionados por los métodos getFormat() y getEncoded().</p>
+</div>
+<h3 id="cifrado-y-descifrado-usando-un-par-de-claves">Cifrado y descifrado usando un par de claves </h3>
+<p>Aunque ya hemos visto que las claves se pueden generar desde código, lo normal es que una vez hayamos generado un par de claves, estas se puedan reutilizar desde las aplicaciones para cifrar y descifrar información.</p>
+<p>Si hemos guardado las claves en archivos, el primer paso que tendremos que realizar es recuperar esas claves para poder realizar las operaciones criptográficas con ellas.</p>
+<div class="admonition question">
+<p class="admonition-title">Prueba de claves online</p>
+<p>Podemos probar las claves generadas con una herramienta online.</p>
+<p><a href="https://www.devglan.com/online-tools/rsa-encryption-decryption">Online RSA tool</a></p>
+<p>Prueba a copiar el contenido (en Base64) de las claves pública y privada para hacer un cifrado y un descifrado de la información.</p>
+<p>También puedes probar a simular una firma digital, realizando el cifrado con la clave privada y el descifrado con la clave pública.</p>
+</div>
+<p>Veamos un ejemplo de cómo se hace todo este proceso en Java</p>
+<pre data-role="codeBlock" data-info="java{highlight=[23-25,38-40,76-78,108-110]}" class="language-java java" data-line="23-25,38-40,76-78,108-110"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U6S4_2_RsaKeyPairEncrypt</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-final">final</span> <span class="token keyword keyword-int">int</span> tamanoClaveAsimetrica <span class="token operator">=</span> <span class="token number">1024</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">String</span> algoritmoClaveAsimetrica <span class="token operator">=</span> <span class="token string">"RSA"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">String</span> ficheroClavePublica <span class="token operator">=</span> <span class="token string">"claves/clavepublica.der"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">String</span> ficheroClavePrivada <span class="token operator">=</span> <span class="token string">"claves/claveprivada.pkcs8"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            <span class="token comment">//////////////////////////////////////////////////</span>
+            <span class="token comment">// CIFRADO</span>
+            <span class="token comment">//////////////////////////////////////////////////</span>
+            
+            <span class="token comment">// Leemos la clave pública de un archivo</span>
+            <span class="token class-name">PublicKey</span> clavePublica <span class="token operator">=</span> <span class="token function">leerClavePublica</span><span class="token punctuation">(</span>ficheroClavePublica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Preparamos la información que queremos cifrar</span>
+            <span class="token class-name">String</span> textoEnClaro <span class="token operator">=</span> <span class="token string">"Quiero cifrar este mensaje de prueba"</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-byte">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> mensajeEnClaro <span class="token operator">=</span> textoEnClaro<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token string">"UTF-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// Realizamos el proceso de cifrado con clave pública</span>
+            <span class="token comment">// Los pasos son exactamente los mismos que con el cifrado simétrico</span>
+            <span class="token class-name">Cipher</span> cifrado <span class="token operator">=</span> <span class="token class-name">Cipher</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>algoritmoClaveAsimetrica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cifrado<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token class-name">Cipher</span><span class="token punctuation">.</span><span class="token constant">ENCRYPT_MODE</span><span class="token punctuation">,</span> clavePublica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-byte">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> mensajeCifrado <span class="token operator">=</span> cifrado<span class="token punctuation">.</span><span class="token function">doFinal</span><span class="token punctuation">(</span>mensajeEnClaro<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Visualizamos el mensaje cifrado en modo texto</span>
+            <span class="token class-name">MostrarMensajeBase64</span><span class="token punctuation">(</span>mensajeCifrado<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">//////////////////////////////////////////////////</span>
+            <span class="token comment">// DESCIFRADO</span>
+            <span class="token comment">//////////////////////////////////////////////////</span>
+            
+            <span class="token comment">// Leemos la clave privada de un archivo</span>
+            <span class="token class-name">PrivateKey</span> clavePrivada <span class="token operator">=</span> <span class="token function">leerClavePrivada</span><span class="token punctuation">(</span>ficheroClavePrivada<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Realizamos el proceso de descifrado con clave privada</span>
+            <span class="token comment">// Los pasos son exactamente los mismos que con el cifrado simétrico</span>
+            <span class="token comment">// Cipher cifrado = Cipher.getInstance(algoritmoClaveAsimetrica);</span>
+            cifrado<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token class-name">Cipher</span><span class="token punctuation">.</span><span class="token constant">DECRYPT_MODE</span><span class="token punctuation">,</span> clavePrivada<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-byte">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> mensajeDescifrado <span class="token operator">=</span> cifrado<span class="token punctuation">.</span><span class="token function">doFinal</span><span class="token punctuation">(</span>mensajeCifrado<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Visualizamos el mensaje descifrado</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Texto descifrado:\n"</span> <span class="token operator">+</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span>mensajeDescifrado<span class="token punctuation">,</span> <span class="token string">"UTF-8"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">UnsupportedEncodingException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Codificación de caracteres UTF-8 no soportada"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchAlgorithmException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No se ha encontrado la implementación del algoritmo "</span> <span class="token operator">+</span> algoritmoClaveAsimetrica <span class="token operator">+</span> <span class="token string">" en ningún Provider"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchPaddingException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"El relleno especificado para el algoritmo no está permitido"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InvalidKeyException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Especificación de clave no válida"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">IllegalBlockSizeException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Tamaño de bloque no válido"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">BadPaddingException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Excepción con el relleno usado por el algoritmo"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token class-name">PublicKey</span> <span class="token function">leerClavePublica</span><span class="token punctuation">(</span><span class="token class-name">String</span> ficheroClave<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-byte">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> clavePublicaEncoded<span class="token punctuation">;</span>
+
+        <span class="token comment">// Leemos la información del archivo</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">(</span><span class="token class-name">FileInputStream</span> publicKeyFile <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">FileInputStream</span><span class="token punctuation">(</span>ficheroClave<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            clavePublicaEncoded <span class="token operator">=</span> publicKeyFile<span class="token punctuation">.</span><span class="token function">readAllBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">FileNotFoundException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No se ha encontrado el archivo "</span> <span class="token operator">+</span> ficheroClave <span class="token operator">+</span> <span class="token string">" con la clave pública."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Se ha producido un error de E/S accediendo al archivo "</span> <span class="token operator">+</span> ficheroClave <span class="token operator">+</span> <span class="token string">" de la clave pública."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// Generamos la clave a partir del array de bytes leídos</span>
+        <span class="token class-name">KeyFactory</span> keyFactory<span class="token punctuation">;</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            keyFactory <span class="token operator">=</span> <span class="token class-name">KeyFactory</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>algoritmoClaveAsimetrica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">X509EncodedKeySpec</span> codificacionClavePublica <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">X509EncodedKeySpec</span><span class="token punctuation">(</span>clavePublicaEncoded<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">PublicKey</span> clavePublica <span class="token operator">=</span> keyFactory<span class="token punctuation">.</span><span class="token function">generatePublic</span><span class="token punctuation">(</span>codificacionClavePublica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Devolvemos la clave pública generada</span>
+            <span class="token keyword keyword-return">return</span> clavePublica<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchAlgorithmException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No se ha encontrado la implementación del algoritmo "</span> <span class="token operator">+</span> algoritmoClaveAsimetrica <span class="token operator">+</span> <span class="token string">" en ningún Provider"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InvalidKeySpecException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">Logger</span><span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token class-name">U6S6_RsaKeyPairEncrypt</span><span class="token punctuation">.</span><span class="token keyword keyword-class">class</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Level</span><span class="token punctuation">.</span><span class="token constant">SEVERE</span><span class="token punctuation">,</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">,</span> ex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token class-name">PrivateKey</span> <span class="token function">leerClavePrivada</span><span class="token punctuation">(</span><span class="token class-name">String</span> ficheroClave<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-byte">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> clavePrivadaEncoded<span class="token punctuation">;</span>
+
+        <span class="token comment">// Leemos la información del archivo</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">(</span><span class="token class-name">FileInputStream</span> privateKeyFile <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">FileInputStream</span><span class="token punctuation">(</span>ficheroClave<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            clavePrivadaEncoded <span class="token operator">=</span> privateKeyFile<span class="token punctuation">.</span><span class="token function">readAllBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">FileNotFoundException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No se ha encontrado el archivo "</span> <span class="token operator">+</span> ficheroClave <span class="token operator">+</span> <span class="token string">" con la clave privada."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Se ha producido un error de E/S accediendo al archivo "</span> <span class="token operator">+</span> ficheroClave <span class="token operator">+</span> <span class="token string">" de la clave privada."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// Generamos la clave a partir del array de bytes leídos</span>
+        <span class="token class-name">KeyFactory</span> keyFactory<span class="token punctuation">;</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            keyFactory <span class="token operator">=</span> <span class="token class-name">KeyFactory</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>algoritmoClaveAsimetrica<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">PKCS8EncodedKeySpec</span> codificacionClavePrivada <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">PKCS8EncodedKeySpec</span><span class="token punctuation">(</span>clavePrivadaEncoded<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">PrivateKey</span> clavePrivada <span class="token operator">=</span> keyFactory<span class="token punctuation">.</span><span class="token function">generatePrivate</span><span class="token punctuation">(</span>codificacionClavePrivada<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Devolvemos la clave pública generada</span>
+            <span class="token keyword keyword-return">return</span> clavePrivada<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchAlgorithmException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No se ha encontrado la implementación del algoritmo "</span> <span class="token operator">+</span> algoritmoClaveAsimetrica <span class="token operator">+</span> <span class="token string">" en ningún Provider"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InvalidKeySpecException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">Logger</span><span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token class-name">U6S6_RsaKeyPairEncrypt</span><span class="token punctuation">.</span><span class="token keyword keyword-class">class</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Level</span><span class="token punctuation">.</span><span class="token constant">SEVERE</span><span class="token punctuation">,</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">,</span> ex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token class-name">MostrarMensajeBase64</span><span class="token punctuation">(</span><span class="token keyword keyword-byte">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> mensajeCifrado<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Mensaje cifrado visualizado como texto en Base64:"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Base64</span><span class="token punctuation">.</span><span class="token function">getEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">encodeToString</span><span class="token punctuation">(</span>mensajeCifrado<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">replaceAll</span><span class="token punctuation">(</span><span class="token string">"(.{76})"</span><span class="token punctuation">,</span> <span class="token string">"$1\n"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>    
+<span class="token punctuation">}</span>
+</code><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="23-25" data-start="23" data-end="25">
+
+
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="38-40" data-start="38" data-end="40">
+
+
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="76-78" data-start="76" data-end="78">
+
+
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="108-110" data-start="108" data-end="110">
+
+
+</div></div></pre><p>Y esta es la salida proporcionada</p>
+<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code>Mensaje cifrado visualizado como texto en Base64:
+EV+7WrEf+4CYwckys9blk6DXnLHUm4i0k+4BIp3oNmPdo2skYY8bQsAhXToBx2gi/rMIK9wiJTH0
+yg99jpyaLeUgtga8PxWx1plgvxohzO/lALkf5AFRUczZh8F5QvOXCi93v2ycZCZXq7QmZTopkEQh
+ARSezD/1Al2UYPc2X68<span class="token operator">=</span>
+
+Texto descifrado:
+Quiero cifrar este mensaje de prueba
+</code></pre><div class="admonition warning">
+<p class="admonition-title">Cifrado siempre diferente, descifrado siempre igual</p>
+<p>El resultado de cifrar un mensaje con la misma clave pública no siempre es igual, aunque al descifrar los mensajes con la clave privada siempre se obtiene el mensaje original.</p>
+<p>Esto es debido a que, para aumentar la variabilidad (<strong>entropía</strong>) del mensaje cifrado al mensaje que se cifra se le añade una parte aleatoria (<strong>salt</strong>) que se descarta cuando se descifra.</p>
+</div>
+<p>En el código podemos observar cómo los procesos para cargar la clave desde un archivo usan las mismas clases que cuando se generaron, siendo el código muy parecido.</p>
+<p>En cuanto al cifrado y descifrado se realiza con el <em>Engine Cipher</em> usando la misma secuencia de llamadas que con el cifrado simétrico.</p>
+<h3 id="cifrado-asimétrico-con-gnupg">Cifrado asimétrico con GnuPG </h3>
+<p>Con la suite GnuPG también podemos generar pares de claves y cifrar y descifrar el contenido de los archivos usando diferentes algoritmos</p>
+<div class="admonition info">
+<p class="admonition-title">Algoritmos disponibles para GnuPG</p>
+<p>Para ver la lista de algoritmos disponibles tenemos que mostrar la ayuda del comando</p>
+<blockquote>
+<p>gpg --help</p>
+</blockquote>
+<p>y en la parte superior observamos la información de los algoritmos disponibles para cada tipo de servicio. En concreto, de resúmenes, en mi versión instalada:</p>
+<p>Clave pública: RSA, ELG, DSA, ECDH, ECDSA, EDDSA</p>
+</div>
+<p>Para generar las claves, ejecutamos los siguientes comandos<br>
+Debemos tener en cuenta que las claves generadas se añaden a nuestro anillo de claves (almacén de seguridad de claves en las que confiamos).</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>gpg --gen-key
+gpg --list-keys 
+<span class="token comment"># El formato corto equivalente es gpg -k</span>
+gpg --list-secret-keys 
+<span class="token comment"># El formato corto equivalente es gpg -K</span>
+
+<span class="token comment">#Extraer las claves públicas y privadas</span>
+<span class="token comment"># En un archivo binario</span>
+gpg <span class="token parameter variable">--output</span> tunombre.pub <span class="token parameter variable">--export</span> IDdeLaClavePública
+<span class="token comment"># En un archivo ASCII</span>
+gpg <span class="token parameter variable">--armor</span> <span class="token parameter variable">--output</span> tunombre.asc <span class="token parameter variable">--export</span> IDdeLaClavePública
+
+gpg --export-secret-keys <span class="token parameter variable">-a</span> IDdeLaClavePública <span class="token operator">&gt;</span> tunombre.priv
+
+<span class="token comment"># Importar una clave pública</span>
+gpg <span class="token parameter variable">--import</span> clavepublica.asc
+<span class="token comment"># Importar una clave privada</span>
+gpg --allow-secret-key-import <span class="token parameter variable">--import</span> claveprivada.priv
+</code></pre><p>Para cifrar y descifrar un archivo con las claves generadas, ejecutamos los siguientes comandos</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># Cifrar</span>
+gpg <span class="token parameter variable">--output</span> archivo.cifrado <span class="token parameter variable">--encrypt</span> <span class="token parameter variable">--recipient</span> IDdeLaClavePública archivo
+<span class="token comment"># Descifrar</span>
+gpg <span class="token parameter variable">--output</span> archivo <span class="token parameter variable">--decrypt</span> archivo.cifrado
+</code></pre>
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

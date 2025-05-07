@@ -1,0 +1,1388 @@
+<!DOCTYPE html><html><head>
+      <title>UD4 Sockets TCP</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css);
+code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}@font-face{font-family:"Material Icons";font-style:normal;font-weight:400;src:local("Material Icons"),local("MaterialIcons-Regular"),url("data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAfIAAsAAAAADDAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kosY21hcAAAAYAAAADTAAACjtP6ytBnbHlmAAACVAAAAxgAAAQ4zRtvlGhlYWQAAAVsAAAALwAAADYRwZsnaGhlYQAABZwAAAAcAAAAJAeKAzxobXR4AAAFuAAAABIAAAA8OGQAAGxvY2EAAAXMAAAAIAAAACAG5AfwbWF4cAAABewAAAAfAAAAIAEfAERuYW1lAAAGDAAAAVcAAAKFkAhoC3Bvc3QAAAdkAAAAYgAAAK2vz7wkeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkPsQ4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVLy4xKzzX4chhrmK4QpQmBEkBwAZygyweJzFkr0NwjAQhZ+TEP6CRUfHBEwRUWaQTICyQbpMwRCskA5RUIONxG0RnnNpKAIV4qzPku/8c353ACYAYrIjCWCuMAh2ptf0/hiL3p/gyPUWa3osqlt0L1zu9r71z8dGrJRykFoauXQd932Lj5vhG+MjxGeYI8MKETObMpslf5EyP8tg+vHun5r539PvlvXzaVhRFVQDTPEWKVQR90KhnnC5Ek67vUKN4VuFasM/ldARj43CCkCsEjpJSoVVgRyU0GVSK6wUpFFCx8lFgX0BiXpRPQB4nE2TTWjcRhTH3xttpDhxN7uxPlp3u/FK7moRPixafRijNosxSw/LUsIwNcaEHPZggo/FmEKMCKWU4kNOOftQSlhE8alnH0Ix9BqWnHooPRrTQ0+mnu2bXTu2pPdGM9LM/6c3fwECTM4gBBMYQNqxzLrZAjqYSlqu2TAHZQA0/DQJH6FtzqGDnvbt4Ggwvzw/nL8EfH8kW0fsuRqhgWXZnY7M1picaUL7Du5BHeDzMIl83dAt016wH1qmvtSMo5R6YRJHTR//FXsff/nj/tc/5K9P5d+nP22+fFK5u7v3K39SW3y+OtDKO3L85vD09PD9z5X17a2N1g4tqk01RlqX7gyoEmnsWQtVr4rtZMmukEaFBZxzefkCn11cyKMLZgshRwgTYNoLNXCBz2ja7HvZG7hDpPSNfoo5vs0knK/9hb+rNpu+8kHPgk/Ao4kK3tWtTpSEtvkA9c+wE6UaUdwieNkaHg55tBEtRiEPw1s0+FtrtTcc9two2lhMknV7PZF/cs6+uUFTmpTGbEx7sQCPSLOttHS3GRltqp7SNzVSKzl6aWnZT/CX5k6/v9N3Hh8fHBwffJVjhrC6OgH5dkIt/tPsq+d/PD5Qz7G7efzq1THFjdZVPe/N6ulQ3JnDWSE5junsFsVIiFwL/htf1S5gJ3BfOcUxfHKLnzqpFpyfZ9cX+/5WB6a+Y0pHpzkNrYNVDwMsikK+y7WuLCRg/oFHkA8VT3rDg5ZnU6ktzzINymV0m74Xd5pfIGXyFeVEQSShkzqG7TBBa2OxVRKitLXv7h3uuftXnXq7lz2tZ/WnWa9dx9dCjDhHzmuVQATlmljr9dZErUydSo2Hbi/b1vXtrOeGCk2/8s3ZlO8+ueJT8BVlw5pGw2oYccdSiHHqx0RlabHqdNR9jAETl6PreJcPBnnfpTLnOQ8C3OV8AmQGzouV1iZdeb5SSIoVc8W8/kcDtksUH5FrU6/aqBqNWcMEzxG4DAQ14qRQhi9mWU0rzepKezbjfgCwQKxVYq5ajRgpRqy45CqwkJydcEkbTkvRz8P5/2ZpDTN4nGNgZGBgAOKb6v+/xvPbfGXgZmEAgeuB2kkI+v8bFgbmKiCXg4EJJAoAPyAKhQB4nGNgZGBg1vmvwxDDwgACQJKRARXwAwAzZQHQeJxjYQCCFAYGFgbSMQAcWACdAAAAAAAAAAwALgBgAIQAmADSAQgBIgE8AVABoAHeAfwCHHicY2BkYGDgZ7BgYGMAASYg5gJCBob/YD4DAA/hAWQAeJxlkbtuwkAURMc88gApQomUJoq0TdIQzEOpUDokKCNR0BuzBiO/tF6QSJcPyHflE9Klyyekz2CuG8cr7547M3d9JQO4xjccnJ57vid2cMHqxDWc40G4Tv1JuEF+Fm6ijRfhM+oz4Ra6eBVu4wZvvMFpXLIa40PYQQefwjVc4Uu4Tv1HuEH+FW7i1mkKn6Hj3Am3sHC6wm08Ou8tpSZGe1av1PKggjSxPd8zJtSGTuinyVGa6/Uu8kxZludCmzxMEzV0B6U004k25W35fj2yNlCBSWM1paujKFWZSbfat+7G2mzc7weiu34aczzFNYGBhgfLfcV6iQP3ACkSaj349AxXSN9IT0j16JepOb01doiKbNWt1ovippz6sVYYwsXgX2rGVFIkq7Pl2PNrI6qW6eOshj0xaSq9mpNEZIWs8LZUfOouNkVXxp/d5woqebeYIf4D2J1ywQB4nG3LOw6AIBAE0B384B+PAkgEa+QwNnYmHt+EpXSal5lkSBBnoP8oCFSo0aCFRIceA0ZMmLFAYSW88rmvtMUjG3RiQ9HvpfusM6zWNmtc5H/iPewha50tOt5PS/QBx2IeSwAA") format("woff")}.admonition{box-shadow:0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);position:relative;margin:1.5625em 0;padding:0 1.2rem;border-left:.4rem solid rgba(68,138,255,.8);border-radius:.2rem;background-color:rgba(255,255,255,.05);overflow:auto}.admonition>p{margin-top:.8rem}.admonition>.admonition-title{margin:0 -1.2rem;padding:.8rem 1.2rem .8rem 3.6rem;border-bottom:1px solid rgba(68,138,255,.2);background-color:rgba(68,138,255,.1);font-weight:700}.admonition>.admonition-title:before{position:absolute;left:1.2rem;font-size:1.5rem;color:rgba(68,138,255,.8);content:"\E3C9"}.admonition>.admonition-title:before{font-family:Material Icons;font-style:normal;font-variant:normal;font-weight:400;line-height:2rem;text-transform:none;white-space:nowrap;speak:none;word-wrap:normal;direction:ltr}.admonition.abstract,.admonition.summary,.admonition.tldr{border-left-color:rgba(0,176,255,.8)}.admonition.abstract>.admonition-title,.admonition.summary>.admonition-title,.admonition.tldr>.admonition-title{background-color:rgba(0,176,255,.1);border-bottom-color:rgba(0,176,255,.2)}.admonition.abstract>.admonition-title:before,.admonition.summary>.admonition-title:before,.admonition.tldr>.admonition-title:before{color:#00b0ff;content:"\E8D2"}.admonition.hint,.admonition.tip{border-left-color:rgba(0,191,165,.8)}.admonition.hint>.admonition-title,.admonition.tip>.admonition-title{background-color:rgba(0,191,165,.1);border-bottom-color:rgba(0,191,165,.2)}.admonition.hint>.admonition-title:before,.admonition.tip>.admonition-title:before{color:#00bfa5;content:"\E80E"}.admonition.info,.admonition.todo{border-left-color:rgba(0,184,212,.8)}.admonition.info>.admonition-title,.admonition.todo>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.info>.admonition-title:before,.admonition.todo>.admonition-title:before{color:#00b8d4;content:"\E88E"}.admonition.check,.admonition.done,.admonition.success{border-left-color:rgba(0,200,83,.8)}.admonition.check>.admonition-title,.admonition.done>.admonition-title,.admonition.success>.admonition-title{background-color:rgba(0,200,83,.1);border-bottom-color:rgba(0,200,83,.2)}.admonition.check>.admonition-title:before,.admonition.done>.admonition-title:before,.admonition.success>.admonition-title:before{color:#00c853;content:"\E876"}.admonition.faq,.admonition.help,.admonition.question{border-left-color:rgba(100,221,23,.8)}.admonition.faq>.admonition-title,.admonition.help>.admonition-title,.admonition.question>.admonition-title{background-color:rgba(100,221,23,.1);border-bottom-color:rgba(100,221,23,.2)}.admonition.faq>.admonition-title:before,.admonition.help>.admonition-title:before,.admonition.question>.admonition-title:before{color:#64dd17;content:"\E887"}.admonition.attention,.admonition.caution,.admonition.warning{border-left-color:rgba(255,145,0,.8)}.admonition.attention>.admonition-title,.admonition.caution>.admonition-title,.admonition.warning>.admonition-title{background-color:rgba(255,145,0,.1);border-bottom-color:rgba(255,145,0,.2)}.admonition.attention>.admonition-title:before{color:#ff9100;content:"\E417"}.admonition.caution>.admonition-title:before,.admonition.warning>.admonition-title:before{color:#ff9100;content:"\E002"}.admonition.fail,.admonition.failure,.admonition.missing{border-left-color:rgba(255,82,82,.8)}.admonition.fail>.admonition-title,.admonition.failure>.admonition-title,.admonition.missing>.admonition-title{background-color:rgba(255,82,82,.1);border-bottom-color:rgba(255,82,82,.2)}.admonition.fail>.admonition-title:before,.admonition.failure>.admonition-title:before,.admonition.missing>.admonition-title:before{color:#ff5252;content:"\E14C"}.admonition.bug,.admonition.danger,.admonition.error{border-left-color:rgba(255,23,68,.8)}.admonition.bug>.admonition-title,.admonition.danger>.admonition-title,.admonition.error>.admonition-title{background-color:rgba(255,23,68,.1);border-bottom-color:rgba(255,23,68,.2)}.admonition.danger>.admonition-title:before{color:#ff1744;content:"\E3E7"}.admonition.error>.admonition-title:before{color:#ff1744;content:"\E14C"}.admonition.bug>.admonition-title:before{color:#ff1744;content:"\E868"}.admonition.example,.admonition.snippet{border-left-color:rgba(0,184,212,.8)}.admonition.example>.admonition-title,.admonition.snippet>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.example>.admonition-title:before,.admonition.snippet>.admonition-title:before{color:#00b8d4;content:"\E242"}.admonition.cite,.admonition.quote{border-left-color:rgba(158,158,158,.8)}.admonition.cite>.admonition-title,.admonition.quote>.admonition-title{background-color:rgba(158,158,158,.1);border-bottom-color:rgba(158,158,158,.2)}.admonition.cite>.admonition-title:before,.admonition.quote>.admonition-title:before{color:#9e9e9e;content:"\E244"}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/catamaran/v27/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
+}
+.markdown-preview.markdown-preview .box_bg_lightgrey {
+  background-color: #f5f5f5;
+  border: 2px solid #969696;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .box_bg_lightgreen {
+  background-color: #f5faf5;
+  border: 2px solid #969b96;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .contenedor {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto 30px auto;
+}
+.markdown-preview.markdown-preview .fondo {
+  background: url(https://balmisdigigs.github.io/digitalizacion.github.io/imagenes/fondos/quote.png);
+  background-size: cover;
+  width: 75%;
+  height: 160px;
+  border-radius: 10px;
+  position: relative;
+}
+.markdown-preview.markdown-preview .cita {
+  font-family: Arial;
+  font-style: italic;
+  font-weight: 600;
+  text-align: justify;
+  line-height: 1.5rem;
+  opacity: 0.6;
+  color: white;
+  padding: 5rem;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  font-size: 1.3rem;
+  transform: translate(-50%, -50%);
+}
+.markdown-preview.markdown-preview .abre_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-left: 30px;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, -15%);
+}
+.markdown-preview.markdown-preview .cierra_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-right: 30px;
+  right: 0%;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, 55%);
+}
+.markdown-preview.markdown-preview .autor {
+  font-family: Arial;
+  color: white;
+  margin: 0px;
+  padding-left: 30px;
+  position: absolute;
+  top: 83%;
+  font-size: 1rem;
+}
+.markdown-preview.markdown-preview .flotante {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: center;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: space-between;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: row;
+  }
+}
+.markdown-preview.markdown-preview .flotante_izq {
+  margin-right: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: auto;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: auto;
+  }
+}
+.markdown-preview.markdown-preview .galeria_imagenes {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: row;
+  }
+}
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  const configureMermaidIconPacks = () => {
+    window["mermaid"].registerIconPacks([
+      {
+        name: "logos",
+        loader: () =>
+          fetch("https://unpkg.com/@iconify-json/logos@1/icons.json").then(
+            (res) => res.json()
+          ),
+      },
+    ]);
+  };
+
+  if (document.readyState !== 'loading') {
+    configureMermaidIconPacks();
+  } else {
+    document.addEventListener("DOMContentLoaded", () => {
+      configureMermaidIconPacks();
+    });
+  }
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="unidad-4-programación-en-red-sockets-tcp">Unidad 4. Programación en red: Sockets TCP </h1>
+<p><a href="./u4_tcp.pdf">Descargar estos apuntes</a></p>
+<h2 id="índice">Índice </h2>
+
+<div class="md-toc">
+<details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#sockets-tcp" class="md-toc-link"><p>Sockets TCP</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#comunicación-clienteservidor-con-sockets-tcp" class="md-toc-link">
+            <p>Comunicación cliente/servidor con sockets TCP</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#cliente-tcp" class="md-toc-link">
+            <p>Cliente TCP</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#servidor-tcp" class="md-toc-link">
+            <p>Servidor TCP</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#servidor-multihilo" class="md-toc-link">
+            <p>Servidor multihilo</p>
+
+          </a></div>
+        </div>
+      </details>
+    
+</div>
+<div style="page-break-after:always;"></div>
+<h2 id="sockets-tcp">Sockets TCP </h2>
+<div class="admonition info">
+<p class="admonition-title">Procesos e Hilos</p>
+<p>Para realizar un programa distribuido en el que se pueda realizar una conexión y una comunicación a través de una red de ordenadores no partimos de cero.</p>
+<p>La programación en red está fuertemente ligada a la programación multiproceso. Principalmente en la forma de comunicación que ya vimos entre procesos.</p>
+<p>Por otro lado, la especialización y el servicio que ofrece un servidor, de forma simultánea a varios clientes, está basada en la división del trabajo en hilos.</p>
+<p>Por todo lo comentado, todos los conceptos y conocimientos adquiridos hasta ahora nos sirven de base para avanzar en los contenidos de este tema.</p>
+</div>
+<h3 id="comunicación-clienteservidor-con-sockets-tcp">Comunicación cliente/servidor con sockets TCP </h3>
+<p>Oracle ha resumido el uso de los sockets en un breve tutorial. Todo lo que podemos ver en ese tutorial lo vamos a ir comentando y ampliando en este apartado del tema</p>
+<p><a href="https://docs.oracle.com/javase/tutorial/networking/sockets/index.html">Tutorial de Oracle: All about sockets</a></p>
+<p>La interfaz Java que da soporte a sockets TCP está constituida por las clases <strong>ServerSocket</strong> y <strong>Socket</strong>.</p>
+<ul>
+<li>
+<p>ServerSocket: es utilizada por un servidor para crear un socket en el puerto en el que escucha las peticiones de conexión de los clientes. Su método <code>accept</code> toma una petición de conexión de la cola, o si la cola está vacía, se bloquea hasta que llega una petición.</p>
+<p>El resultado de ejecutar accept es una instancia de Socket, a través del cual el servidor tiene acceso a los datos enviados por el cliente.</p>
+</li>
+<li>
+<p>Socket: es utilizada tanto por el cliente como por el servidor. El cliente crea un socket especificando el nombre DNS del host y el puerto del servidor, así se crea el socket local y además se conecta con el servicio.</p>
+<p>Esta clase proporciona los métodos <code>getInputStream</code> y <code>getOutputStream</code> para acceder a los dos streams asociados a un socket (recordemos que son bidireccionales), y devuelve tipos de datos InputStream y OutputStream, respectivamente, a partir de los cuales podemos construir <code>BufferedReader</code> y <code>PrintWriter</code>, respectivamente, para poder procesar los datos de forma más sencilla.</p>
+</li>
+</ul>
+<h4 id="programación-de-aplicaciones-cliente-yo-servidor">Programación de aplicaciones Cliente y/o Servidor </h4>
+<p>Al crear aplicaciones cliente y servidor puede que nos encontremos con varios escenarios, a saber:</p>
+<ul>
+<li>Si tenemos que programar solo el servidor <strong>deberemos definir un protocolo</strong> de comunicación para usar ese servidor.</li>
+<li>Si tenemos que programar solo el cliente <strong>necesitaremos conocer el protocolo</strong> de comunicación para conectar con ese servidor.</li>
+<li>Si tenemos que programar el cliente y el servidor, tendremos que empezar por <strong>definir el protocolo</strong> de comunicación entre ambos.</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Herramientas para definir los protocolos</p>
+<p>Dentro de todos los diagramas que ofrece UML, el diagrama de secuencia es el que mejor se adapta para definir los protocolos de comunicación entre clases y las interacciones que se producen.</p>
+<p>Para crear estos diagramas existen multitud de herramientas, tanto de escritorio como online. De todas ellas cabe destacar:</p>
+<ul>
+<li><a href="https://mermaid.live/">Mermaid Live editor</a> que usa una <a href="https://mermaid-js.github.io/mermaid/#/sequenceDiagram">sintaxis en modo texto</a> para definir los diagramas.</li>
+<li><a href="https://www.websequencediagrams.com/">WebSequenceDiagrams</a>: Más visual y también con una definición textual de los diagramas.</li>
+<li><a href="https://online.visual-paradigm.com/drive/#diagramlist:proj=0&amp;dashboard">Visual Paradigm Online</a>: Herramienta totalmente visual y con unos resultados más espectaculares.</li>
+</ul>
+<p>Estas herramientas son las que tenéis que usar en las actividades en las que se os pida definir un protocolo de comunicación cliente / servidor.</p>
+</div>
+<h3 id="cliente-tcp">Cliente TCP </h3>
+<p>Si nos centramos en la parte de comunicaciones, la forma general de implementar un cliente será:</p>
+<ol>
+<li>Crear un objeto de la clase Socket, indicando host y puerto donde corre el servicio.</li>
+<li>Obtener las referencias al stream de entrada y al de salida al socket.</li>
+<li>Leer desde y escribir en el stream de acuerdo al protocolo del servicio. Para ello emplear alguna de las facilidades del paquete <a href="http://java.io">java.io</a>.</li>
+<li>Cerrar los streams.</li>
+<li>Cerrar el socket.</li>
+</ol>
+<pre data-role="codeBlock" data-info="java{highlight=[12,14,17,36,38,51,52,54}]" class="language-java java" data-line="12,14,17,36,38,51,52,54"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">BasicClient</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Socket</span> socketCliente <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token class-name">BufferedReader</span> entrada <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token class-name">PrintWriter</span> salida <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Creamos un socket en el lado cliente, enlazado con un</span>
+        <span class="token comment">// servidor que está en la misma máquina que el cliente</span>
+        <span class="token comment">// y que escucha en el puerto 4444</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            socketCliente <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Socket</span><span class="token punctuation">(</span><span class="token string">"localhost"</span><span class="token punctuation">,</span> <span class="token number">4444</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Obtenemos el canal de entrada</span>
+            entrada <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span>
+                    <span class="token keyword keyword-new">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span>socketCliente<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Obtenemos el canal de salida</span>
+            salida <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">PrintWriter</span><span class="token punctuation">(</span>
+                    <span class="token keyword keyword-new">new</span> <span class="token class-name">BufferedWriter</span><span class="token punctuation">(</span>
+                            <span class="token keyword keyword-new">new</span> <span class="token class-name">OutputStreamWriter</span><span class="token punctuation">(</span>socketCliente<span class="token punctuation">.</span><span class="token function">getOutputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No puede establecer canales de E/S para la conexión"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token class-name">Scanner</span> stdIn <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Scanner</span><span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span>in<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token class-name">String</span> linea<span class="token punctuation">;</span>
+
+        <span class="token comment">// El programa cliente no analiza los mensajes enviados por el</span>
+        <span class="token comment">// usuario, simplemente los reenvía al servidor hasta que este</span>
+        <span class="token comment">// se despide con "Adios"</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// Leo la entrada del usuario</span>
+                linea <span class="token operator">=</span> stdIn<span class="token punctuation">.</span><span class="token function">nextLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// La envia al servidor por el OutputStream</span>
+                salida<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>linea<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// Recibe la respuesta del servidor por el InputStream</span>
+                linea <span class="token operator">=</span> entrada<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// Envía a la salida estándar la respuesta del servidor</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Respuesta servidor: "</span> <span class="token operator">+</span> linea<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// Si es "Adios" es que finaliza la comunicación</span>
+                <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>linea<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"Adios"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"IOException: "</span> <span class="token operator">+</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// Libera recursos</span>
+        salida<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        entrada<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        stdIn<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        socketCliente<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="12" data-start="12">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="14" data-start="14">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="17" data-start="17">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="36" data-start="36">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="38" data-start="38">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="51" data-start="51">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="52" data-start="52">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="54" data-start="54">
+</div></div></pre><div class="admonition info">
+<p class="admonition-title">Herramientas para simular clientes genéricos</p>
+<p>Si sólo tenemos que desarrollar un servidor y no tenemos o no queremos hacer un cliente para las pruebas, tenemos varias herramientas que nos ayudan a hacer de clientes genéricos, útiles para una gran variedad de servidores, incluso para servidores estándar como FTP, HTTP, etc.</p>
+<p>La primera herramienta es una aplicación y un protocolo de nivel de aplicación de TCP/IP, es la herramienta <code>Telnet</code>.</p>
+<p>Esta herramienta suele venir instalada en los sistemas GNU/Linux y OS X. Sin embargo en los sistemas Windows viene deshabilitada por defecto.</p>
+<p>Os dejo un enlace al artículo de Xataka <a href="https://www.xataka.com/basics/telnet-que-como-activarlo-windows-10">Telnet: qué es y cómo activarlo en Windows 10</a>.</p>
+<p>Es importante que lo activéis tanto en clase como en el aula.</p>
+<p>La segunda herramienta es NetCat. Es una herramienta muy versátil y potente, ya que no sólo puede hacernos de cliente, sino que también puede servir como servidor.</p>
+<p>Como muchas otras herramientas, esta también viene instalada de serie en GNU/Linux y OS X, pero no en Windows. Su uso en los sistemas de Microsoft es algo más controvertido ya que el sistema la detecta como un virus y tenemos que habilitar su uso en el <em>Guardian</em> del SO.</p>
+<p>Os dejo también un enlace a este artículo de IONOS <a href="https://www.ionos.es/digitalguide/servidores/herramientas/netcat/">¿Qué es Netcat y cómo funciona?</a></p>
+</div>
+<h4 id="streams-para-es-en-los-sockets">Streams para E/S en los sockets </h4>
+<p>Si vemos ejemplos en Internet o en tutoriales, podemos observar que hay dos formas mayoritarias de enviar y recibir la información a través de los streams que proporciona un socket.</p>
+<p><img src="./assets/imgs/basicIOStreams.png" alt="Basic Stream IO"></p>
+<p>En cualquier caso, a través de los streams enviamos bytes, que es la forma más básica de generar información, bien sea a través de la red o entre procesos.</p>
+<p>Como es complicado gestionar a nivel de bytes toda la información que queremos enviar o recibir, usamos <code>Decorators</code> o <code>Wrappers</code> para enviar tipos de datos de un nivel de abstracción mayor.</p>
+<p>En los temas anteriores, cuando hemos tenido que intercambiar información entre procesos, hemos estado usando BufferedReader y PrintWriter. Estas clases trabajan a nivel de Strings, y son muy útiles cuando lo que queremos intercambiar a través de los streams son cadenas de texto.</p>
+<blockquote>
+<p>En los protocolos de comunicaciones, más del 90% de la información que se intercambia, a nivel de protocolo, es en formato texto.</p>
+</blockquote>
+<p>Sin embargo, puede haber ocasiones en las que nos interese trabajar con tipos de datos.</p>
+<p><code>DataInputStream</code> y <code>DataOutputStream</code> proporcionan métodos para leer y escribir Strings y todos los tipos de datos primitivos de Java, incluyendo números y valores booleanos.</p>
+<p><img src="./assets/imgs/streamWrappers.png" alt="Basic Stream IO"></p>
+<p>DataOutputStream codifica esos valores de forma independiente de la máquina y los envía al stream de más bajo nivel para que los gestione como bytes. DataInputStream hace lo contrario.</p>
+<p>Así, podemos trabajar con DataInputStream y DataOutputStream a partir de los streams que nos proporcionan los sockets</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token comment">// Código en el cliente</span>
+<span class="token class-name">DataInputStream</span> dis <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">DataInputStream</span><span class="token punctuation">(</span>socket<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+dis<span class="token punctuation">.</span><span class="token function">readDouble</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Código en el servidor</span>
+<span class="token class-name">DataOutputStream</span> dos <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">DataOutputStream</span><span class="token punctuation">(</span>socket<span class="token punctuation">.</span><span class="token function">getOutputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+dis<span class="token punctuation">.</span><span class="token function">writeDouble</span><span class="token punctuation">(</span>number<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>Los métodos <code>readUTF()</code> and <code>writeUTF()</code> de DataInputStream y DataOutputStream leen y escriben un String de caracteres Unicode usando la codificación UTF-8.</p>
+<div class="admonition warning">
+<p class="admonition-title">Elige un método y usa siempre el mismo</p>
+<p>Es muy importante no mezclar diferentes wrappers en el mismo sistema. Aunque todos acaban utilizando el InputStream y el OutputStream, las codificaciones y la forma de enviar la información no es la misma.</p>
+<p>Por lo que, si usas DataInputStream en el cliente para leer, debes usar DataOutputStream en el servidor para enviar. Además de usar los métodos complementarios para la lectura y escritura, por ejemplo readInt / writeInt.</p>
+</div>
+<p>Información extraída de <a href="https://www.oreilly.com/library/view/learning-java-4th/9781449372477/ch12s01.html">Learning Java, 4th Edition - O'Reilly</a></p>
+<div class="pagebreak"> </div>
+<h3 id="servidor-tcp">Servidor TCP </h3>
+<p>La forma de implementar un servidor será:</p>
+<p><img src="./assets/imgs/monothread_server_states.png" alt="Estados de un servidor monohilo"></p>
+<ol>
+<li>Crear un objeto de la clase ServerSocket para escuchar peticiones en el puerto asignado al servicio.</li>
+<li>Esperar solicitudes de clientes</li>
+<li>Cuando se produce una solicitud:
+<ul>
+<li>Aceptar la conexión obteniendo un objeto de la clase Socket</li>
+<li>Obtener las referencias al stream de entrada y al de salida al socket anterior.</li>
+<li>Leer datos del socket, procesarlos y enviar respuestas al cliente, escribiendo en el stream del socket.Para ello emplear alguna de las facilidades del paquete <a href="http://java.io">java.io</a>.</li>
+</ul>
+</li>
+<li>Cerrar los streams.</li>
+<li>Cerrar los sockets.</li>
+</ol>
+<pre data-role="codeBlock" data-info="java{highlight=[9,23,26,29,36,40,50,51,52,53]}" class="language-java java" data-line="9,23,26,29,36,40,50,51,52,53"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">BasicServer</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-final">final</span> <span class="token keyword keyword-int">int</span> <span class="token constant">PORT</span> <span class="token operator">=</span> <span class="token number">4444</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Establece el puerto en el que escucha peticiones</span>
+        <span class="token class-name">ServerSocket</span> socketServidor <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            socketServidor <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ServerSocket</span><span class="token punctuation">(</span><span class="token constant">PORT</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No puede escuchar en el puerto: "</span> <span class="token operator">+</span> <span class="token constant">PORT</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token class-name">Socket</span> socketCliente <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token class-name">BufferedReader</span> entrada <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token class-name">PrintWriter</span> salida <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Escuchando: "</span> <span class="token operator">+</span> socketServidor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Se bloquea hasta que recibe alguna petición de un cliente</span>
+            <span class="token comment">// abriendo un socket para el cliente</span>
+            socketCliente <span class="token operator">=</span> socketServidor<span class="token punctuation">.</span><span class="token function">accept</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Conexión aceptada: "</span> <span class="token operator">+</span> socketCliente<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Establece canal de entrada</span>
+            entrada <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span>
+                    <span class="token keyword keyword-new">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span>socketCliente<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Establece canal de salida</span>
+            salida <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">PrintWriter</span><span class="token punctuation">(</span>
+                    <span class="token keyword keyword-new">new</span> <span class="token class-name">BufferedWriter</span><span class="token punctuation">(</span>
+                            <span class="token keyword keyword-new">new</span> <span class="token class-name">OutputStreamWriter</span><span class="token punctuation">(</span>socketCliente<span class="token punctuation">.</span><span class="token function">getOutputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Hace eco de lo que le proporciona el cliente, hasta que recibe "Adios"</span>
+            <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// Recibe la solicitud del cliente por el InputStream</span>
+                <span class="token class-name">String</span> str <span class="token operator">=</span> entrada<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// Envía a la salida estándar el mensaje del cliente</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Cliente: "</span> <span class="token operator">+</span> str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// Le envía la respuesta al cliente por el OutputStream                </span>
+                salida<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// Si es "Adios" es que finaliza la comunicación</span>
+                <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"Adios"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"IOException: "</span> <span class="token operator">+</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        salida<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        entrada<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        socketCliente<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        socketServidor<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="9" data-start="9">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="23" data-start="23">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="26" data-start="26">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="29" data-start="29">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="36" data-start="36">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="40" data-start="40">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="50" data-start="50">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="51" data-start="51">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="52" data-start="52">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="53" data-start="53">
+</div></div></pre><p>Quedando la secuencia de acciones entre el cliente y el servidor de la siguiente manera</p>
+<p><img src="./assets/imgs/monothread_server_sequence.png" alt="Estados de un servidor monohilo"></p>
+<p>El servidor monohilo se encarga de realizar las operaciones de E/S con el cliente. Hasta que no acaba no puede hacer otro <code>accept</code> y atender a otro cliente.</p>
+<div class="admonition warning">
+<p class="admonition-title">Local Name Resolver (hosts file)</p>
+<p>Deberías saber que DNS traduce nombre de dominio en direcciones IP. Pero, ¿sabes que hay un archivo en tu sistema que puede sobrescribir esas traducciones?</p>
+<p>Es el archivo <code>hosts</code> y nos permite mapear nombre de dominio a direcciones IP. Tu archivo HOSTS sólo afecta al comportamiento de tu equipo, por lo que podemos usarlo para crear direcciones personalizadas para IP de nuestra red, o bien para redireccionar / bloquear el acceso a determinados sitios web.</p>
+<p>Como puedes imaginar, cambiar de forma incorrecta o <strong>maliciosa</strong> el contenido del archivo hOSTS puede romper fácilmente el comportamiento de tu conexión a Internet, Así que la modificación del archivo no es trivial para los usuarios, algo que es de agradecer.</p>
+<ul>
+<li>Windows</li>
+</ul>
+<p>El archivo HOSTS está almacenado como un fichero de texto plano en la carpeta del sistema de Windows.</p>
+<p>Abre el menú inicio y escribe "notepad".</p>
+<p>Pulsa con el botón derecho y selecciona la opción de "Ejecutar como administrador"</p>
+<p>En Notepad, ve a Archivo &gt; Abrir y pega la siguiente ruta:</p>
+<p>c:\Windows\System32\Drivers\etc\hosts</p>
+<p>Ahora ya puedes editar y guardar los cambios en tu archivo HOSTS.</p>
+<p>Para mapear un dominio, añade una nueva línea siguiendo los ejemplos que hay en el archivo.</p>
+<ul>
+<li>OS X &amp; GNU/Linux</li>
+</ul>
+<p>El archivo está en /etc/hosts y debes editarlo con privilegios de administrador.</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># Añadimos las siguientes entradas al archivo hosts</span>
+<span class="token comment">## En clase </span>
+<span class="token comment">##  - como cliente y servidor ponemos la IP de nuestro equipo.</span>
+<span class="token comment">##  - como profesor ponemos la IP del ordenador del profesor</span>
+<span class="token comment">## En casa (la dirección probablemente tenga el formato 192.168.X.X)</span>
+<span class="token comment">##  - como cliente, servidor y profesor ponemos la IP de nuestro equipo.</span>
+
+<span class="token comment"># En nuestras actividades, para no tener que ir cambiando las direcciones IP, usaremos </span>
+<span class="token comment"># siempre estos nombres de dominio, así los programas funcionarán tanto en clase como</span>
+<span class="token comment"># en casa.</span>
+<span class="token number">10.100</span>.XX.1 cliente.psp
+<span class="token number">10.100</span>.XX.1 servidor.psp 
+<span class="token number">10.100</span>.0.1 profesor.psp
+</code></pre></div>
+<div class="pagebreak"> </div>
+<h3 id="servidor-multihilo">Servidor multihilo </h3>
+<p>Si queremos que un servidor pueda atender varias peticiones de forma simultanea, debemos usar hilos para dotarle de esa capacidad.</p>
+<p>El flujo básico ahora cambiaría para adaptarse a este formato</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>while (true) {
+
+    Aceptar la conexión obteniendo un objeto de la clase Socket;
+
+    Crear un thread para que se encargue de la comunicación con ese cliente, es decir, 
+    para que gestione el socket obtenido en el accept.;
+}
+</code></pre><p><img src="./assets/imgs/multithread_server_states.png" alt="Estados de un servidor multihilo"></p>
+<p>El servidor multihilo crea un nuevo hilo que se encarga de las operaciones de E/S con el cliente. Mientras tanto puede esperar la conexión de nuevos clientes con los que volverá a hacer lo mismo.</p>
+<p>El servidor multihilo se ayuda de una clase <code>Worker</code> que hereda de Thread, pudiendo así ejecutarse concurrentemente con el hilo principal.</p>
+<p>Esta clase <code>Worker</code> es la encargada de realizar toda la comunicación con el cliente y el servidor. Para poder hacerlo, en su constructor recibe el Socket que se crea cuando se recibe  la conexión de un cliente <code>ServerSocket.accept()</code>.</p>
+<pre data-role="codeBlock" data-info="java {highlight=[6,20,24]}" class="language-java java" data-line="6,20,24"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-final">final</span> <span class="token keyword keyword-int">int</span> <span class="token constant">PORT</span> <span class="token operator">=</span> <span class="token number">4444</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span>  <span class="token punctuation">{</span>
+    <span class="token comment">// Establece el puerto en el que escucha peticiones</span>
+    <span class="token class-name">ServerSocket</span> socketServidor <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+        socketServidor <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ServerSocket</span><span class="token punctuation">(</span><span class="token constant">PORT</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No puede escuchar en el puerto: "</span> <span class="token operator">+</span> <span class="token constant">PORT</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token class-name">Socket</span> socketCliente <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Escuchando: "</span> <span class="token operator">+</span> socketServidor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+        
+        <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Se bloquea hasta que recibe alguna petición de un cliente</span>
+            <span class="token comment">// abriendo un socket para el cliente</span>
+            socketCliente <span class="token operator">=</span> socketServidor<span class="token punctuation">.</span><span class="token function">accept</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Conexión aceptada: "</span> <span class="token operator">+</span> socketCliente<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Para seguir aceptando peticiones de otros clientes</span>
+            <span class="token comment">// se crea un nuevo hilo que se encargará de la comunicación con el cliente</span>
+            <span class="token keyword keyword-new">new</span> <span class="token class-name">Worker</span><span class="token punctuation">(</span>socketCliente<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+                        
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>    
+</code><div class="line-highlight-wrapper">
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="6" data-start="6">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="20" data-start="20">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="24" data-start="24">
+</div></div></pre><p>Y esta sería una implementación estándar de un worker</p>
+<pre data-role="codeBlock" data-info="java{highlight=[13,15,22,26]}" class="language-java java" data-line="13,15,22,26"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Worker</span> <span class="token keyword keyword-extends">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">Socket</span> socketCliente<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">BufferedReader</span> entrada <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">PrintWriter</span> salida <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Establece canal de entrada</span>
+            entrada <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span><span class="token keyword keyword-new">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span>socketCliente<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Establece canal de salida</span>
+            salida <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">PrintWriter</span><span class="token punctuation">(</span><span class="token keyword keyword-new">new</span> <span class="token class-name">BufferedWriter</span><span class="token punctuation">(</span><span class="token keyword keyword-new">new</span> <span class="token class-name">OutputStreamWriter</span><span class="token punctuation">(</span>socketCliente<span class="token punctuation">.</span><span class="token function">getOutputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Realizamos la comunicación entre servidor y cliente</span>
+            <span class="token comment">// **** ES LO QUE CAMBIA EN CADA EJERCICIO ****</span>
+
+            <span class="token comment">// Hacemos una recepción de información desde el cliente</span>
+            <span class="token class-name">String</span> mensajeRecibido <span class="token operator">=</span> entrada<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"&lt;-- Cliente: "</span> <span class="token operator">+</span> mensajeRecibido<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// Hacemos un envío al cliente</span>
+            <span class="token class-name">String</span> mensajeEnviado <span class="token operator">=</span> <span class="token string">"Mensaje enviado desde el servidor al cliente"</span><span class="token punctuation">;</span>
+            salida<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>mensajeEnviado<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"--&gt; Cliente: "</span> <span class="token operator">+</span> mensajeEnviado<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>        
+</code><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="13" data-start="13">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="15" data-start="15">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="22" data-start="22">
+</div></div><div class="line-highlight-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div aria-hidden="true" class="line-highlight" data-range="26" data-start="26">
+</div></div></pre><p>Quedando ahora la secuencia de acciones entre el cliente y el servidor de la siguiente manera</p>
+<p><img src="./assets/imgs/multithread_server_sequence.png" alt="Estados de un servidor monohilo"></p>
+<div class="pagebreak"> </div>
+<div class="admonition info">
+<p class="admonition-title">Ejecución de múltiples clientes desde línea de comandos</p>
+<p>Para poder lanzar varias aplicaciones java a la vez, la forma más correcta de hacerlo es desde una terminal de comandos. Esto nos permite poder pasarle argumentos a todas las clases, no sólo a la que está marcada como <em>principal</em> en el proyecto.</p>
+<p>Aquí tenemos dos posibilidades, <strong>ejecutar las clases individualmente</strong>, tal y como hacemos desde el IDE o bien <strong>lanzar las clases desde un archivo JAR</strong>.</p>
+<p>En ambos casos, necesitamos haber compilado y construido el proyecto (<em>F11 ó Shift+F11 en Netbeans</em>).</p>
+<p>Ejecución de clases individuales</p>
+<ul>
+<li>
+<p>Lo primero, tal y como se ha indicado anteriormente, debemos tener las clases compiladas.</p>
+</li>
+<li>
+<p>A continuación, al igual que hacíamos con los procesos, debemos ubicarnos en la carpeta <code>build/classes</code> del proyecto.</p>
+</li>
+<li>
+<p>Desde ahí, ejecutaremos</p>
+<blockquote>
+<p>build/classes$ java psp.actividades.U4AX_ClaseServidor 5566</p>
+</blockquote>
+<p>los valores que ponemos a continuación del nombre de la clase son los parámetros que la clase recibirá en el args[] de su método main.</p>
+<p>y para la clase o clases que no sean las principales</p>
+<blockquote>
+<p>build/classes$ java psp.actividades.U4AX_ClaseSCliente localhost 5566</p>
+</blockquote>
+<p>Si queremos lanzar más de un cliente, repetiremos el comando desde otra ventana de comandos.</p>
+</li>
+</ul>
+<p>Lanzar las clases desde un archivo JAR</p>
+<ul>
+<li>
+<p>Lo primero, tal y como se ha indicado anteriormente, debemos tener el proyecto construido</p>
+</li>
+<li>
+<p>A continuación, y a diferencia del caso anterior, debemos ubicarnos en el directorio donde esté el archivo JAR. Si no lo hemos movido, estará en la carpeta <code>dist</code> del proyecto.</p>
+</li>
+<li>
+<p>Desde ahí, ejecutaremos, <strong>para la clase principal del proyecto</strong></p>
+<blockquote>
+<p>dist$ java -jar U4AX_ProyectoClienteServidor.jar 5566</p>
+</blockquote>
+<blockquote>
+<p>dist$ java -cp U4AX_ProyectoClienteServidor.jar psp.actividades.U4AX_ClaseServidor 5566</p>
+</blockquote>
+<p>los valores que ponemos a continuación del nombre de la clase son los parámetros que la clase recibirá en el args[] de su método main.</p>
+<p>y para la clase o clases que no sean las principales</p>
+<blockquote>
+<p>dist$ java -cp U4AX_ProyectoClienteServidor.jar psp.actividades.U4AX_ClaseCliente localhost 5566</p>
+</blockquote>
+<p>Si queremos lanzar más de un cliente, repetiremos el comando desde otra ventana de comandos.</p>
+</li>
+</ul>
+</div>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
