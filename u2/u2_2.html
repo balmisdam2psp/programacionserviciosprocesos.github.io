@@ -1,0 +1,740 @@
+<!DOCTYPE html><html><head>
+      <title>UD2 Programación procesos</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css);
+code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}@font-face{font-family:"Material Icons";font-style:normal;font-weight:400;src:local("Material Icons"),local("MaterialIcons-Regular"),url("data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAfIAAsAAAAADDAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kosY21hcAAAAYAAAADTAAACjtP6ytBnbHlmAAACVAAAAxgAAAQ4zRtvlGhlYWQAAAVsAAAALwAAADYRwZsnaGhlYQAABZwAAAAcAAAAJAeKAzxobXR4AAAFuAAAABIAAAA8OGQAAGxvY2EAAAXMAAAAIAAAACAG5AfwbWF4cAAABewAAAAfAAAAIAEfAERuYW1lAAAGDAAAAVcAAAKFkAhoC3Bvc3QAAAdkAAAAYgAAAK2vz7wkeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkPsQ4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVLy4xKzzX4chhrmK4QpQmBEkBwAZygyweJzFkr0NwjAQhZ+TEP6CRUfHBEwRUWaQTICyQbpMwRCskA5RUIONxG0RnnNpKAIV4qzPku/8c353ACYAYrIjCWCuMAh2ptf0/hiL3p/gyPUWa3osqlt0L1zu9r71z8dGrJRykFoauXQd932Lj5vhG+MjxGeYI8MKETObMpslf5EyP8tg+vHun5r539PvlvXzaVhRFVQDTPEWKVQR90KhnnC5Ek67vUKN4VuFasM/ldARj43CCkCsEjpJSoVVgRyU0GVSK6wUpFFCx8lFgX0BiXpRPQB4nE2TTWjcRhTH3xttpDhxN7uxPlp3u/FK7moRPixafRijNosxSw/LUsIwNcaEHPZggo/FmEKMCKWU4kNOOftQSlhE8alnH0Ix9BqWnHooPRrTQ0+mnu2bXTu2pPdGM9LM/6c3fwECTM4gBBMYQNqxzLrZAjqYSlqu2TAHZQA0/DQJH6FtzqGDnvbt4Ggwvzw/nL8EfH8kW0fsuRqhgWXZnY7M1picaUL7Du5BHeDzMIl83dAt016wH1qmvtSMo5R6YRJHTR//FXsff/nj/tc/5K9P5d+nP22+fFK5u7v3K39SW3y+OtDKO3L85vD09PD9z5X17a2N1g4tqk01RlqX7gyoEmnsWQtVr4rtZMmukEaFBZxzefkCn11cyKMLZgshRwgTYNoLNXCBz2ja7HvZG7hDpPSNfoo5vs0knK/9hb+rNpu+8kHPgk/Ao4kK3tWtTpSEtvkA9c+wE6UaUdwieNkaHg55tBEtRiEPw1s0+FtrtTcc9two2lhMknV7PZF/cs6+uUFTmpTGbEx7sQCPSLOttHS3GRltqp7SNzVSKzl6aWnZT/CX5k6/v9N3Hh8fHBwffJVjhrC6OgH5dkIt/tPsq+d/PD5Qz7G7efzq1THFjdZVPe/N6ulQ3JnDWSE5junsFsVIiFwL/htf1S5gJ3BfOcUxfHKLnzqpFpyfZ9cX+/5WB6a+Y0pHpzkNrYNVDwMsikK+y7WuLCRg/oFHkA8VT3rDg5ZnU6ktzzINymV0m74Xd5pfIGXyFeVEQSShkzqG7TBBa2OxVRKitLXv7h3uuftXnXq7lz2tZ/WnWa9dx9dCjDhHzmuVQATlmljr9dZErUydSo2Hbi/b1vXtrOeGCk2/8s3ZlO8+ueJT8BVlw5pGw2oYccdSiHHqx0RlabHqdNR9jAETl6PreJcPBnnfpTLnOQ8C3OV8AmQGzouV1iZdeb5SSIoVc8W8/kcDtksUH5FrU6/aqBqNWcMEzxG4DAQ14qRQhi9mWU0rzepKezbjfgCwQKxVYq5ajRgpRqy45CqwkJydcEkbTkvRz8P5/2ZpDTN4nGNgZGBgAOKb6v+/xvPbfGXgZmEAgeuB2kkI+v8bFgbmKiCXg4EJJAoAPyAKhQB4nGNgZGBg1vmvwxDDwgACQJKRARXwAwAzZQHQeJxjYQCCFAYGFgbSMQAcWACdAAAAAAAAAAwALgBgAIQAmADSAQgBIgE8AVABoAHeAfwCHHicY2BkYGDgZ7BgYGMAASYg5gJCBob/YD4DAA/hAWQAeJxlkbtuwkAURMc88gApQomUJoq0TdIQzEOpUDokKCNR0BuzBiO/tF6QSJcPyHflE9Klyyekz2CuG8cr7547M3d9JQO4xjccnJ57vid2cMHqxDWc40G4Tv1JuEF+Fm6ijRfhM+oz4Ra6eBVu4wZvvMFpXLIa40PYQQefwjVc4Uu4Tv1HuEH+FW7i1mkKn6Hj3Am3sHC6wm08Ou8tpSZGe1av1PKggjSxPd8zJtSGTuinyVGa6/Uu8kxZludCmzxMEzV0B6U004k25W35fj2yNlCBSWM1paujKFWZSbfat+7G2mzc7weiu34aczzFNYGBhgfLfcV6iQP3ACkSaj349AxXSN9IT0j16JepOb01doiKbNWt1ovippz6sVYYwsXgX2rGVFIkq7Pl2PNrI6qW6eOshj0xaSq9mpNEZIWs8LZUfOouNkVXxp/d5woqebeYIf4D2J1ywQB4nG3LOw6AIBAE0B384B+PAkgEa+QwNnYmHt+EpXSal5lkSBBnoP8oCFSo0aCFRIceA0ZMmLFAYSW88rmvtMUjG3RiQ9HvpfusM6zWNmtc5H/iPewha50tOt5PS/QBx2IeSwAA") format("woff")}.admonition{box-shadow:0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);position:relative;margin:1.5625em 0;padding:0 1.2rem;border-left:.4rem solid rgba(68,138,255,.8);border-radius:.2rem;background-color:rgba(255,255,255,.05);overflow:auto}.admonition>p{margin-top:.8rem}.admonition>.admonition-title{margin:0 -1.2rem;padding:.8rem 1.2rem .8rem 3.6rem;border-bottom:1px solid rgba(68,138,255,.2);background-color:rgba(68,138,255,.1);font-weight:700}.admonition>.admonition-title:before{position:absolute;left:1.2rem;font-size:1.5rem;color:rgba(68,138,255,.8);content:"\E3C9"}.admonition>.admonition-title:before{font-family:Material Icons;font-style:normal;font-variant:normal;font-weight:400;line-height:2rem;text-transform:none;white-space:nowrap;speak:none;word-wrap:normal;direction:ltr}.admonition.abstract,.admonition.summary,.admonition.tldr{border-left-color:rgba(0,176,255,.8)}.admonition.abstract>.admonition-title,.admonition.summary>.admonition-title,.admonition.tldr>.admonition-title{background-color:rgba(0,176,255,.1);border-bottom-color:rgba(0,176,255,.2)}.admonition.abstract>.admonition-title:before,.admonition.summary>.admonition-title:before,.admonition.tldr>.admonition-title:before{color:#00b0ff;content:"\E8D2"}.admonition.hint,.admonition.tip{border-left-color:rgba(0,191,165,.8)}.admonition.hint>.admonition-title,.admonition.tip>.admonition-title{background-color:rgba(0,191,165,.1);border-bottom-color:rgba(0,191,165,.2)}.admonition.hint>.admonition-title:before,.admonition.tip>.admonition-title:before{color:#00bfa5;content:"\E80E"}.admonition.info,.admonition.todo{border-left-color:rgba(0,184,212,.8)}.admonition.info>.admonition-title,.admonition.todo>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.info>.admonition-title:before,.admonition.todo>.admonition-title:before{color:#00b8d4;content:"\E88E"}.admonition.check,.admonition.done,.admonition.success{border-left-color:rgba(0,200,83,.8)}.admonition.check>.admonition-title,.admonition.done>.admonition-title,.admonition.success>.admonition-title{background-color:rgba(0,200,83,.1);border-bottom-color:rgba(0,200,83,.2)}.admonition.check>.admonition-title:before,.admonition.done>.admonition-title:before,.admonition.success>.admonition-title:before{color:#00c853;content:"\E876"}.admonition.faq,.admonition.help,.admonition.question{border-left-color:rgba(100,221,23,.8)}.admonition.faq>.admonition-title,.admonition.help>.admonition-title,.admonition.question>.admonition-title{background-color:rgba(100,221,23,.1);border-bottom-color:rgba(100,221,23,.2)}.admonition.faq>.admonition-title:before,.admonition.help>.admonition-title:before,.admonition.question>.admonition-title:before{color:#64dd17;content:"\E887"}.admonition.attention,.admonition.caution,.admonition.warning{border-left-color:rgba(255,145,0,.8)}.admonition.attention>.admonition-title,.admonition.caution>.admonition-title,.admonition.warning>.admonition-title{background-color:rgba(255,145,0,.1);border-bottom-color:rgba(255,145,0,.2)}.admonition.attention>.admonition-title:before{color:#ff9100;content:"\E417"}.admonition.caution>.admonition-title:before,.admonition.warning>.admonition-title:before{color:#ff9100;content:"\E002"}.admonition.fail,.admonition.failure,.admonition.missing{border-left-color:rgba(255,82,82,.8)}.admonition.fail>.admonition-title,.admonition.failure>.admonition-title,.admonition.missing>.admonition-title{background-color:rgba(255,82,82,.1);border-bottom-color:rgba(255,82,82,.2)}.admonition.fail>.admonition-title:before,.admonition.failure>.admonition-title:before,.admonition.missing>.admonition-title:before{color:#ff5252;content:"\E14C"}.admonition.bug,.admonition.danger,.admonition.error{border-left-color:rgba(255,23,68,.8)}.admonition.bug>.admonition-title,.admonition.danger>.admonition-title,.admonition.error>.admonition-title{background-color:rgba(255,23,68,.1);border-bottom-color:rgba(255,23,68,.2)}.admonition.danger>.admonition-title:before{color:#ff1744;content:"\E3E7"}.admonition.error>.admonition-title:before{color:#ff1744;content:"\E14C"}.admonition.bug>.admonition-title:before{color:#ff1744;content:"\E868"}.admonition.example,.admonition.snippet{border-left-color:rgba(0,184,212,.8)}.admonition.example>.admonition-title,.admonition.snippet>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.example>.admonition-title:before,.admonition.snippet>.admonition-title:before{color:#00b8d4;content:"\E242"}.admonition.cite,.admonition.quote{border-left-color:rgba(158,158,158,.8)}.admonition.cite>.admonition-title,.admonition.quote>.admonition-title{background-color:rgba(158,158,158,.1);border-bottom-color:rgba(158,158,158,.2)}.admonition.cite>.admonition-title:before,.admonition.quote>.admonition-title:before{color:#9e9e9e;content:"\E244"}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/catamaran/v27/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
+}
+.markdown-preview.markdown-preview .box_bg_lightgrey {
+  background-color: #f5f5f5;
+  border: 2px solid #969696;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .box_bg_lightgreen {
+  background-color: #f5faf5;
+  border: 2px solid #969b96;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .contenedor {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto 30px auto;
+}
+.markdown-preview.markdown-preview .fondo {
+  background: url(https://balmisdigigs.github.io/digitalizacion.github.io/imagenes/fondos/quote.png);
+  background-size: cover;
+  width: 75%;
+  height: 160px;
+  border-radius: 10px;
+  position: relative;
+}
+.markdown-preview.markdown-preview .cita {
+  font-family: Arial;
+  font-style: italic;
+  font-weight: 600;
+  text-align: justify;
+  line-height: 1.5rem;
+  opacity: 0.6;
+  color: white;
+  padding: 5rem;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  font-size: 1.3rem;
+  transform: translate(-50%, -50%);
+}
+.markdown-preview.markdown-preview .abre_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-left: 30px;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, -15%);
+}
+.markdown-preview.markdown-preview .cierra_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-right: 30px;
+  right: 0%;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, 55%);
+}
+.markdown-preview.markdown-preview .autor {
+  font-family: Arial;
+  color: white;
+  margin: 0px;
+  padding-left: 30px;
+  position: absolute;
+  top: 83%;
+  font-size: 1rem;
+}
+.markdown-preview.markdown-preview .flotante {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: center;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: space-between;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: row;
+  }
+}
+.markdown-preview.markdown-preview .flotante_izq {
+  margin-right: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: auto;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: auto;
+  }
+}
+.markdown-preview.markdown-preview .galeria_imagenes {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: row;
+  }
+}
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  const configureMermaidIconPacks = () => {
+    window["mermaid"].registerIconPacks([
+      {
+        name: "logos",
+        loader: () =>
+          fetch("https://unpkg.com/@iconify-json/logos@1/icons.json").then(
+            (res) => res.json()
+          ),
+      },
+    ]);
+  };
+
+  if (document.readyState !== 'loading') {
+    configureMermaidIconPacks();
+  } else {
+    document.addEventListener("DOMContentLoaded", () => {
+      configureMermaidIconPacks();
+    });
+  }
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="unidad-2-programación-de-procesos-gestión-de-procesos-en-java">Unidad 2. Programación de procesos: Gestión de procesos en Java </h1>
+<p><a href="./u2_2.pdf">Descargar estos apuntes</a></p>
+<h2 id="índice">Índice </h2>
+
+<div class="md-toc">
+<details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#preparación-y-configuración-de-un-proceso" class="md-toc-link"><p>Preparación y configuración de un proceso</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#modificar-el-comando-en-tiempo-de-ejecución" class="md-toc-link">
+            <p>Modificar el comando en tiempo de ejecución</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#configuraciones-adicionales-de-un-proceso" class="md-toc-link">
+            <p>Configuraciones adicionales de un proceso</p>
+
+          </a></div>
+        </div>
+      </details>
+    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#acceso-al-proceso-una-vez-en-ejecución" class="md-toc-link">
+            <p>Acceso al proceso una vez en ejecución</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#lanzar-una-clase-java-como-proceso-desde-otra-clase-java-en-el-mismo-proyecto" class="md-toc-link">
+            <p>Lanzar una clase Java como proceso desde otra clase java en el mismo proyecto</p>
+
+          </a></div><details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#información-de-los-procesos-en-java" class="md-toc-link"><p>Información de los procesos en Java</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#obtener-información-desde-el-propio-proceso" class="md-toc-link">
+            <p>Obtener información desde el propio proceso</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#obtener-información-de-un-proceso-lanzado" class="md-toc-link">
+            <p>Obtener información de un proceso lanzado</p>
+
+          </a></div>
+        </div>
+      </details>
+    
+</div>
+<div style="page-break-after:always;"></div>
+<h2 id="preparación-y-configuración-de-un-proceso">Preparación y configuración de un proceso </h2>
+<p>En el paquete <code>java.lang</code> tenemos dos clases para la gestión de procesos.</p>
+<ul>
+<li><code>java.lang.ProcessBuilder</code> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/ProcessBuilder.html">Referencia API Java</a></li>
+<li><code>java.lang.Process</code> <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/ProcessBuilder.html">Referencia API Java</a></li>
+</ul>
+<p>Las instancias de <strong>ProcessBuilder</strong> gestionan los atributos de los procesos, mientras que las instancias de <strong>Process</strong> controlan la ejecución de esos mismos procesos cuando se ejecutan.</p>
+<p>Antes de ejecutar un nuevo proceso, podemos configurar los parámetros de ejecución del mismo usando la clase <code>ProcessBuilder</code>.</p>
+<p>ProcessBuilder es una clase auxiliar de la clase Process, que veremos más adelante, y se utiliza para controlar algunos parámetros de ejecución que afectarán al proceso. A través de la llamada al método <code>start</code> se crea un nuevo proceso en el sistema con los atributos definidos en la instancia de ProcessBuilder.</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code>    <span class="token class-name">ProcessBuilder</span> pb <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span><span class="token string">"CMD"</span><span class="token punctuation">,</span> <span class="token string">"/C"</span><span class="token punctuation">,</span> <span class="token string">"DIR"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Process</span> p <span class="token operator">=</span> pb<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>Si llamamos varias veces al método start, se crearán tantos nuevos procesos como llamadas hagamos, todos ellos con los mismos atributos.</p>
+<p>La clase ProcessBuilder define un par de constructores:</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code>    <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> command<span class="token punctuation">)</span>
+    <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> command<span class="token punctuation">)</span>
+</code></pre><p>El funcionamiento de ambos es el mismo. En el primer constructor se pasa el comando a ejecutar y la lista de argumentos como una lista de cadenas. Por contra, en el segundo constructor, el comando y sus argumentos se pasan a través de un número variable de cadenas (<code>String...</code> es lo que en Java se llama varargs). La versión que utilicemos depende del formato en que tengamos los datos.</p>
+<div class="admonition danger">
+<p class="admonition-title">Argumentos y parámetros</p>
+<p>Si queremos lanzar un programa con parámetros (modificadores que hacen que cambie la forma de funcionar un programa como -h /s ...) el comando no puede ser pasado al constructor directamente como un único string, debe ser preprocesado para convertirlo en una lista y que funcione.</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token comment">// Formas diferentes de pasar el comando a los constructores de ProcessBuilder</span>
+<span class="token comment">// 1ª forma: usando una cadena. Falla con parámetros</span>
+<span class="token comment">// Sólo funciona con programas que tengan argumentos</span>
+<span class="token class-name">String</span> command1 <span class="token operator">=</span> <span class="token string">"notepad.exe prueba1.txt"</span>
+<span class="token class-name">ProcessBuilder</span> pb <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span>command1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 2ª forma: usando un array de cadenas. Funciona con parámetros</span>
+<span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> command2 <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">"cmd"</span><span class="token punctuation">,</span> <span class="token string">"/c"</span><span class="token punctuation">,</span> <span class="token string">"dir"</span><span class="token punctuation">,</span> <span class="token string">"/o"</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token class-name">ProcessBuilder</span> pb <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span>command2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 3ª forma: usando una cadena y dividiéndola para convertirla en una lista</span>
+<span class="token class-name">String</span> command3 <span class="token operator">=</span>  <span class="token string">"c:/windows/system32/shutdown -s -t 0"</span><span class="token punctuation">;</span>  
+<span class="token comment">// La expresión regular \s significa partir por los espacios en blanco</span>
+<span class="token class-name">ProcessBuilder</span> pb <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span>command3<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\\s"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ESTA ES LA MEJOR FORMA PARA QUE FUNCIONE EN TODOS LOS CASOS</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Apagar el sistema operativo</p>
+<p>El comando <code>shutdown -s</code> sirve para apagar el sistema. En windows es necesario proporcionar la ruta completa al comando, por ejemplo C:\Windows\System32\shutdown.</p>
+<p>Podemos usar como parámetro -s para apagar el sistema, , -r para reiniciar , -h para hibernar y -t para indicar un tiempo de espera antes de apagar.</p>
+<p><a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/shutdown">Referencia del comando shutdown de Windows</a></p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Activity psp.activities.U2A1_Shutdowner</p>
+<p>Crea una nuevo proyecto Java (package psp.actividades y como clase principal U2A1_Shutdowner).<br>
+Usando la línea de comandos, pide al usuario qué acción quiere realizar (apagar, reiniciar o suspender) y cuánto tiempo quiere dejar antes de realizar la acción de apagado del sistema..</p>
+<p>Busca información sobre el funcionamiento del comando shutdown en GNU/Linux y haz que tu aplicación funcione para ambos sistemas..</p>
+<p>La aplicación tiene que preparar el comando correcto para la selección que haya hecho el usuario y para el sistema operativo en el que la esté ejecutando.</p>
+<p>Muestra por consola el resultado del método ProcessBuilder.command() de forma legible.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Solución de U2A1_Shutdowner</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U2A1_Shutdowner</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Ask for the required information to prepare the command</span>
+        <span class="token class-name">Scanner</span> keyboard <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Scanner</span><span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span>in<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Select your option (s-shutdown / r-reboot / h-hibernate): "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> shutdownOption <span class="token operator">=</span> keyboard<span class="token punctuation">.</span><span class="token function">nextLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        
+        
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"How much seconds will the command wait to be run? (0 means immediately): "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> shutdownTime <span class="token operator">=</span> keyboard<span class="token punctuation">.</span><span class="token function">nextLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        
+        
+        <span class="token comment">// Prepare the command</span>
+        <span class="token class-name">String</span> command<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"os.name"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"windows"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            command <span class="token operator">=</span> <span class="token string">"C:/Windows/System32/shutdown -"</span> <span class="token operator">+</span> shutdownOption <span class="token operator">+</span> <span class="token string">" -t "</span> <span class="token operator">+</span> shutdownTime<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+            command <span class="token operator">=</span> <span class="token string">"shutdown -"</span> <span class="token operator">+</span> shutdownOption <span class="token operator">+</span> <span class="token string">" -t "</span> <span class="token operator">+</span> shutdownTime<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token comment">// Prepare the process and launch it</span>
+        <span class="token class-name">ProcessBuilder</span> shutdowner <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span>command<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\\s"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//shutdowner.start();</span>
+        
+        <span class="token comment">// Show the command to be run</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"El comando a ejecutar es:  "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name">String</span> commandPart<span class="token operator">:</span> shutdowner<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>commandPart <span class="token operator">+</span> <span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>    
+<span class="token punctuation">}</span>
+</code></pre></div>
+<h3 id="modificar-el-comando-en-tiempo-de-ejecución">Modificar el comando en tiempo de ejecución </h3>
+<p>Puede ser que todo el comando, o parte del mismo, no lo tengamos en el momento de llamar a los constructores de ProcessBuilder. Se puede cambiar, modificar y consultar a posteriori con el método <code>command</code></p>
+<p>Al igual que con los constructores, tenemos dos versiones del método command</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code>    <span class="token function">command</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> command<span class="token punctuation">)</span>
+    <span class="token function">command</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> command<span class="token punctuation">)</span>
+</code></pre><p>y la tercera forma de este método (sin parámetros) sirve para obtener una lista del comando pasado al constructor o puesto con alguna de las formas anteriores del método command. Lo interesante es que una vez que tenemos la lista, podemos modificarla usando los métodos de la clase List.</p>
+<p>En el siguiente ejemplo, en el momento de definir el comando, nos falta saber la última parte, el directorio temporal. Además, si queremos hacer que la ejecución sea multiplataforma, el shell a ejecutar tampoco lo sabemos.<br>
+Dependiendo del SO se añaden dos valores al principio y un valor al final, con el método add de la clase List.</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token comment">// Sets and modifies the command after ProcessBuilder object is created</span>
+<span class="token class-name">String</span> command <span class="token operator">=</span> <span class="token string">"java -jar install.jar -install"</span><span class="token punctuation">;</span> <span class="token comment">// tmp dir is missing</span>
+<span class="token class-name">ProcessBuilder</span> pbuilder <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span>command<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\\s"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>isWindows<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    pbuilder<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"cmd"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sets the 1st element</span>
+    pbuilder<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"/c"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sets the 2nd element</span>
+    pbuilder<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"c:/temp"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sets the last element</span>
+    <span class="token comment">// Command to run cmd /c java -jar install.jar -install c:/temp</span>
+<span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+    pbuilder<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"sh"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sets the 1st element</span>
+    pbuilder<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"-c"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sets the 2nd element</span>
+    pbuilder<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"/tmp"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sets the last element</span>
+    <span class="token comment">// Command to run: sh -c java -jar install.jar -install /tmp</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Starts the process</span>
+pbuilder<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h3 id="configuraciones-adicionales-de-un-proceso">Configuraciones adicionales de un proceso </h3>
+<p>Algunos de los atributos que podemos configurar para un proceso son:</p>
+<ul>
+<li>
+<p>Establecer el directorio de trabajo donde el proceso se ejecutará</p>
+<p>Podemos cambiar el directorio de trabajo por defecto llamando al método <code>directory</code> y pasándole un objeto de tipo File. <strong>Por defecto, el directorio de trabajo se establece al valor de la variable del sistema user.dir</strong>. Este directorio es el punto de partida para acceder a ficheros, imágenes y todos los recursos que necesite nuestra aplicación.</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token comment">// Cambia el directorio de trabajo a la carpeta personal del usuario</span>
+pbuilder<span class="token punctuation">.</span><span class="token function">directory</span><span class="token punctuation">(</span><span class="token keyword keyword-new">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"user.home"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></li>
+<li>
+<p>Configurar o modificar variables de entorno para el proceso con el método <code>environment()</code></p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token comment">// Retrieve and modify the process environment</span>
+<span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> environment <span class="token operator">=</span> pbuilder<span class="token punctuation">.</span><span class="token function">environment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Get the PATH environment variable and add a new directory</span>
+<span class="token class-name">String</span> systemPath <span class="token operator">=</span> environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">";c:/users/public"</span><span class="token punctuation">;</span>
+environment<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">,</span> systemPath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Add a new environment variable and use it as a part of the command</span>
+environment<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"GREETING"</span><span class="token punctuation">,</span> <span class="token string">"Hola Mundo"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+processBuilder<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token string">"/bin/bash"</span><span class="token punctuation">,</span> <span class="token string">"-c"</span><span class="token punctuation">,</span> <span class="token string">"echo $GREETING"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token comment">// Indicamos el directorio donde se encuentra el ejecutable</span>
+<span class="token class-name">File</span> directorio <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">File</span> <span class="token punctuation">(</span><span class="token string">"bin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+pb<span class="token punctuation">.</span><span class="token function">directory</span><span class="token punctuation">(</span>directorio<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Mostramos la información de las variables de entorno</span>
+<span class="token class-name">Map</span> variablesEntorno <span class="token operator">=</span> pb<span class="token punctuation">.</span><span class="token function">environment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>variablesEntorno<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Mostramos el nombre del proceso y sus argumentos</span>
+<span class="token class-name">List</span> command <span class="token operator">=</span> pb<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Iterator</span> iter <span class="token operator">=</span> l<span class="token punctuation">.</span><span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>iter<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>iter<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p>::: info Variables de entorno vs Propiedades del sistema<br>
+Con la clase Runtime accedemos a las variables del sistema mientras que con ProcessBuilder lo hacemos a las propiedades del sistema, que son diferentes.<br>
+:::</p>
+</li>
+<li>
+<p>Redireccionar la entrada y salida estándar</p>
+</li>
+<li>
+<p>Heredar la E/S estándar del proceso padre usando el método ProcessBuilder.inheritIO()</p>
+<p><em>Estas dos configuraciones se verán en el siguiente apartado.</em></p>
+</li>
+</ul>
+<p>::: question Actividad psp.activities.U2A2_DirectorioTrabajo<br>
+Crea un nuevo proyecto Java (Ant &gt; Java Application) (configura como nombre del proyecto U2A2_DirectorioTrabajo y como clase principal psp.activities.U2A2_WorkingDirectory)<br>
+Escribe un programa que ejecute el comando ls o dir.<br>
+Modifica el valor de la propiedad user.dir.<br>
+En la misma aplicación, cambiar el directorio de trabajo a la carpeta c:/temp o /tmp, dependiendo del sistema operativo.</p>
+<p>Muestra el valor devuelto por el método directory()</p>
+<ul>
+<li>Después de crear la instancia de ProcessBuilder</li>
+<li>Después de cambiar el valor de user.dir</li>
+<li>Después de cambiar el directorio de trabajo al directorio temporal del sistema.</li>
+</ul>
+<p><em>En este momento tu programa todavía no mostrará ningún listado.</em><br>
+:::</p>
+<p>::: details Solución de U2A2_DirectorioTrabajo</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U2A2_WorkingDirectory</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">IOException</span><span class="token punctuation">,</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Prepare the command</span>
+        <span class="token class-name">String</span> command<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"os.name"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"windows"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            command <span class="token operator">=</span> <span class="token string">"cmd /c dir"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+            command <span class="token operator">=</span> <span class="token string">"sh -c ls"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+               
+        <span class="token comment">//1st - Default working directory</span>
+        
+        <span class="token comment">// Prepare the process </span>
+        <span class="token class-name">ProcessBuilder</span> commander <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span>command<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\\s"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       
+        commander<span class="token punctuation">.</span><span class="token function">inheritIO</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Show Process and System properties</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Working directory: "</span> <span class="token operator">+</span> commander<span class="token punctuation">.</span><span class="token function">directory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"user.dir variable: "</span> <span class="token operator">+</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"user.dir"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Launch the process and show its result</span>
+        <span class="token comment">// Working directory is null but the process is run on the current dir</span>
+        commander<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">waitFor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        
+        <span class="token comment">//2nd - Change user.dir but not the working directory</span>
+        
+        <span class="token comment">// Change the user.dir system property</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"user.dir"</span><span class="token punctuation">,</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"user.home"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Prepare the process</span>
+        commander <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span>command<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\\s"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       
+        commander<span class="token punctuation">.</span><span class="token function">inheritIO</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Show Process and System properties</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Working directory: "</span> <span class="token operator">+</span> commander<span class="token punctuation">.</span><span class="token function">directory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"user.dir variable: "</span> <span class="token operator">+</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"user.dir"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Launch the process and show its result</span>
+        <span class="token comment">// Working directory is null but the process is run on the current dir        </span>
+        commander<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">waitFor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        
+        <span class="token comment">// 3rd - Change the working directory</span>
+        
+        <span class="token comment">// Prepare the process</span>
+        commander <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span>command<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\\s"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       
+        commander<span class="token punctuation">.</span><span class="token function">inheritIO</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Show Process and System properties</span>
+        commander<span class="token punctuation">.</span><span class="token function">directory</span><span class="token punctuation">(</span><span class="token keyword keyword-new">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"user.home"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>             
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Working directory: "</span> <span class="token operator">+</span> commander<span class="token punctuation">.</span><span class="token function">directory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"user.dir variable: "</span> <span class="token operator">+</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"user.dir"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Launch the process and show its result</span>
+        <span class="token comment">// Working directory is user.home and the process is run on it</span>
+        commander<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">waitFor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>:::</p>
+<div class="pagebreak"></div>
+<h2 id="acceso-al-proceso-una-vez-en-ejecución">Acceso al proceso una vez en ejecución </h2>
+<p>La clase <code>Process</code> es una clase abstracta definida en el paquete java.lang y contiene la información del proceso en ejecución. Tras invocar al método <code>start</code> de ProcessBuilder, éste devuelve una referencia al proceso en forma de objeto Process.</p>
+<p>Los métodos de la clase Process pueden ser usados para realizar operaciones de E/S desde el proceso, para comprobar su estado, su valor de retorno, para esperar a que termine de ejecutarse y para forzar la terminación del proceso. Sin embargo estos métodos no funcionan sobre procesos especiales del SO como pueden ser servicios, shell scripts, demonios, etc.</p>
+<blockquote>
+<p><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Process.html">Especificación java.lang.Process</a></p>
+</blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Entrada / Salida desde el proceso hijo</p>
+<p>Curiosamente  <strong>los procesos lanzados con el método start() no tienen una consola asignada.</strong>. Por contra, estos procesos redireccionan los streams de E/S estándar (stdin, stdout, stderr) al proceso padre. Si se necesita, se puede acceder a ellos a través de los streams obtenidos con los métodos definidos en la clase Process como getInputStream(), getOutputStream() y  getErrorSteam().</p>
+<p>Esta es la forma de enviar y recibir información desde los subprocesos.</p>
+</div>
+<p>Los principales métodos de esta clase son:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Método</th>
+<th style="text-align:left">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">int exitValue()</td>
+<td style="text-align:left">Código de finalización devuelto por el proceso hijo (ver Info más abajo)</td>
+</tr>
+<tr>
+<td style="text-align:left">Boolean isAlive()</td>
+<td style="text-align:left">Comprueba si el proceso todavía está en ejecución</td>
+</tr>
+<tr>
+<td style="text-align:left">int waitFor()</td>
+<td style="text-align:left">hace que el proceso padre se quede esperando a que el proceso hijo termine. El entrono que devuelve es el código de finalización del proceso hijo</td>
+</tr>
+<tr>
+<td style="text-align:left">Boolean waitFor(long timeOut, TimeUnit unit)</td>
+<td style="text-align:left">El funcionamiento es el mismo que en el caos anterior sólo que en esta ocasión podemos especificar cuánto tiempo queremos esperar a que el proceso hijo termine. El método devuelve true si el proceso termina antes de que pase el tiempo indicado y false si ha pasado el tiempo y el proceso no ha terminado.</td>
+</tr>
+<tr>
+<td style="text-align:left">void destroy()</td>
+<td style="text-align:left">Estos dos métodos se utilizan para matar al proceso. El segundo lo hace de forma forzosa.</td>
+</tr>
+<tr>
+<td style="text-align:left">Process destroyForcibly()</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<p>Veamos un sencillo ejemplo. Una vez lanzado el programa espera durante 10 segundos y a continuación mata el proceso.</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">ProcessDemo</span> <span class="token punctuation">{</span>
+
+   <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+
+      <span class="token class-name">ProcessBuilder</span> pb <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span><span class="token string">"C:/Program Files (x86)/Notepad++/notepad++.exe"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">// Effectively launch the process</span>
+      <span class="token class-name">Process</span> p <span class="token operator">=</span> pb<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">// Check is process is alive or not</span>
+      <span class="token keyword keyword-boolean">boolean</span> alive <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">isAlive</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">// Wait for the process to end for 10 seconds.</span>
+      <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">waitFor</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token class-name">TimeUnit</span><span class="token punctuation">.</span><span class="token constant">SECONDS</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Process has finished"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+          <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Timeout. Process hasn't finished"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">// Force process termination.</span>
+      p<span class="token punctuation">.</span><span class="token function">destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">// Check again if process remains alive</span>
+      alive <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">isAlive</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">// Get the process exit value</span>
+      <span class="token keyword keyword-int">int</span> status <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">exitValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="admonition info">
+<p class="admonition-title">Códigos de terminación</p>
+<p>Un código de salida (exit code o a veces también return code) es el valor que un proceso le devuelve a su proceso padre para indicarle cómo ha acabado. Si un proceso acaba con un valor de finalización 0 es que todo ha ido bien, cualquier otro valor entre 1 to 255 indica alguna causa de error.</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Actividad psp.activities.U2A3_ExitValue</p>
+<p>Crea un nuevo proyecto Java (Ant &gt; Java Application) (configura como nombre del proyecto U2A3_ExitValue y como clase principal psp.activities.U2A3_ExitValue).<br>
+Prepara un programa que ejecute varios comandos (notepad, calc, comandos shell) uno detrás de otro, de forma secuencial y haz que tu programa obtenga el código de finalización de cada uno de ellos.<br>
+Para cada programa imprime el nombre y su código de finalización.</p>
+<p>Prueba a poner aplicaciones que no existan o comandos con parámetros incorrectos.</p>
+<p>¿Qué hace Netbeans si pones System.exit(10) para acabar tu programa?. Fíjate en la consola.<br>
+¿Qué hace Netbeans si pones System.exit(0) para acabar tu programa.?<br>
+Cuál es entonces el valor por defecto?</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Solución de U2A3_ExitValue</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U2A3_ExitValue</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-do">do</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Código para pedir un programa/comando a ejecutar</span>
+            <span class="token class-name">Scanner</span> teclado <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Scanner</span><span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span>in<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Introduce el programa / comando que quieres ejecutar (intro para acabar): "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">String</span> comando <span class="token operator">=</span> teclado<span class="token punctuation">.</span><span class="token function">nextLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>comando<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+                <span class="token comment">// Preparamos el entrono de ejecución del proceso</span>
+                <span class="token comment">// Como no sabemos el contenido del comando, forzamos su conversión</span>
+                <span class="token comment">// a una lista para que no haya problemas con su ejecución</span>
+                <span class="token class-name">ProcessBuilder</span> pb <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span>comando<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\\s"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token comment">// Lanzamos el proceso hijo</span>
+                <span class="token class-name">Process</span> p <span class="token operator">=</span> pb<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          
+
+                <span class="token comment">// Esperamos a que acabe para recoger el valor de salida</span>
+                <span class="token keyword keyword-int">int</span> exitValue <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">waitFor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>exitValue <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"El comando "</span> <span class="token operator">+</span> pb<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" ha finalizado bien"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+                    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"El comando "</span> <span class="token operator">+</span> pb<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" ha finalizado con errores. Código ("</span> <span class="token operator">+</span> exitValue <span class="token operator">+</span> <span class="token string">")"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+
+            <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> <span class="token operator">|</span> <span class="token class-name">IOException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ex<span class="token punctuation">.</span><span class="token function">getLocalizedMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                ex<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>                       
+        <span class="token punctuation">}</span> <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">Gestión de excepciones</p>
+<p>La llamada al método <strong>waitFor</strong> hace que el proceso padre se bloquee hasta que el proceso hijo termina o bien hasta que el bloqueo es interrumpido por alguna señal del sistema (Excepción) que recibe el proceso padre.</p>
+<p>Es mejor gestionar las excepciones lo más cerca posible del origen en vez de pasarlas a niveles superiores.</p>
+</div>
+<div class="pagebreak"></div>
+<h2 id="lanzar-una-clase-java-como-proceso-desde-otra-clase-java-en-el-mismo-proyecto">Lanzar una clase Java como proceso desde otra clase java en el mismo proyecto </h2>
+<p>Para las actividades os pediré que programéis tanto el proceso padre como el proceso hijo. Para hacer eso, una de las clases tendrá que lanzar a la otra.</p>
+<p>Para hacer esto, ambas clases deben tener un método main. Así que en las propiedades del proyecto Netbeans deberemos seleccionar cuál de las clases se ejecutará primero, normalmente la clase <code>Lanzador o Launcher</code> (proceso padre).</p>
+<p><img src="../../media/unit2/seleccionmain.png" alt="Seleccionar clase principal"></p>
+<p>Antes de que una clase pueda lanzar a otra, al menos la segunda (proceso hijo) debe estar compilada, es decir, el archivo .class debe haberse creado dentro del directorio build/classes.</p>
+<p><img src="../../media/unit2/comandotree.png" alt="Seleccionar directorio de trabajo "></p>
+<p>Entonces y sólo entonces, previa configuración de los parámetros de ejecución del proceso tal y como se muestra en el ejemplo, se podrá ejecutar una clase desde otra.</p>
+<p>::: info Directorio de trabajo</p>
+<p>Si nos fijamos en la estructura de directorios de un proyecto y entendemos cómo se invocan unas clases a otras, entenderemos porqué el directorio de trabajo debe ser <em>build/classes</em>.</p>
+<p>En Java, cuando se ejecuta una clase <code>java paquete.clase</code>, la MV Java espera encontrar los directorios que forman el paquete (psp/u2/actividad10) a partir del punto donde se está invocando el comando. Por eso, para que pueda encontrar la clase (el archivo .class), debemos ubicarnos previamente en el directorio <code>build/classes</code></p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token comment">// Prepare the environment and the command</span>
+<span class="token class-name">ProcessBuilder</span> pb <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span><span class="token string">"java"</span><span class="token punctuation">,</span> <span class="token string">"psp.u2.actividad10.Sumador"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+pb<span class="token punctuation">.</span><span class="token function">directory</span><span class="token punctuation">(</span><span class="token keyword keyword-new">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"build/classes"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Process</span> p <span class="token operator">=</span> pb<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>:::</p>
+<p>::: question Actividad psp.activities.U2A4_Lanzador<br>
+Crea un nuevo proyecto Java (Ant &gt; Java Application) (configura como nombre del proyecto U2A3_Lanzador y como clase principal psp.activities.<em>U2A4_Lanzador</em>).</p>
+<p>Ahora, en el mismo proyecto y dentro del mismo paquete crea otra clase, U2A4_Lanzado, con un método main que recibirá el nombre del programa que debe ejecutar como parámetro del método main(args). Haz que esta aplicación cree un nuevo proceso para ejecutar el programa recibido como parámetro.</p>
+<p>La clase terminará devolviendo como código de finalización el que el programa lanzado le haya devuelto a ella.</p>
+<blockquote>
+<p>Método System.exit()</p>
+<ul>
+<li>Cero. El código cero debe devolverse cuando la ejecución del proceso haya ido bien, esto es, que ha terminado su ejecución sin problemas.</li>
+<li>Distinto de cero. AUn código distinto de cero indica una terminación con errores. Java nos permite usar códigos diferentes para los diferentes tipos de error.</li>
+</ul>
+</blockquote>
+<p>Por último, podemos hacer que U2A4_Lanzador pregunte al usuario qué aplicación quiere ejecutar y pasársela a la clase U2A4_Lanzado.</p>
+<p>En Lanzador recoge el código de finalización de Lanzado y muestra un mensaje indicando si el proceso terminó bien o con errores.<br>
+:::</p>
+<p>::: details Solución de U2A4_Lanzador</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U2A4_Launcher</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token comment">// Código para pedir un programa/comando a ejecutar</span>
+        <span class="token class-name">Scanner</span> teclado <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Scanner</span><span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span>in<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Introduce el programa / comando que quieres ejecutar: "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> comando <span class="token operator">=</span> teclado<span class="token punctuation">.</span><span class="token function">nextLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Preparamos el entrono de ejecución del proceso</span>
+            <span class="token comment">// Como no sabemos el contenido del comando, forzamos su conversión</span>
+            <span class="token comment">// a una lista para que no haya problemas con su ejecución</span>
+            comando <span class="token operator">=</span> <span class="token string">"java psp.activities.U2A4_Commander "</span> <span class="token operator">+</span> comando<span class="token punctuation">;</span>
+            <span class="token class-name">ProcessBuilder</span> pb <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span>comando<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\\s"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            pb<span class="token punctuation">.</span><span class="token function">directory</span><span class="token punctuation">(</span><span class="token keyword keyword-new">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"build/classes"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Lanzamos el proceso hijo</span>
+            <span class="token class-name">Process</span> p <span class="token operator">=</span> pb<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          
+
+            <span class="token comment">// Esperamos a que acabe para recoger el valor de salida</span>
+            <span class="token keyword keyword-int">int</span> exitValue <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">waitFor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>exitValue <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"El comando "</span> <span class="token operator">+</span> pb<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" ha finalizado bien"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"El comando "</span> <span class="token operator">+</span> pb<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" ha finalizado con errores. Código ("</span> <span class="token operator">+</span> exitValue <span class="token operator">+</span> <span class="token string">")"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> <span class="token operator">|</span> <span class="token class-name">IOException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ex<span class="token punctuation">.</span><span class="token function">getLocalizedMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            ex<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>                       
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U2A4_Commander</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>       
+        <span class="token comment">// Lectura de información desde los parámetros de entrada </span>
+        <span class="token comment">// Se supone que recibimos: args[0] args[1] args[2] ..... args[args.length-1 --&gt; comando a ejecutar</span>
+        <span class="token class-name">String</span> comando <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> args<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            comando <span class="token operator">+=</span> args<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        comando<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                
+        <span class="token class-name">ProcessBuilder</span> pb <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span>comando<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\\s"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            
+
+        <span class="token comment">// Lanzamos el proceso hijo</span>
+        <span class="token class-name">Process</span> p <span class="token operator">=</span> pb<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          
+
+        <span class="token comment">// Esperamos a que acabe para recoger el valor de salida</span>
+        <span class="token keyword keyword-int">int</span> exitValue <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">waitFor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span>exitValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>    
+<span class="token punctuation">}</span>
+</code></pre><p>:::</p>
+<p>::: warning Programación de clases "hijas"<br>
+Debemos tener en cuenta que una clase se puede ejecutar de forma independiente o puede ser llamada desde otro proceso.</p>
+<p>Por eso, el código de las clases, hijas o padres, se hace sin tener en cuenta cómo van a ser llamadas. Debe ser <strong>independiente</strong> tal y como lo son unos procesos de otros.</p>
+<p>Así, en el anterior proyecto yo podría ejecutar la clase psp.activities.U2A4_Commander de forma independiente, pasándole el nombre de los programas.</p>
+<p>Puedo hacerlo invocándola desde línea de comandos o desde Netbeans:</p>
+<ul>
+<li>java psp.activities.U2A4_Commander programa1 programa2 programa3</li>
+<li>En las propiedades del proyecto, en el apartado Run, seleccionando U2A4_Commander como clase principal y poniendo como Arguments: programa1 programa2 programa3<br>
+:::</li>
+</ul>
+<div class="pagebreak"></div>
+<h2 id="información-de-los-procesos-en-java">Información de los procesos en Java </h2>
+<p>Una vez que un proceso está en ejecución podemos obtener información acerca de ese proceso usando los métodos de la clase <code>java.lang.ProcessHandle.Info</code>:</p>
+<ul>
+<li>el comando usado para lanzar el proceso</li>
+<li>Los argumentos/parámetros que recibió el proceso</li>
+<li>El instante de tiempo en el que se inició el proceso</li>
+<li>El tiempo de CPU que ha usado el proceso y el usuario que lo ha lanzado</li>
+</ul>
+<h3 id="obtener-información-desde-el-propio-proceso">Obtener información desde el propio proceso </h3>
+<p>Aquí tenemos un sencillo ejemplo de cómo hacerlo para obtener información del proceso actual.</p>
+<pre data-role="codeBlock" data-info="java{2-3}" class="language-java java"><code><span class="token comment">// Get information about the current process</span>
+<span class="token class-name">ProcessHandle</span> processHandle <span class="token operator">=</span> <span class="token class-name">ProcessHandle</span><span class="token punctuation">.</span><span class="token function">current</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">ProcessHandle<span class="token punctuation">.</span>Info</span> processInfo <span class="token operator">=</span> processHandle<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"PID: "</span> <span class="token operator">+</span> processHandle<span class="token punctuation">.</span><span class="token function">pid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Arguments: "</span> <span class="token operator">+</span> processInfo<span class="token punctuation">.</span><span class="token function">arguments</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Command: "</span> <span class="token operator">+</span> processInfo<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Instant: "</span> <span class="token operator">+</span> processInfo<span class="token punctuation">.</span><span class="token function">startInstant</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Total CPU duration: "</span> <span class="token operator">+</span> processInfo<span class="token punctuation">.</span><span class="token function">totalCpuDuration</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"User: "</span> <span class="token operator">+</span> processInfo<span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h3 id="obtener-información-de-un-proceso-lanzado">Obtener información de un proceso lanzado </h3>
+<p>En el ejemplo anterior hemos obtenido la información del proceso actual (<code>ProcessHandle.current()</code>), así que si estamos en el proceso padre, sólo podemos mostrar su información, pero no la de su hijo.</p>
+<p>También es posible acceder a la información de un proceso lanzado (proceso hijo). En este caso necesitamos la instancia de <code>java.lang.Process</code> para llamar a su método <code>toHandle()</code> y obtener la instancia de  <code>java.lang.ProcessHandle</code> del proceso hijo..</p>
+<pre data-role="codeBlock" data-info="java{3-4}" class="language-java java"><code><span class="token comment">// Get information about a child process from parent</span>
+<span class="token class-name">Process</span> process <span class="token operator">=</span> processBuilder<span class="token punctuation">.</span><span class="token function">inheritIO</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">ProcessHandle</span> childProcessHandle <span class="token operator">=</span> process<span class="token punctuation">.</span><span class="token function">toHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">ProcessHandle<span class="token punctuation">.</span>Info</span> childProcessInfo <span class="token operator">=</span> childProcessHandle<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>A partir de ahí, el código para acceder a la información y detalles del proceso hijo es idéntico al ejemplo anterior.</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
