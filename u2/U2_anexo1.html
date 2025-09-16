@@ -239,28 +239,24 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 <p>Para indicar las rutas en un sistema los sistemas UNIX emplean el carácter  <strong>/</strong> como separador mientras que los sistemas Windows usan el carácter <strong>\</strong> . En resumen, / en *X y \ en Windows.</p>
 <p>¿Cómo podemos hacer entonces que nuestras aplicaciones sean independientes del SO en el que se ejecutan?</p>
 <p>Para este tipo de cuestiones vamos a utilizar de forma recurrente las propiedades del sistema mediante <code>System.getProperty(String propName)</code>. Estas propiedades se configuran con el propio sistema operativo, aunque las podemos modificar usando los parámetros de ejecución de la máquina virtual</p>
-<blockquote>
-<p>String separator = System.getProperty("file.separator");</p>
-</blockquote>
-<p>o</p>
-<blockquote>
-<p>-Dfile.separator</p>
-</blockquote>
-<p>Aunque siempre es una buena práctica usar el carácter <strong>/</strong> en las rutas ya que Java es capaz de convertirlas al sistema en el que se ejecuta.</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>String separator = System.getProperty("file.separator");
+</code></pre><p>o</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>-Dfile.separator
+</code></pre><p>Aunque siempre es una buena práctica usar el carácter <strong>/</strong> en las rutas ya que Java es capaz de convertirlas al sistema en el que se ejecuta.</p>
 </div>
 <p>Si lo que queremos es ejecutar un comando del SO, tenemos que hacerlo, al igual que si lo hacemos manualmente, a través del shell del sistema, donde volvemos a encontrar la dicotomía entre sistemas UNIX y sistemas Windows.</p>
 <p>Vamos a ver el código que, a través de las propiedades del sistema, nos permite obtener un listado de los archivos existentes en la carpeta personal del usuario.</p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token comment">// Primero obtenemos la carpeta del usuario</span>
 <span class="token class-name">String</span> homeDirectory <span class="token operator">=</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"user.home"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword keyword-boolean">boolean</span> isWindows <span class="token operator">=</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"os.name"</span><span class="token punctuation">)</span>
-  <span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"windows"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"windows"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>isWindows<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token class-name">Runtime</span><span class="token punctuation">.</span><span class="token function">getRuntime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-      <span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"cmd.exe /c dir %s"</span><span class="token punctuation">,</span> homeDirectory<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"cmd.exe /c dir %s"</span><span class="token punctuation">,</span> homeDirectory<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
     <span class="token class-name">Runtime</span><span class="token punctuation">.</span><span class="token function">getRuntime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-      <span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"sh -c ls %s"</span><span class="token punctuation">,</span> homeDirectory<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"sh -c ls %s"</span><span class="token punctuation">,</span> homeDirectory<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre><div class="admonition info">
 <p class="admonition-title">Modo shell no interactivo</p>
@@ -546,7 +542,7 @@ prop<span class="token punctuation">.</span><span class="token function">list</s
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"\n$%10.2f"</span><span class="token punctuation">,</span>shippingCost<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment">// % rellena con hasta 10 posiciones los números</span>
 <span class="token comment">// para justificarlos a la derecha.</span>
-<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%n$%.2f"</span><span class="token punctuation">,</span>shippi<span class="token punctuation">.</span>ngCost<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%n$%.2f"</span><span class="token punctuation">,</span>shippingCost<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre><h3 id="uso-de-colores-en-la-salida-por-consola">Uso de colores en la salida por consola </h3>
 <p>Hay una forma sencilla de mostrar información por consola usando diferentes colores. Os dejo un ejemplo de código con la definición de algunos colores y la forma de usarlos.</p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">UsarColoresEnConsola</span> <span class="token punctuation">{</span>
