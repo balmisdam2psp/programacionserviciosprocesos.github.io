@@ -3,7 +3,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
       
       
       
@@ -21,7 +21,7 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
   font-family: 'Catamaran';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/catamaran/v27/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/catamaran/v28/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
 }
 .markdown-preview.markdown-preview .box_bg_lightgrey {
   background-color: #f5f5f5;
@@ -602,9 +602,9 @@ Cuál es entonces el valor por defecto?</p>
 <h2 id="lanzar-una-clase-java-como-proceso-desde-otra-clase-java-en-el-mismo-proyecto">Lanzar una clase Java como proceso desde otra clase java en el mismo proyecto </h2>
 <p>Para las actividades os pediré que programéis tanto el proceso padre como el proceso hijo. Para hacer eso, una de las clases tendrá que lanzar a la otra.</p>
 <p>Para hacer esto, ambas clases deben tener un método main. Así que en las propiedades del proyecto Netbeans deberemos seleccionar cuál de las clases se ejecutará primero, normalmente la clase <code>Lanzador o Launcher</code> (proceso padre).</p>
-<p><img src="../../media/unit2/seleccionmain.png" alt="Seleccionar clase principal"></p>
+<p><img src="./assets/imgs/seleccionmain.png" alt="Seleccionar clase principal"></p>
 <p>Antes de que una clase pueda lanzar a otra, al menos la segunda (proceso hijo) debe estar compilada, es decir, el archivo .class debe haberse creado dentro del directorio build/classes.</p>
-<p><img src="../../media/unit2/comandotree.png" alt="Seleccionar directorio de trabajo "></p>
+<p><img src="./assets/imgs/comandotree.png" alt="Seleccionar directorio de trabajo "></p>
 <p>Entonces y sólo entonces, previa configuración de los parámetros de ejecución del proceso tal y como se muestra en el ejemplo, se podrá ejecutar una clase desde otra.</p>
 <p>::: info Directorio de trabajo</p>
 <p>Si nos fijamos en la estructura de directorios de un proyecto y entendemos cómo se invocan unas clases a otras, entenderemos porqué el directorio de trabajo debe ser <em>build/classes</em>.</p>

@@ -3,7 +3,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
       
       
       
@@ -21,7 +21,7 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
   font-family: 'Catamaran';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/catamaran/v27/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/catamaran/v28/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
 }
 .markdown-preview.markdown-preview .box_bg_lightgrey {
   background-color: #f5f5f5;
@@ -257,13 +257,22 @@ processOutput<span class="token punctuation">.</span><span class="token function
 <div class="admonition warning">
 <p class="admonition-title">Charsets y encodings</p>
 <p>Desde el inicio de la informática los juegos de caracteres y las codificaciones han supuesto un auténtico quebradero de cabeza para los programadores, especialmente cuando trabajamos con juegos de caracteres no anglosajones. Pues bien, la consola de Windows no iba a ser una excepción.</p>
-<p>La consola de windows, conocida como <em>"DOS prompt"</em> o <em>cmd</em>, es la forma de ejecutar programas y comandos DOS en Windows, por lo tanto esos programas mantienen la codificación de DOS. A Microsoft no le gustan hacer cambios que pierdan la compatibilidad hacia atrás, es decir, que sean compatibles con versiones anteriores, así que cuando hagamos una aplicación que trabaje con la consola debemos tener en cuenta esta circunstancia.</p>
-<p>En Wikipedia comentan que la codificación  <strong>CP850</strong> teóricamente ha sido ampliamente reemplazada por <strong>Windows-1252</strong> y posteriormente Unicode, pero aún así <strong>CP850</strong> sigue presente en la consola de comandos.</p>
-<p>Por lo tanto, si queremos mostrar información de la consola en nuestras aplicaciones, debemos trabajar con el charset adecuado, a saber, CP-850.</p>
 <p>Para usar un encoding concreto, la clase InputStreamReader, que pasa de gestionar bytes a caracteres, tiene un constructor que permite especificar el tipo de codificación usado en el stream de bytes que recibimos, así que que debemos usar este constructor cuando trabajemos con aplicaciones de consola.</p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-new">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"CP850"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre><blockquote>
-<p>Además, para usar una codificación universal, podemos forzar que Netbeans, o mejor dicho la máquina virtual que usa Netbeans, utilice <strong>por defecto el charset <code>UTF-8</code></strong>. Para hacerlo, debemos modificar el archivo de configuración de Netbeans <code>C:/Program Files/Netbeans-xx.x/netbeans/etc/netbeans.conf</code>, y modificar la directiva <code>netbeans_default_option</code> añadiendo al final <strong>-J-Dfile.encoding=UTF-8</strong>.</p>
+<p>Además, para usar una codificación universal, podemos forzar que Netbeans, o mejor dicho la máquina virtual que usa Netbeans, utilice <strong>por defecto el charset <code>UTF-8</code></strong>.<br>
+Para hacerlo podemos modificar las opciones de la JVM en un proyecto concreto, añadiendo en las propiedades del proyecto, en la sección <code>Run</code>, los parámetros <strong>-Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8</strong> en la opción de VM Options.</p>
+</blockquote>
+<div class="row">
+<div class="col-sm-6 my-auto">
+<p><img src="./assets/imgs/variables_entorno.png" alt="alt_text"></p>
+</div>
+<div class="col-sm-6 my-auto">
+<p><img src="./assets/imgs/configuracion_utf8.png" alt="alt_text"></p>
+</div>
+</div>
+<blockquote>
+<p>Para que la configuración se aplique a todos los proyectos debemos añadir a las propiedades de entorno del sistema una nueva variable <code>JAVA_TOOL_OPTIONS</code> y darle el valor <strong>-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -Dconsole.encoding=UTF-8</strong>.</p>
 </blockquote>
 </div>
 <h3 id="error-estándar-geterrorstream">Error estándar: getErrorStream() </h3>
