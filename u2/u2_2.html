@@ -190,6 +190,7 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
     
       <div class="crossnote markdown-preview  ">
       
+<p><img src="..\imagenes\img-BalmisHeader.png" alt="Cabecera"></p>
 <h1 id="unidad-2-programación-de-procesos-gestión-de-procesos-en-java">Unidad 2. Programación de procesos: Gestión de procesos en Java </h1>
 <p><a href="./u2_2.pdf">Descargar estos apuntes</a></p>
 <h2 id="índice">Índice </h2>
@@ -382,9 +383,10 @@ pb<span class="token punctuation">.</span><span class="token function">directory
 <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>iter<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>iter<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-</code></pre><p>::: info Variables de entorno vs Propiedades del sistema<br>
-Con la clase Runtime accedemos a las variables del sistema mientras que con ProcessBuilder lo hacemos a las propiedades del sistema, que son diferentes.<br>
-:::</p>
+</code></pre><div class="admonition info">
+<p class="admonition-title">Variables de entorno vs Propiedades del sistema</p>
+<p>Con la clase Runtime accedemos a las variables del sistema mientras que con ProcessBuilder lo hacemos a las propiedades del sistema, que son diferentes.</p>
+</div>
 </li>
 <li>
 <p>Redireccionar la entrada y salida estándar</p>
@@ -394,8 +396,9 @@ Con la clase Runtime accedemos a las variables del sistema mientras que con Proc
 <p><em>Estas dos configuraciones se verán en el siguiente apartado.</em></p>
 </li>
 </ul>
-<p>::: question Actividad psp.activities.U2A2_DirectorioTrabajo<br>
-Crea un nuevo proyecto Java (Ant &gt; Java Application) (configura como nombre del proyecto U2A2_DirectorioTrabajo y como clase principal psp.activities.U2A2_WorkingDirectory)<br>
+<div class="admonition question">
+<p class="admonition-title">Actividad psp.activities.U2A2_DirectorioTrabajo</p>
+<p>Crea un nuevo proyecto Java (Ant &gt; Java Application) (configura como nombre del proyecto U2A2_DirectorioTrabajo y como clase principal psp.activities.U2A2_WorkingDirectory)<br>
 Escribe un programa que ejecute el comando ls o dir.<br>
 Modifica el valor de la propiedad user.dir.<br>
 En la misma aplicación, cambiar el directorio de trabajo a la carpeta c:/temp o /tmp, dependiendo del sistema operativo.</p>
@@ -405,9 +408,10 @@ En la misma aplicación, cambiar el directorio de trabajo a la carpeta c:/temp o
 <li>Después de cambiar el valor de user.dir</li>
 <li>Después de cambiar el directorio de trabajo al directorio temporal del sistema.</li>
 </ul>
-<p><em>En este momento tu programa todavía no mostrará ningún listado.</em><br>
-:::</p>
-<p>::: details Solución de U2A2_DirectorioTrabajo</p>
+<p><em>En este momento tu programa todavía no mostrará ningún listado.</em></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Solución de U2A2_DirectorioTrabajo</p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U2A2_WorkingDirectory</span> <span class="token punctuation">{</span>
 
     <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">IOException</span><span class="token punctuation">,</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">{</span>
@@ -418,7 +422,7 @@ En la misma aplicación, cambiar el directorio de trabajo a la carpeta c:/temp o
         <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
             command <span class="token operator">=</span> <span class="token string">"sh -c ls"</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
-               
+            
         <span class="token comment">//1st - Default working directory</span>
         
         <span class="token comment">// Prepare the process </span>
@@ -468,7 +472,7 @@ En la misma aplicación, cambiar el directorio de trabajo a la carpeta c:/temp o
         commander<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">waitFor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre><p>:::</p>
+</code></pre></div>
 <div class="pagebreak"></div>
 <h2 id="acceso-al-proceso-una-vez-en-ejecución">Acceso al proceso una vez en ejecución </h2>
 <p>La clase <code>Process</code> es una clase abstracta definida en el paquete java.lang y contiene la información del proceso en ejecución. Tras invocar al método <code>start</code> de ProcessBuilder, éste devuelve una referencia al proceso en forma de objeto Process.</p>
@@ -606,16 +610,18 @@ Cuál es entonces el valor por defecto?</p>
 <p>Antes de que una clase pueda lanzar a otra, al menos la segunda (proceso hijo) debe estar compilada, es decir, el archivo .class debe haberse creado dentro del directorio build/classes.</p>
 <p><img src="./assets/imgs/comandotree.png" alt="Seleccionar directorio de trabajo "></p>
 <p>Entonces y sólo entonces, previa configuración de los parámetros de ejecución del proceso tal y como se muestra en el ejemplo, se podrá ejecutar una clase desde otra.</p>
-<p>::: info Directorio de trabajo</p>
+<div class="admonition info">
+<p class="admonition-title">Directorio de trabajo</p>
 <p>Si nos fijamos en la estructura de directorios de un proyecto y entendemos cómo se invocan unas clases a otras, entenderemos porqué el directorio de trabajo debe ser <em>build/classes</em>.</p>
 <p>En Java, cuando se ejecuta una clase <code>java paquete.clase</code>, la MV Java espera encontrar los directorios que forman el paquete (psp/u2/actividad10) a partir del punto donde se está invocando el comando. Por eso, para que pueda encontrar la clase (el archivo .class), debemos ubicarnos previamente en el directorio <code>build/classes</code></p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token comment">// Prepare the environment and the command</span>
 <span class="token class-name">ProcessBuilder</span> pb <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span><span class="token string">"java"</span><span class="token punctuation">,</span> <span class="token string">"psp.u2.actividad10.Sumador"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 pb<span class="token punctuation">.</span><span class="token function">directory</span><span class="token punctuation">(</span><span class="token keyword keyword-new">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"build/classes"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token class-name">Process</span> p <span class="token operator">=</span> pb<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre><p>:::</p>
-<p>::: question Actividad psp.activities.U2A4_Lanzador<br>
-Crea un nuevo proyecto Java (Ant &gt; Java Application) (configura como nombre del proyecto U2A3_Lanzador y como clase principal psp.activities.<em>U2A4_Lanzador</em>).</p>
+</code></pre></div>
+<div class="admonition question">
+<p class="admonition-title">Actividad psp.activities.U2A4_Lanzador</p>
+<p>Crea un nuevo proyecto Java (Ant &gt; Java Application) (configura como nombre del proyecto U2A3_Lanzador y como clase principal psp.activities.<em>U2A4_Lanzador</em>).</p>
 <p>Ahora, en el mismo proyecto y dentro del mismo paquete crea otra clase, U2A4_Lanzado, con un método main que recibirá el nombre del programa que debe ejecutar como parámetro del método main(args). Haz que esta aplicación cree un nuevo proceso para ejecutar el programa recibido como parámetro.</p>
 <p>La clase terminará devolviendo como código de finalización el que el programa lanzado le haya devuelto a ella.</p>
 <blockquote>
@@ -626,9 +632,10 @@ Crea un nuevo proyecto Java (Ant &gt; Java Application) (configura como nombre d
 </ul>
 </blockquote>
 <p>Por último, podemos hacer que U2A4_Lanzador pregunte al usuario qué aplicación quiere ejecutar y pasársela a la clase U2A4_Lanzado.</p>
-<p>En Lanzador recoge el código de finalización de Lanzado y muestra un mensaje indicando si el proceso terminó bien o con errores.<br>
-:::</p>
-<p>::: details Solución de U2A4_Lanzador</p>
+<p>En Lanzador recoge el código de finalización de Lanzado y muestra un mensaje indicando si el proceso terminó bien o con errores.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Solución de U2A4_Lanzador</p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U2A4_Launcher</span> <span class="token punctuation">{</span>
 
     <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -686,17 +693,18 @@ Crea un nuevo proyecto Java (Ant &gt; Java Application) (configura como nombre d
         <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span>exitValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>    
 <span class="token punctuation">}</span>
-</code></pre><p>:::</p>
-<p>::: warning Programación de clases "hijas"<br>
-Debemos tener en cuenta que una clase se puede ejecutar de forma independiente o puede ser llamada desde otro proceso.</p>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Programación de clases "hijas"</p>
+<p>Debemos tener en cuenta que una clase se puede ejecutar de forma independiente o puede ser llamada desde otro proceso.</p>
 <p>Por eso, el código de las clases, hijas o padres, se hace sin tener en cuenta cómo van a ser llamadas. Debe ser <strong>independiente</strong> tal y como lo son unos procesos de otros.</p>
 <p>Así, en el anterior proyecto yo podría ejecutar la clase psp.activities.U2A4_Commander de forma independiente, pasándole el nombre de los programas.</p>
 <p>Puedo hacerlo invocándola desde línea de comandos o desde Netbeans:</p>
 <ul>
 <li>java psp.activities.U2A4_Commander programa1 programa2 programa3</li>
-<li>En las propiedades del proyecto, en el apartado Run, seleccionando U2A4_Commander como clase principal y poniendo como Arguments: programa1 programa2 programa3<br>
-:::</li>
+<li>En las propiedades del proyecto, en el apartado Run, seleccionando U2A4_Commander como clase principal y poniendo como Arguments: programa1 programa2 programa3</li>
 </ul>
+</div>
 <div class="pagebreak"></div>
 <h2 id="información-de-los-procesos-en-java">Información de los procesos en Java </h2>
 <p>Una vez que un proceso está en ejecución podemos obtener información acerca de ese proceso usando los métodos de la clase <code>java.lang.ProcessHandle.Info</code>:</p>
