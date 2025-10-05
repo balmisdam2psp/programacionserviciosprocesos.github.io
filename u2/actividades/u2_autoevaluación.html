@@ -352,10 +352,38 @@ Deja la ventana de la aplicación abierta y comprueba la salida de la consola de
 <div style="page-break-after:always;"></div>
 <h2 id="5-clase-pspactividadesu2a5_lanzadoripconfig">5. Clase psp.actividades.U2A5_LanzadorIpconfig </h2>
 <p>Realiza un programa en Java que ejecute el comando ipconfig a través de la consola del sistema operativo y muestre su resultado por pantalla.</p>
+<div class="admonition warning">
+<p class="admonition-title">Funcionalidad de proceso independiente vs proceso hijo</p>
+<p>Como el proceso ipconfig es un ejecutable del sistema operativo, no podemos actuar sobre él ni modificar su funcionamiento. Este es una claro ejemplo de que un proceso/clase tiene que comportarse igual tanto si se lanza como proceso independiente como si se lanza desde otro proceso como proceso hijo.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Recuperar la salida de un proceso</p>
+<p>Una vez tenemos el proceso lanzado, podemos recuperar su salida estándar (lo que normalmente veríamos en la consola si ejecutamos el comando directamente) y mostrarla por pantalla.</p>
+<p>Para poder capturar la salida del proceso, vamos a usar el método <code>getInputStream()</code> que nos permite obtener un InputStream con la salida estándar del proceso.</p>
+<p>Para leer la salida del InputStream, podemos usar el wrapper que os mostramos en los apuntes para recuperar de forma fácil, línea a línea, la salida del proceso.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Pista</p>
+<p>En este ejercicio sólo tenemos que crear una clase, ya que el proceso que vamos a lanzar es el comando ipconfig del sistema operativo (ifconfig en Linux/Mac).</p>
+<p>Para capturar la salida de un proceso, debes usar un InputStream que te permita leer la salida estándar del proceso.</p>
+<p>Recuerda que puedes usar un BufferedReader para leer línea a línea la salida del proceso.</p>
+</div>
 <h2 id="6-clase-pspactividadesu2a6_lanzadorcomandos">6. Clase psp.actividades.U2A6_LanzadorComandos </h2>
 <p>Realiza un programa en Java que admita como parámetro de entrada el comando a ejecutar en la consola del sistema operativo y muestre en pantalla el resultado.</p>
+<div class="admonition info">
+<p class="admonition-title">Argumentos de un programa</p>
+<p>Como en la actividad anterior, pretendemos que nuestro programa ejecute comandos del sistema operativo, pero en este caso, el comando a ejecutar lo pasamos como argumento al programa.</p>
+<p>Recuerda que para pasar argumentos a un programa Java desde Netbeans, tenemos que configurar los argumentos que queremos pasar al programa desde la propiedades del proyecto (<code>File &gt; Project properties</code>) en las opciones de ejecución (Run) del proyecto.</p>
+</div>
 <h2 id="7-clase-pspactividadesu2a7_obtenerdireccionesip">7. Clase psp.actividades.U2A7_ObtenerDireccionesIP </h2>
 <p>Modificar el ejercicio 5 para mostrar por pantalla únicamente las direcciones IPv4 que aparezcan en la salida del comando ipconfig. Deberás utilizar todos los métodos de String necesarios para extraer la información solicitada.</p>
+<div class="admonition tip">
+<p class="admonition-title">Pista</p>
+<p>En este ejercicio, debes usar los métodos de la clase String para extraer las direcciones IP de la salida del comando ipconfig.</p>
+<p>Recuerda que una dirección IPv4 tiene el formato <a href="http://xxx.xxx.xxx.xxx">xxx.xxx.xxx.xxx</a> donde xxx es un número entre 0 y 255.</p>
+<p>Puedes usar el método <code>split</code> para dividir la salida del comando en líneas y luego procesar cada línea para buscar las direcciones IP.</p>
+<p>También puedes usar expresiones regulares para buscar las direcciones IP en la salida del comando.</p>
+</div>
 
       </div>
       
