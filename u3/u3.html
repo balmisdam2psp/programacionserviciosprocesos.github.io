@@ -3,7 +3,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
       
       
       
@@ -21,7 +21,7 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
   font-family: 'Catamaran';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/catamaran/v27/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/catamaran/v28/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
 }
 .markdown-preview.markdown-preview .box_bg_lightgrey {
   background-color: #f5f5f5;
@@ -190,6 +190,7 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
     
       <div class="crossnote markdown-preview  ">
       
+<p><img src="..\imagenes\img-BalmisHeader.png" alt="Cabecera"></p>
 <h1 id="unidad-3-programación-multihilo">Unidad 3. Programación multihilo </h1>
 <p><a href="./u3.pdf">Descargar estos apuntes</a></p>
 <h2 id="índice">Índice </h2>
@@ -243,9 +244,22 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
           <a href="#cómo-pausar-un-hilo" class="md-toc-link">
             <p>Cómo pausar un hilo</p>
 
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#generación-de-números-aleatorios" class="md-toc-link"><p>Generación de números aleatorios</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#método-1-usando-la-clase-random" class="md-toc-link">
+            <p>Método 1: Usando la clase Random</p>
+
           </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
-          <a href="#gestión-de-la-prioridad-de-los-hilos" class="md-toc-link">
-            <p>Gestión de la prioridad de los hilos</p>
+          <a href="#método-2-usando-mathrandom" class="md-toc-link">
+            <p>Método 2: Usando Math.random</p>
 
           </a></div>
         </div>
@@ -270,9 +284,10 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 <div class="admonition warning">
 <p class="admonition-title">Hilos: comunicación vs sincronización</p>
 <p>Por todo lo comentado, el intercambio de información entre hilos es sencillo, dado que los distintos hilos de un mismo proceso comparten la memoria asignada al proceso.</p>
-<p>Sin embargo, los hilos deben coordinarse para el acceso a los contenidos de la memoria y a los ficheros, lo cual hace que esa coordinación y sincronización sea la parte complicada de uso.</p>
-<p>De eso  va este tema.</p>
 </div>
+<p>Sin embargo, los hilos deben coordinarse para el acceso a los contenidos de la memoria y a los ficheros, lo cual hace que esa coordinación y sincronización sea la parte complicada de uso.</p>
+<p>De eso va este tema.</p>
+<div style="page-break-after:always;"></div>
 <h2 id="objetivos">Objetivos </h2>
 <p>Objetivos de esta unidad:</p>
 <ul>
@@ -291,10 +306,10 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 <p><img src="./assets/imgs/Single_vs_MultiThreaded_Approaches.jpg" alt="alt_text"></p>
 <p>Cuando un programa Java se lanza (se convierte en un proceso) empieza a ejecutarse por su método main() que lo ejecuta el thread principal (main), un hilo especial creado por la Java VM para ejecutar la aplicación. Desde un proceso se pueden crear e iniciar tantos threads como necesites. Estos hilos ejecutarán partes del código de la aplicación en paralelo con el thread principal</p>
 <p>Los thread en Java son objetos como cualquier otro. Un thread es una instancia de la clase java.lang.Thread, o instancias de clases que heredan de ésta. Como ya hemos icho, además de ser objetos, los threads tienen la capacidad de ejecutar código.</p>
-<p>La forma más usada para indicar a un thread qué código queremos que ejecute es creando una clase que implemente la interfaz  <code>java.lang.Runnable</code>.</p>
+<p>La forma más usada para indicar a un thread qué código queremos que ejecute es creando una clase que implemente la interfaz<code>java.lang.Runnable</code>.</p>
 <p>Esta interfaz es una interfaz estándar que viene con la plataforma Java. La interfaz Runnable sólo tiene un único método, void run().</p>
 <blockquote>
-<p><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runnable.html">java.lang.Runnable specification</a></p>
+<p><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Runnable.html">java.lang.Runnable specification</a></p>
 </blockquote>
 <p>Sea lo que sea lo que el thread tenga que hacer, debe estar incluido en la implementación del método run. Tenemos tres posibilidades de implementar dicha interfaz:</p>
 <ul>
@@ -306,7 +321,6 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 <h4 id="clase-java-que-implementa-la-interfaz-runnable">Clase Java que implementa la interfaz Runnable </h4>
 <p>La primera forma que vamos a ver es creando una clase que implementa la interfaz. Podemos ver un ejemplo básico en el siguiente código:</p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">MyRunnable</span> <span class="token keyword keyword-implements">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">{</span>
-
     <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"MyRunnable running"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
@@ -325,20 +339,20 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 <p>Para la tercera forma nos vamos a basar en la característica de la interfaz Runnable, esto es, que sólo tiene un único método a implementar, el método run. Aunque Runnable no es una interfaz funcional, podemos crear una expresión Lambda que no dará lugar a confusión acerca del método que se quiere ejecutar. Por este motivo podemos usar la expresión lambda como si Runnable fuese una interfaz funcional.</p>
 <p>Vamos a verlo con un ejemplo</p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token class-name">Runnable</span> runnable <span class="token operator">=</span>
-        <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span> <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Lambda Runnable running"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span> <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Lambda Runnable running"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre><h4 id="llamada-al-método-run-de-una-clase-que-implemente-runnable">Llamada al método run de una clase que implemente Runnable </h4>
 <p>Vamos a fijarnos en este ejemplo</p>
 <pre data-role="codeBlock" data-info="java{highlight=[1,13,23]}" class="language-java java" data-line="1,13,23"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">LiftOff</span> <span class="token keyword keyword-implements">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">{</span>
-    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-int">int</span> countDown <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
-    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> taskCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token keyword keyword-int">int</span> id <span class="token operator">=</span> taskCount<span class="token punctuation">;</span>
-    
-    <span class="token keyword keyword-public">public</span> <span class="token class-name">LiftOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-    
+<span class="token keyword keyword-private">private</span> <span class="token keyword keyword-int">int</span> countDown <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-private">private</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> taskCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token keyword keyword-int">int</span> id <span class="token operator">=</span> taskCount<span class="token punctuation">;</span>
+
+<span class="token keyword keyword-public">public</span> <span class="token class-name">LiftOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
     <span class="token keyword keyword-public">public</span> <span class="token class-name">LiftOff</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> countDown<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>countDown <span class="token operator">=</span> countDown<span class="token punctuation">;</span>
+    <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>countDown <span class="token operator">=</span> countDown<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
-    
+
     <span class="token annotation punctuation">@Override</span>
     <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>countDown <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -347,12 +361,12 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
         <span class="token punctuation">}</span>
         <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Lanzamiento ("</span> <span class="token operator">+</span> id <span class="token operator">+</span> <span class="token string">")"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
-    
+
     <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token class-name">LiftOff</span> launch <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">LiftOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         launch<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Comienza la cuenta atrás!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>    
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code><div class="line-highlight-wrapper"><div aria-hidden="true" class="line-highlight" data-range="1" data-start="1">
 </div></div><div class="line-highlight-wrapper">
@@ -395,7 +409,7 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 <div class="admonition question">
 <p class="admonition-title">¿Qué está pasando con la ejecución del programa anterior?</p>
 <p>Tras ejecutarlo, ¿el mensaje "Comienza la cuenta atrás!" está puesto en el sitio correcto?</p>
-<p>intenta crear más instancias del la clase LiftOff y haz que se ejecuten todas (dentro del main)</p>
+<p>Intenta crear más instancias del la clase LiftOff y haz que se ejecuten todas (dentro del main)</p>
 <p>Si observas la salida de aplicación, ¿está haciendo algo diferente a una aplicación monohilo?<br>
 ¿Qué puedes extraer de la salida del programa?</p>
 </div>
@@ -405,21 +419,24 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 <p>Como se puede observar, no estamos haciendo nada diferente. El código de run se está ejecutando uno después de otro.</p>
 <p>En realidad, <strong>no estamos creando nuevos threads</strong>, lo único que hemos hecho hasta ahora es implementar una interfaz, pero llamando al método run estamos haciendo que el hilo principal de la aplicación, el único hilo de momento, esté ejecutando un método run, después otro, después otro, ... y cuando ha acabado con todos hace el System.out.</p>
 </div>
+<div style="page-break-after:always;"></div>
 <h3 id="la-clase-thread">La clase Thread </h3>
-<p>Además de implementando la interfaz Runnable, la segunda forma que tenemos de indicar a un thread el código a ejecutar es creando una subclase de  <code>java.lang.Thread</code> y sobrescribiendo el método run(). La clase Thread implementa de forma implícita la interfaz Runnable. Al igual que con Runnable, el método run() contiene el código que ejecutará un thread cuando se llame al método <code>start()</code>.</p>
+<p>Además de implementando la interfaz Runnable, la segunda forma que tenemos de indicar a un thread el código a ejecutar es creando una subclase de<code>java.lang.Thread</code> y sobrescribiendo el método run(). La clase Thread implementa de forma implícita la interfaz Runnable. Al igual que con Runnable, el método run() contiene el código que ejecutará un thread cuando se llame al método <code>start()</code>.</p>
 <blockquote>
-<p><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Thread.html">java.lang.Thread specification</a></p>
+<p><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html">java.lang.Thread specification</a></p>
 </blockquote>
 <p>Vamos a ver un ejemplo de creación de una clase que herede de Thread:</p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">MyThread</span> <span class="token keyword keyword-extends">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
-  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"MyThread running"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"MyThread running"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre><p>Para crear y lanzar un nuevo thread tenemos que usar el siguiente código</p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token class-name">MyThread</span> myThread <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">MyThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 myTread<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre><p>La llamada al método start() devuelve el control al thread principal en cuanto el hilo asociado se inicia. A diferencia del ejemplo de la cuenta atrás, cuando llamamos al método start  <strong>el hilo principal no espera a que el método run() se ejecute por completo</strong> antes de seguir. El método run() se ejecutará en un hilo de ejecución diferente, dentro del mismo proceso y compitiendo por las unidades de procesamiento del sistema. Al igual que en los casos anteriores, cuando se ejecute el método run() mostrará por pantalla el mensaje "MyThread running" y el hilo terminará su ejecución (y su vida) porque finaliza el código del método run().</p>
+</code></pre><div class="admonition info">
+<p class="admonition-title">La llamada al método start() devuelve el control al thread principal en cuanto el hilo asociado se inicia. A diferencia del ejemplo de la cuenta atrás, cuando llamamos al método start <strong>el hilo principal no espera a que el método run() se ejecute por completo</strong> antes de seguir. El método run() se ejecutará en un hilo de ejecución diferente, dentro del mismo proceso y compitiendo por las unidades de procesamiento del sistema. Al igual que en los casos anteriores, cuando se ejecute el método run() mostrará por pantalla el mensaje "MyThread running" y el hilo terminará su ejecución (y su vida) porque finaliza el código del método run().</p>
+</div>
 <p>El ejemplo se puede repetir con una clase anónima, aunque ya no con una expresión lambda, ya que la clase Thread tiene más de un método y no es una interfaz funcional.</p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token class-name">Thread</span> thread <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -442,10 +459,10 @@ Ahora, en vez de llamar directamente al método run, haz que los threads llamen 
 <p class="admonition-title">Respuesta a las cuestiones planteadas</p>
 <p>Ahora el mensaje "Comienza la cuenta atrás!" sí aparece, en la salida, en la posición correcta, es decir, antes de la cuenta atrás. Si observamos el código, siguiendo una lógica secuencial, el mensaje debería aparecer después, como pasó en la primera prueba que hicimos.</p>
 <p>La diferencia ahora es que el código del run() lo está ejecutando un hilo diferente, y desde el momento en que se hace el start() el control vuelve al hilo principal (main) que continúa ejecutando las líneas de código que hay en el método main. La creación de un hilo, aunque menos que la de un proceso, también tiene un coste de recursos y temporal, por lo que el hilo tarda unos instantes en empezar a ejecutarse. Por eso el hilo principal tiene tiempo de ejecutar la siguiente instrucción y mostrar el mensaje.</p>
+</div>
 <p>La gran diferencia ahora, que podemos observar en la salida, es que los hilos se están ejecutando concurrentemente, ya que vemos como sus salidas se intercalan.</p>
 <p>Esa es la diferencia más obvia. Sin embargo, si ejecutamos el programa varias veces, podremos observar que no hay dos ejecuciones iguales. No depende de nosotros el orden en el que se ejecutan las instrucciones, sino que depende de la planificación que realice el SO. En este contexto nos encontramos con una ejecución aleatoria o <strong>indeterminista</strong> como la denominamos en el primer tema.</p>
 <p>El cómo controlar ese orden es lo que trabajaremos en la segunda parte del tema.</p>
-</div>
 <div class="admonition info">
 <p class="admonition-title">¿Cuándo termina un proceso?</p>
 <p>En el ejemplo anterior, la última línea del hilo principal se ejecuta antes que el código de los hilos. ¿Qué pasa entonces con el proceso?</p>
@@ -467,18 +484,18 @@ thread<span class="token punctuation">.</span><span class="token function">start
 <li>Crear una subclase de Thread y sobrescribir el método run().</li>
 <li>Pasar una instancia de un objeto que implemente la interfaz Runnable al constructor de Thread.</li>
 </ul>
-<p><strong>En ambos casos, para que se cree el thread y ejecute el código del método run, debemos llamar al método <code>start()</code> del objeto Thread.</strong></p>
 </div>
+<p><strong>En ambos casos, para que se cree el thread y ejecute el código del método run, debemos llamar al método <code>start()</code> del objeto Thread.</strong></p>
 <p>En el siguiente código tenemos dos ejemplos, uno que hereda de Thread y otro que implementa Runnable. Ambos ejemplos hacen lo mismo, pero usando diferentes formas de crear el thread.</p>
 <pre data-role="codeBlock" data-info="java{highlight=[1,7]}" class="language-java java" data-line="1,7"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">EjemploThread</span> <span class="token keyword keyword-extends">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
-  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token comment">// Código del hilo</span>
-  <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
 
-  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token class-name">EjemploThread</span> hilo <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">EjemploThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    hilo<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">EjemploThread</span> hilo <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">EjemploThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        hilo<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code><div class="line-highlight-wrapper"><div aria-hidden="true" class="line-highlight" data-range="1" data-start="1">
 </div></div><div class="line-highlight-wrapper">
@@ -488,16 +505,16 @@ thread<span class="token punctuation">.</span><span class="token function">start
 
 
 <div aria-hidden="true" class="line-highlight" data-range="7" data-start="7">
-</div></div></pre><p>Si nos fijamos en las lineas resaltadas podemos observar las diferencias entre una y otra forma.</p>
+</div></div></pre><p><strong>Si nos fijamos en las lineas resaltadas podemos observar las diferencias entre una y otra forma.</strong></p>
 <pre data-role="codeBlock" data-info="java{highlight=[1,7]}" class="language-java java" data-line="1,7"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">EjemploRunnable</span> <span class="token keyword keyword-implements">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">{</span>
-  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token comment">// Código del hilo</span>
-  <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
 
-  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token class-name">Thread</span> hilo <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword keyword-new">new</span> <span class="token class-name">EjemploRunnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    hilo<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>    
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Thread</span> hilo <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword keyword-new">new</span> <span class="token class-name">EjemploRunnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        hilo<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code><div class="line-highlight-wrapper"><div aria-hidden="true" class="line-highlight" data-range="1" data-start="1">
 </div></div><div class="line-highlight-wrapper">
@@ -508,20 +525,22 @@ thread<span class="token punctuation">.</span><span class="token function">start
 
 <div aria-hidden="true" class="line-highlight" data-range="7" data-start="7">
 </div></div></pre><h3 id="subclass-or-runnable">Subclass or Runnable? </h3>
-<p>No hay nada que indique que una forma es mejor que otra. Ambos métodos son similares y el resultado es el mismo. . <strong>El método preferido debería ser implementar Runnable</strong>, y pasarle la instancia al constructor de Thread.</p>
-<p>Unas cuantas razones en contra de usar Thread</p>
+<p>No hay nada que indique que una forma es mejor que otra. Ambos métodos son similares y el resultado es el mismo. <strong>El método preferido debería ser implementar Runnable</strong> y pasarle la instancia al constructor de Thread.</p>
+<div class="admonition warning">
+<p class="admonition-title">Unas cuantas razones en contra de usar Thread</p>
 <ul>
-<li>Cuando heredamos de la clase Thread, no estamos sobrescribiendo ninguno de sus métodos. Por contra, estamos sobrescribiendo un método de la interfaz Runnable (que Thread implementa internamente . Esto supone una clara violación del principio IS-A del Thread.</li>
+<li>Cuando heredamos de la clase Thread, no estamos sobrescribiendo ninguno de sus métodos. Por contra, estamos sobrescribiendo un método de la interfaz Runnable (que Thread implementa internamente. Esto supone una clara violación del principio IS-A del Thread.</li>
 <li>Cuando pasamos la instancia de Runnable y la utilizamos como argumento en el constructor de Thread estamos usando composición y no herencia, lo cual permite mucha más flexibilidad.</li>
 <li>Si heredamos de Thread, ya no podemos heredar de otras clases. Esto supone un gran problema cuando usamos librerías o componentes gráficos, ya que Java no permite la herencia múltiple.</li>
 <li>Desde Java 8 en adelante, la interfaz Runnable se puede representar con expresiones lambda, mientras que la clase Thread no. Esto hace que el código sea más limpio y fácil de leer.</li>
 </ul>
+</div>
 <div class="admonition danger">
 <p class="admonition-title">Error común: Llamar a run () en vez de a start()</p>
 <p>Cuando empezamos a trabajar con hilos, un error muy común es llamar directamente al método run en vez de llamar al método start():</p>
 <blockquote>
 <p>Thread newThread = new Thread(MyRunnable());<br>
-newThread.run();  //should be start();</p>
+newThread.run();//should be start();</p>
 </blockquote>
 <p>or</p>
 <blockquote>
@@ -529,10 +548,11 @@ newThread.run();  //should be start();</p>
 runnable.run();</p>
 </blockquote>
 <p>En principio no notamos ningún error ya que el código de run() se ejecuta y podemos ver los resultados. Sin embargo, ese código <strong>no es ejecutado por el nuevo thread</strong> que acabamos de crear. El método run() es ejecutado por el thread que ha creado el objeto, es decir, el mismo thread que ha ejecutado las líneas anteriores a la llamada a run().</p>
-<p>Para hacer que el método run, de una instancia que implemente Runnable o de una que herede de Thread, sea ejecutado por un el nuevo thread que acabamos de crear, newThread debemos llamar al método newThread.start().</p>
+<p>Para hacer que el método run, de una instancia que implemente Runnable o de una que herede de Thread, sea ejecutado por un el nuevo thread que acabamos de crear, newThread debemos llamar al método <strong>newThread.start()</strong>.</p>
 </div>
+<div style="page-break-after:always;"></div>
 <h2 id="métodos-de-la-clase-javalangthread">Métodos de la clase java.lang.Thread </h2>
-<p>Si miramos a la definición de la clase Thread veremos que tiene muchos métodos. Debemos tener cuidado ya que algunos de estos métodos como stop(), suspend(), resume() and destroy()  han sido marcados como <code>obsoletos(deprecated)</code>.</p>
+<p>Si miramos a la definición de la clase Thread veremos que tiene muchos métodos. Debemos tener cuidado ya que algunos de estos métodos como stop(), suspend(), resume() and destroy()han sido marcados como <code>obsoletos(deprecated)</code>.</p>
 <p>Veamos algunos de los métodos de la clase Thread más utilizados:</p>
 <table>
 <thead>
@@ -656,61 +676,65 @@ runnable.run();</p>
 </table>
 <p>Veamos un ejemplo práctico de uso de todos estos métodos</p>
 <pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U3S2_ThreadMethodsExample</span> <span class="token keyword keyword-extends">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
-    
-    <span class="token class-name">U3S2_ThreadMethodsExample</span> <span class="token punctuation">(</span><span class="token class-name">ThreadGroup</span> group<span class="token punctuation">,</span> <span class="token class-name">String</span> name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment">// Call to parent class constructor with group and thread name</span>
-        <span class="token keyword keyword-super">super</span><span class="token punctuation">(</span>group<span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">U3S2_ThreadMethodsExample</span> <span class="token punctuation">(</span><span class="token class-name">ThreadGroup</span> group<span class="token punctuation">,</span> <span class="token class-name">String</span> name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment">// Call to parent class constructor with group and thread name</span>
+    <span class="token keyword keyword-super">super</span><span class="token punctuation">(</span>group<span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
-    
+
     <span class="token annotation punctuation">@Override</span>
     <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token class-name">String</span> threadName <span class="token operator">=</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"["</span><span class="token operator">+</span>threadName<span class="token operator">+</span><span class="token string">"] "</span> <span class="token operator">+</span> <span class="token string">"Inside the thread"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"["</span><span class="token operator">+</span>threadName<span class="token operator">+</span><span class="token string">"] "</span> <span class="token operator">+</span> <span class="token string">"Priority: "</span> 
-          <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getPriority</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getPriority</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token keyword keyword-yield">yield</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"["</span><span class="token operator">+</span>threadName<span class="token operator">+</span><span class="token string">"] "</span> <span class="token operator">+</span> <span class="token string">"Id: "</span> 
-          <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"["</span><span class="token operator">+</span>threadName<span class="token operator">+</span><span class="token string">"] "</span> <span class="token operator">+</span> <span class="token string">"ThreadGroup: "</span> 
-          <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getThreadGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getThreadGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"["</span><span class="token operator">+</span>threadName<span class="token operator">+</span><span class="token string">"] "</span> <span class="token operator">+</span> <span class="token string">"ThreadGroup count: "</span> 
-          <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getThreadGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">activeCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getThreadGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">activeCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span> 
-    
+
     <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token comment">// main thread </span>
         <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token string">"Main"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        
+
         <span class="token class-name">ThreadGroup</span> even <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ThreadGroup</span><span class="token punctuation">(</span><span class="token string">"Even threads"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token class-name">ThreadGroup</span> odd <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ThreadGroup</span><span class="token punctuation">(</span><span class="token string">"Odd threads"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        
+
         <span class="token class-name">Thread</span> localThread <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
         <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            localThread <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">U3S2_ThreadMethodsExample</span><span class="token punctuation">(</span><span class="token punctuation">(</span>i<span class="token operator">%</span><span class="token number">2</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">?</span>even<span class="token operator">:</span>odd<span class="token punctuation">,</span> <span class="token string">"Thread"</span><span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            localThread<span class="token punctuation">.</span><span class="token function">setPriority</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            localThread<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        localThread <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">U3S2_ThreadMethodsExample</span><span class="token punctuation">(</span><span class="token punctuation">(</span>i<span class="token operator">%</span><span class="token number">2</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">?</span>even<span class="token operator">:</span>odd<span class="token punctuation">,</span> <span class="token string">"Thread"</span><span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        localThread<span class="token punctuation">.</span><span class="token function">setPriority</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        localThread<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
-              
+
         <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
-            localThread<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// --&gt; Will wait until last thread ends </span>
-                                <span class="token comment">// like a waitFor() for processes</span>
+        localThread<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// --&gt; Will wait until last thread ends </span>
+        <span class="token comment">// like a waitFor() for processes</span>
         <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            ex<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"The main thread was interrupted while waiting for "</span> 
-              <span class="token operator">+</span> localThread<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"to finish"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ex<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"The main thread was interrupted while waiting for "</span> 
+        <span class="token operator">+</span> localThread<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"to finish"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
         <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Main thread ending"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>    
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre><p>En el ejemplo anterior podemos ver cómo tenemos que ayudarnos del método estático <code>Thread.currentThread()</code> para saber qué hilo está ejecutándose en cada momento, ya que hay muchos hilos ejecutando el mismo código al mismo tiempo.</p>
+<div class="admonition info">
+<p class="admonition-title">Separación del código en clase</p>
 <p>Hemos creado una única clase para los hilos y para el hilo principal. No debería ser una práctica común más allá de los ejemplos. Es mejor separar el código del objeto que hereda de Thread o que implementa Runnable en una clase aparte.</p>
+</div>
 <p>También es importante hacer ver que la clase Thread (o Runnable) puede tener sus propios constructores, propiedades y métodos, más allá del método run que están obligadas a sobrescribir. También puede invocar a los constructores de la superclase haciendo uso de super().</p>
-<p>:::question Dividir el código en dos clases<br>
-Copia el código de ThreadMethodsExample y divídelo en dos clases. Por un lado, una que contenga a la clase que extiende de Thread y otra que simplemente tenga el método main y el código para crear y lanzar los hilos..</p>
-<p>Una vez dividido el código cambia U3S2_ThreadMethodsExample para que implemente la interfaz Runnable. Haz los cambios oportunos en la otra clase para que todo vuelva a funcionar como antes.<br>
-:::</p>
+<div class="admonition note">
+<p class="admonition-title">Dividir el código en dos clases</p>
+<p>Copia el código de ThreadMethodsExample y divídelo en dos clases. Por un lado, una que contenga a la clase que extiende de Thread y otra que simplemente tenga el método main y el código para crear y lanzar los hilos..</p>
+<p>Una vez dividido el código cambia U3S2_ThreadMethodsExample para que implemente la interfaz Runnable. Haz los cambios oportunos en la otra clase para que todo vuelva a funcionar como antes.</p>
+</div>
 <p>Si ejecutas el programa podrás ver que aunque los threads son lanzados en orden (1, 2, 3 etc.) su ejecución ya no se realiza de forma secuencial, pudiendo ocurrir que el thread 1 no sea el primero en mostrar su nombre por la salida estándar (System.out). Esto es debido a que los threads se ejecutan en paralelo y no de forma secuencial. La JVM y/o el sistema operativo determinan el orden en el que se ejecutan. Este orden no tiene porqué ser el mismo en el que se lanzaron ni cada vez que se ejecutan.</p>
 <h3 id="cómo-pausar-un-hilo">Cómo pausar un hilo </h3>
 <p>Un thread puede pausar su propia ejecución llamando al método estático <strong>Thread.sleep()</strong>. El método sleep() recibe como parámetro el número de milisegundos que quiere estar pausado antes de volver a ponerse como listo para ejecución. No es un método preciso al 100% (menos aún si utilizamos la versión que recibe ms y ns), pero aún así es bastante preciso. A continuación tenemos un ejemplo de un thread que se pausa durante 3 segundos (3000ms) llamando al método sleep():</p>
@@ -719,37 +743,37 @@ Copia el código de ThreadMethodsExample y divídelo en dos clases. Por un lado,
 } catch (InterruptedException e) {
     e.printStackTrace();
 }
-</code></pre><p>::: info Simulación de sistema reales<br>
-Este es un método que vamos a utilizar exhaustivamente en las actividades para simular períodos de tiempo y acelerar las simulaciones.</p>
-<p>Por ejemplo, podemos hacer un ajuste para que cada hora <em>real</em> se reduzca a un segundo. De esta forma podremos simular un día completo en tan solo 24 segundos.</p>
-<p>También es interesante su uso para utilizar períodos de tiempo aleatorios en la ejecución de cada hilo, permitiendo así una simulación realista de los eventos en un sistema real.<br>
-:::</p>
+</code></pre><div class="admonition info">
+<p class="admonition-title">Simulación de sistema reales</p>
+<p>Este es un método que vamos a utilizar exhaustivamente en las actividades para simular períodos de tiempo y acelerar las simulaciones.</p>
+<p>Por ejemplo, podemos hacer un ajuste para que cada hora <em>real</em> se reduzca a un segundo. De esta forma podremos simular un proceso que dure un día completo en tan solo 24 segundos.</p>
+<p>También es interesante su uso para utilizar períodos de tiempo aleatorios en la ejecución de cada hilo, permitiendo así una simulación realista de los eventos en un sistema real.</p>
+</div>
+<div style="page-break-after:always;"></div>
+<h2 id="generación-de-números-aleatorios">Generación de números aleatorios </h2>
 <p>En Java podemos generar números aleatorios en el rango de los enteros, long, float y double.</p>
 <p>Tenemos tres métodos básicos para hacerlo</p>
-<h4 id="method-1-usando-la-clase-random">Method 1: Usando la clase Random </h4>
-<p>Podemos usar la clase  <code>java.util.Random</code> para generar datos aleatorios, siguiendo los siguientes pasos:</p>
+<h3 id="método-1-usando-la-clase-random">Método 1: Usando la clase Random </h3>
+<p>Podemos usar la clase<code>java.util.Random</code> para generar datos aleatorios, siguiendo los siguientes pasos:</p>
 <ul>
 <li>Importar la clase java.util.Random</li>
 <li>Crear una instancia de la clase Random, por ejemplo <code>Random rand = new Random()</code></li>
-<li>Llamar a alguno de los métodos del objeto:
-<ul>
+<li>Llamar a alguno de los métodos del objeto:</li>
 <li>nextInt(limitesuperior) genera números aleatorios en el rango 0 a límitesuperior-1.</li>
 <li>nextFloat() genera un float entre 0.0 and 1.0.</li>
 <li>nextDouble() genera un double entre 0.0 and 1.0.</li>
-</ul>
-</li>
 </ul>
 <p>Si llamamos al método nextInt con parámetros (el límite superior), obtendremos números enteros en el rango</p>
 <blockquote>
 <p>int randomWithNextIntWithinARange = random.nextInt(max)</p>
 </blockquote>
-<p>Esto nos dará un número entre  <em>0 (inclusive)</em> y <em>max</em> (no incluido) [min, max[. El valor del límite debe ser mayor que 0 sino obtendremos una java.lang.IllegalArgumentException.</p>
-<h4 id="method-2-usando-mathrandom">Method 2: Usando Math.random </h4>
+<p>Esto nos dará un número entre<em>0 (inclusive)</em> y <em>max</em> (no incluido) [min, max[. El valor del límite debe ser mayor que 0 sino obtendremos una java.lang.IllegalArgumentException.</p>
+<h3 id="método-2-usando-mathrandom">Método 2: Usando Math.random </h3>
 <p>Para generar números aleatorios en un rango podemos usar Math.random() siguiendo los pasos detallados a continuación:</p>
 <ul>
 <li>Declarar el valor mínimo del rango</li>
 <li>Declarar el valor máximos del rango</li>
-<li>Usar la fórmula <code>Math.random()*(max-min)+min</code> para generar valores entre  <em>min</em> y <em>max</em>, ambos inclusive [min, max].</li>
+<li>Usar la fórmula <code>Math.random()*(max-min)+min</code> para generar valores entre<em>min</em> y <em>max</em>, ambos inclusive [min, max].</li>
 </ul>
 <p>El valor devuelto por Math.random() está en el rango [0, 1]</p>
 <p>Para generar números entre 0 y un límite superior (50)</p>
@@ -764,7 +788,7 @@ Este es un método que vamos a utilizar exhaustivamente en las actividades para 
 <blockquote>
 <p>Math.random()*300+200</p>
 </blockquote>
-<h4 id="method-3-usar-threadlocalrandom">Method 3: Usar ThreadLocalRandom </h4>
+<h4 id="método-3-usar-threadlocalrandom">Método 3: Usar ThreadLocalRandom </h4>
 <p>La clase <code>java.util.Random</code> no tiene buen rendimiento en entornos multihilo. De forma simplificada, el motivo es la contención, ya que muchos hilos comparten la misma instancia de Random y se tiene que secuenciar y sincronizar el acceso a sus métodos.</p>
 <p>Para evitar esa limitación, Java introdujo la clase <code>java.util.concurrent.ThreadLocalRandom</code> para generar números aleatorios en entornos multihilo.</p>
 <p>Si llamamos al método <code>ThreadLocalRandom.current()</code> nos devolverá la instancia de ThreadLocalRandom para el hilo actual. A partir de aquí podemos generar valores aleatorios llamando a los métodos de la clase con la instancia obtenida.</p>
@@ -779,58 +803,7 @@ Este es un método que vamos a utilizar exhaustivamente en las actividades para 
 <p>Al igual que con Random, 0 está incluido en el rango mientra que 100 no.</p>
 <p>También podemos generar otros tipos de datos como long y Double llamando a los métodos <code>nextLong()</code> y <code>nextDouble()</code> de forma similar a los ejemplos anteriores.</p>
 <p>La clase ThreadLocalRandom hereda de Random, por lo que comparten muchos métodos y funcionalidad.</p>
-<h3 id="gestión-de-la-prioridad-de-los-hilos">Gestión de la prioridad de los hilos </h3>
-<p>Los hilos heredan la prioridad del padre en Java, pero este valor puede ser cambiado con el método <code>setPriority()</code> y con <code>getPriority()</code> podemos saber la prioridad de un hilo.</p>
-<p>El valor de la prioridad varía entre 1 y 10. <em>Cuanto más alto es el valor, mayor es la prioridad</em>. La clase Thread define las siguientes constantes <code>MIN_PRIORITY</code> (valor 1) <code>MAX_PRIORITY</code> (valor 10) y <code>NORM_PRIORITY</code> (valor 5). El planificador elige el hilo en función de su prioridad. Si dos hilos tienen la misma prioridad realiza un round-robin, es decir de forma cíclica va alternando los hilos.</p>
-<p>El hilo de mayor prioridad seguirá funcionando hasta que ceda el control por:</p>
-<ul>
-<li>Cede el control llamando al método yield().</li>
-<li>Deja de ser ejecutable (por muerte o por bloqueo)</li>
-<li>Aparece un hilo de mayor prioridad, por ejemplo si se encontraba en estado dormido por una operación de E/S o bien es desbloqueado por otro con los métodos notifyAll() / notify().</li>
-</ul>
-<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-class">class</span> <span class="token class-name">U3S3_HiloPrioridad1</span> <span class="token keyword keyword-extends">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
-  <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-int">int</span> c <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-  <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-boolean">boolean</span> stopHilo <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-long">long</span> getContador <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword keyword-return">return</span> c<span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-long">long</span> <span class="token function">pararHilo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    stopHilo <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-  <span class="token annotation punctuation">@Override</span>
-  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stopHilo<span class="token punctuation">)</span> c<span class="token operator">++</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
 
-<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U3S3_EjemploHiloPrioridad1</span> <span class="token punctuation">{</span>
-  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span> args<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token class-name">U3S3_HiloPrioridad1</span> h1 <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">U3S3_HiloPrioridad1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token class-name">U3S3_HiloPrioridad1</span> h2 <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">U3S3_HiloPrioridad1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token class-name">U3S3_HiloPrioridad1</span> h3 <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">U3S3_HiloPrioridad1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    h1<span class="token punctuation">.</span><span class="token function">setPriority</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token constant">NORM_PRIORITY</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    h2<span class="token punctuation">.</span><span class="token function">setPriority</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token constant">MAX_PRIORITY</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    h3<span class="token punctuation">.</span><span class="token function">setPriority</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token constant">MIN_PRIORITY</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    h1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    h2<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    h3<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
-      <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-
-    h1<span class="token punctuation">.</span><span class="token function">pararHilo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    h2<span class="token punctuation">.</span><span class="token function">pararHilo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    h3<span class="token punctuation">.</span><span class="token function">pararHilo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"h2 (Prio. Máx: "</span><span class="token operator">+</span>h2<span class="token punctuation">.</span><span class="token function">getContador</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"h1 (Prio. Normal: "</span><span class="token operator">+</span>h1<span class="token punctuation">.</span><span class="token function">getContador</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"h3 (Prio. Mínima: "</span><span class="token operator">+</span>h3<span class="token punctuation">.</span><span class="token function">getContador</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
       </div>
       
       

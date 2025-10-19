@@ -1,0 +1,806 @@
+<!DOCTYPE html><html><head>
+      <title>UD3.2 Sincronización y comunicación de hilos</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css);
+code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}@font-face{font-family:"Material Icons";font-style:normal;font-weight:400;src:local("Material Icons"),local("MaterialIcons-Regular"),url("data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAfIAAsAAAAADDAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kosY21hcAAAAYAAAADTAAACjtP6ytBnbHlmAAACVAAAAxgAAAQ4zRtvlGhlYWQAAAVsAAAALwAAADYRwZsnaGhlYQAABZwAAAAcAAAAJAeKAzxobXR4AAAFuAAAABIAAAA8OGQAAGxvY2EAAAXMAAAAIAAAACAG5AfwbWF4cAAABewAAAAfAAAAIAEfAERuYW1lAAAGDAAAAVcAAAKFkAhoC3Bvc3QAAAdkAAAAYgAAAK2vz7wkeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkPsQ4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVLy4xKzzX4chhrmK4QpQmBEkBwAZygyweJzFkr0NwjAQhZ+TEP6CRUfHBEwRUWaQTICyQbpMwRCskA5RUIONxG0RnnNpKAIV4qzPku/8c353ACYAYrIjCWCuMAh2ptf0/hiL3p/gyPUWa3osqlt0L1zu9r71z8dGrJRykFoauXQd932Lj5vhG+MjxGeYI8MKETObMpslf5EyP8tg+vHun5r539PvlvXzaVhRFVQDTPEWKVQR90KhnnC5Ek67vUKN4VuFasM/ldARj43CCkCsEjpJSoVVgRyU0GVSK6wUpFFCx8lFgX0BiXpRPQB4nE2TTWjcRhTH3xttpDhxN7uxPlp3u/FK7moRPixafRijNosxSw/LUsIwNcaEHPZggo/FmEKMCKWU4kNOOftQSlhE8alnH0Ix9BqWnHooPRrTQ0+mnu2bXTu2pPdGM9LM/6c3fwECTM4gBBMYQNqxzLrZAjqYSlqu2TAHZQA0/DQJH6FtzqGDnvbt4Ggwvzw/nL8EfH8kW0fsuRqhgWXZnY7M1picaUL7Du5BHeDzMIl83dAt016wH1qmvtSMo5R6YRJHTR//FXsff/nj/tc/5K9P5d+nP22+fFK5u7v3K39SW3y+OtDKO3L85vD09PD9z5X17a2N1g4tqk01RlqX7gyoEmnsWQtVr4rtZMmukEaFBZxzefkCn11cyKMLZgshRwgTYNoLNXCBz2ja7HvZG7hDpPSNfoo5vs0knK/9hb+rNpu+8kHPgk/Ao4kK3tWtTpSEtvkA9c+wE6UaUdwieNkaHg55tBEtRiEPw1s0+FtrtTcc9two2lhMknV7PZF/cs6+uUFTmpTGbEx7sQCPSLOttHS3GRltqp7SNzVSKzl6aWnZT/CX5k6/v9N3Hh8fHBwffJVjhrC6OgH5dkIt/tPsq+d/PD5Qz7G7efzq1THFjdZVPe/N6ulQ3JnDWSE5junsFsVIiFwL/htf1S5gJ3BfOcUxfHKLnzqpFpyfZ9cX+/5WB6a+Y0pHpzkNrYNVDwMsikK+y7WuLCRg/oFHkA8VT3rDg5ZnU6ktzzINymV0m74Xd5pfIGXyFeVEQSShkzqG7TBBa2OxVRKitLXv7h3uuftXnXq7lz2tZ/WnWa9dx9dCjDhHzmuVQATlmljr9dZErUydSo2Hbi/b1vXtrOeGCk2/8s3ZlO8+ueJT8BVlw5pGw2oYccdSiHHqx0RlabHqdNR9jAETl6PreJcPBnnfpTLnOQ8C3OV8AmQGzouV1iZdeb5SSIoVc8W8/kcDtksUH5FrU6/aqBqNWcMEzxG4DAQ14qRQhi9mWU0rzepKezbjfgCwQKxVYq5ajRgpRqy45CqwkJydcEkbTkvRz8P5/2ZpDTN4nGNgZGBgAOKb6v+/xvPbfGXgZmEAgeuB2kkI+v8bFgbmKiCXg4EJJAoAPyAKhQB4nGNgZGBg1vmvwxDDwgACQJKRARXwAwAzZQHQeJxjYQCCFAYGFgbSMQAcWACdAAAAAAAAAAwALgBgAIQAmADSAQgBIgE8AVABoAHeAfwCHHicY2BkYGDgZ7BgYGMAASYg5gJCBob/YD4DAA/hAWQAeJxlkbtuwkAURMc88gApQomUJoq0TdIQzEOpUDokKCNR0BuzBiO/tF6QSJcPyHflE9Klyyekz2CuG8cr7547M3d9JQO4xjccnJ57vid2cMHqxDWc40G4Tv1JuEF+Fm6ijRfhM+oz4Ra6eBVu4wZvvMFpXLIa40PYQQefwjVc4Uu4Tv1HuEH+FW7i1mkKn6Hj3Am3sHC6wm08Ou8tpSZGe1av1PKggjSxPd8zJtSGTuinyVGa6/Uu8kxZludCmzxMEzV0B6U004k25W35fj2yNlCBSWM1paujKFWZSbfat+7G2mzc7weiu34aczzFNYGBhgfLfcV6iQP3ACkSaj349AxXSN9IT0j16JepOb01doiKbNWt1ovippz6sVYYwsXgX2rGVFIkq7Pl2PNrI6qW6eOshj0xaSq9mpNEZIWs8LZUfOouNkVXxp/d5woqebeYIf4D2J1ywQB4nG3LOw6AIBAE0B384B+PAkgEa+QwNnYmHt+EpXSal5lkSBBnoP8oCFSo0aCFRIceA0ZMmLFAYSW88rmvtMUjG3RiQ9HvpfusM6zWNmtc5H/iPewha50tOt5PS/QBx2IeSwAA") format("woff")}.admonition{box-shadow:0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);position:relative;margin:1.5625em 0;padding:0 1.2rem;border-left:.4rem solid rgba(68,138,255,.8);border-radius:.2rem;background-color:rgba(255,255,255,.05);overflow:auto}.admonition>p{margin-top:.8rem}.admonition>.admonition-title{margin:0 -1.2rem;padding:.8rem 1.2rem .8rem 3.6rem;border-bottom:1px solid rgba(68,138,255,.2);background-color:rgba(68,138,255,.1);font-weight:700}.admonition>.admonition-title:before{position:absolute;left:1.2rem;font-size:1.5rem;color:rgba(68,138,255,.8);content:"\E3C9"}.admonition>.admonition-title:before{font-family:Material Icons;font-style:normal;font-variant:normal;font-weight:400;line-height:2rem;text-transform:none;white-space:nowrap;speak:none;word-wrap:normal;direction:ltr}.admonition.abstract,.admonition.summary,.admonition.tldr{border-left-color:rgba(0,176,255,.8)}.admonition.abstract>.admonition-title,.admonition.summary>.admonition-title,.admonition.tldr>.admonition-title{background-color:rgba(0,176,255,.1);border-bottom-color:rgba(0,176,255,.2)}.admonition.abstract>.admonition-title:before,.admonition.summary>.admonition-title:before,.admonition.tldr>.admonition-title:before{color:#00b0ff;content:"\E8D2"}.admonition.hint,.admonition.tip{border-left-color:rgba(0,191,165,.8)}.admonition.hint>.admonition-title,.admonition.tip>.admonition-title{background-color:rgba(0,191,165,.1);border-bottom-color:rgba(0,191,165,.2)}.admonition.hint>.admonition-title:before,.admonition.tip>.admonition-title:before{color:#00bfa5;content:"\E80E"}.admonition.info,.admonition.todo{border-left-color:rgba(0,184,212,.8)}.admonition.info>.admonition-title,.admonition.todo>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.info>.admonition-title:before,.admonition.todo>.admonition-title:before{color:#00b8d4;content:"\E88E"}.admonition.check,.admonition.done,.admonition.success{border-left-color:rgba(0,200,83,.8)}.admonition.check>.admonition-title,.admonition.done>.admonition-title,.admonition.success>.admonition-title{background-color:rgba(0,200,83,.1);border-bottom-color:rgba(0,200,83,.2)}.admonition.check>.admonition-title:before,.admonition.done>.admonition-title:before,.admonition.success>.admonition-title:before{color:#00c853;content:"\E876"}.admonition.faq,.admonition.help,.admonition.question{border-left-color:rgba(100,221,23,.8)}.admonition.faq>.admonition-title,.admonition.help>.admonition-title,.admonition.question>.admonition-title{background-color:rgba(100,221,23,.1);border-bottom-color:rgba(100,221,23,.2)}.admonition.faq>.admonition-title:before,.admonition.help>.admonition-title:before,.admonition.question>.admonition-title:before{color:#64dd17;content:"\E887"}.admonition.attention,.admonition.caution,.admonition.warning{border-left-color:rgba(255,145,0,.8)}.admonition.attention>.admonition-title,.admonition.caution>.admonition-title,.admonition.warning>.admonition-title{background-color:rgba(255,145,0,.1);border-bottom-color:rgba(255,145,0,.2)}.admonition.attention>.admonition-title:before{color:#ff9100;content:"\E417"}.admonition.caution>.admonition-title:before,.admonition.warning>.admonition-title:before{color:#ff9100;content:"\E002"}.admonition.fail,.admonition.failure,.admonition.missing{border-left-color:rgba(255,82,82,.8)}.admonition.fail>.admonition-title,.admonition.failure>.admonition-title,.admonition.missing>.admonition-title{background-color:rgba(255,82,82,.1);border-bottom-color:rgba(255,82,82,.2)}.admonition.fail>.admonition-title:before,.admonition.failure>.admonition-title:before,.admonition.missing>.admonition-title:before{color:#ff5252;content:"\E14C"}.admonition.bug,.admonition.danger,.admonition.error{border-left-color:rgba(255,23,68,.8)}.admonition.bug>.admonition-title,.admonition.danger>.admonition-title,.admonition.error>.admonition-title{background-color:rgba(255,23,68,.1);border-bottom-color:rgba(255,23,68,.2)}.admonition.danger>.admonition-title:before{color:#ff1744;content:"\E3E7"}.admonition.error>.admonition-title:before{color:#ff1744;content:"\E14C"}.admonition.bug>.admonition-title:before{color:#ff1744;content:"\E868"}.admonition.example,.admonition.snippet{border-left-color:rgba(0,184,212,.8)}.admonition.example>.admonition-title,.admonition.snippet>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.example>.admonition-title:before,.admonition.snippet>.admonition-title:before{color:#00b8d4;content:"\E242"}.admonition.cite,.admonition.quote{border-left-color:rgba(158,158,158,.8)}.admonition.cite>.admonition-title,.admonition.quote>.admonition-title{background-color:rgba(158,158,158,.1);border-bottom-color:rgba(158,158,158,.2)}.admonition.cite>.admonition-title:before,.admonition.quote>.admonition-title:before{color:#9e9e9e;content:"\E244"}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/catamaran/v28/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
+}
+.markdown-preview.markdown-preview .box_bg_lightgrey {
+  background-color: #f5f5f5;
+  border: 2px solid #969696;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .box_bg_lightgreen {
+  background-color: #f5faf5;
+  border: 2px solid #969b96;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .contenedor {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto 30px auto;
+}
+.markdown-preview.markdown-preview .fondo {
+  background: url(https://balmisdigigs.github.io/digitalizacion.github.io/imagenes/fondos/quote.png);
+  background-size: cover;
+  width: 75%;
+  height: 160px;
+  border-radius: 10px;
+  position: relative;
+}
+.markdown-preview.markdown-preview .cita {
+  font-family: Arial;
+  font-style: italic;
+  font-weight: 600;
+  text-align: justify;
+  line-height: 1.5rem;
+  opacity: 0.6;
+  color: white;
+  padding: 5rem;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  font-size: 1.3rem;
+  transform: translate(-50%, -50%);
+}
+.markdown-preview.markdown-preview .abre_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-left: 30px;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, -15%);
+}
+.markdown-preview.markdown-preview .cierra_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-right: 30px;
+  right: 0%;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, 55%);
+}
+.markdown-preview.markdown-preview .autor {
+  font-family: Arial;
+  color: white;
+  margin: 0px;
+  padding-left: 30px;
+  position: absolute;
+  top: 83%;
+  font-size: 1rem;
+}
+.markdown-preview.markdown-preview .flotante {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: center;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: space-between;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: row;
+  }
+}
+.markdown-preview.markdown-preview .flotante_izq {
+  margin-right: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: auto;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: auto;
+  }
+}
+.markdown-preview.markdown-preview .galeria_imagenes {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: row;
+  }
+}
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  const configureMermaidIconPacks = () => {
+    window["mermaid"].registerIconPacks([
+      {
+        name: "logos",
+        loader: () =>
+          fetch("https://unpkg.com/@iconify-json/logos@1/icons.json").then(
+            (res) => res.json()
+          ),
+      },
+    ]);
+  };
+
+  if (document.readyState !== 'loading') {
+    configureMermaidIconPacks();
+  } else {
+    document.addEventListener("DOMContentLoaded", () => {
+      configureMermaidIconPacks();
+    });
+  }
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<p><img src="..\imagenes\img-BalmisHeader.png" alt="Cabecera"></p>
+<p><a href="./u3_2.pdf">Descargar estos apuntes</a></p>
+<h2 id="índice">Índice </h2>
+
+<div class="md-toc">
+<details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#unidad-3-programación-multihilo-sincronización-y-comunicación-de-hilos" class="md-toc-link"><p>Unidad 3. Programación multihilo: Sincronización y comunicación de hilos</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#memoria-compartida" class="md-toc-link">
+            <p>Memoria compartida</p>
+
+          </a></div><details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#sincronización" class="md-toc-link"><p>Sincronización</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#monitores-y-bloqueos" class="md-toc-link">
+            <p>Monitores y bloqueos</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#secciones-críticas" class="md-toc-link">
+            <p>Secciones críticas</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#sincronización-y-actualización-de-la-información" class="md-toc-link">
+            <p>Sincronización y actualización de la información</p>
+
+          </a></div>
+        </div>
+      </details>
+    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#sincronización-entre-hilos" class="md-toc-link">
+            <p>Sincronización entre hilos</p>
+
+          </a></div>
+        </div>
+      </details>
+    
+</div>
+<div style="page-break-after:always;"></div>
+<h1 id="unidad-3-programación-multihilo-sincronización-y-comunicación-de-hilos">Unidad 3. Programación multihilo: Sincronización y comunicación de hilos </h1>
+<div class="admonition info">
+<p class="admonition-title">Vocabulario</p>
+<ul>
+<li><strong>Condición de carrera</strong>: Situación en que el correcto funcionamiento de un programa depende del orden en que se intercale la ejecución de las instrucciones de sus diferente hilos. Esto ocurre cuando uno o más hilos acceden a información compartida de forma concurrente e intentan modificarla a la vez.</li>
+<li><strong>Deadlock</strong>: Situación en que dos o más hilos están bloqueados mutuamente, todos ellos esperando para conseguir el bloqueo sobre objetos bloqueados por otros hilos, de manera que ninguno de ellos podrá continuar nunca.</li>
+<li><strong>Sección crítica</strong>: Fragmento de un programa que no puede ejecutar de manera simultánea (concurrentemente) más de un hilo del programa, es decir, que distintos hilos deben ejecutar en exclusión mutua</li>
+<li><strong>Thread-safe</strong>: Se dice de una clase cuyos métodos implementan los mecanismos de sincronización necesarios para el uso concurrente de sus objetos por parte de distintos hilos, de manera que <strong>no es necesario ningún mecanismo de sincronización externo</strong> a la propia clase.</li>
+</ul>
+</div>
+<h2 id="memoria-compartida">Memoria compartida </h2>
+<p>A menudo los hilos necesitan comunicarse unos con otros. La forma que tienen de hacerlo consiste en compartir un objeto.</p>
+<p>Vamos a desarrollar un ejemplo en el que dos hilos comparten un objeto de la clase Contador.</p>
+<p><img src="./assets/imgs/SumadorRestador_uml.jpg" alt="Modelo Memoria Compartida" style="display:block;margin:0 auto;width:75%;max-width:400px;"></p>
+<p>Para probar el objeto compartido, en una cuarta clase que contiene el main se crea un objeto Contador que se inicializa a 100 y se crean y lanzan dos threads, uno de tipo Sumador y otro de tipo Restador. En la clase Sumador se usa el método del objeto Contador que incrementa en uno su valor mientras que en la clase Restador se usa el método que decrementa en uno su valor. Cada una va a realizar la acción 300 veces, esperando entre cada acción un tiempo aleatorio entre 50ms y 150ms.<br>
+Es muy importante asegurarse que pasamos el mismo objeto Contador como parámetro al constructor de Sumador y de Restador, para que ambos trabajen con la misma instancia.</p>
+<div class="admonition question">
+<p class="admonition-title">Comportamiento esperado</p>
+<p>Crea las cuatro clases en función del diagrama de clases proporcionado. Asegúrate que Sumador hereda de Thread y Restador implementa la interfaz Runnable para comprobar las diferencias de uso y creación de threads a partir de cada tipo de clase.</p>
+<p>¿Qué debería ocurrir tras ejecutar el código?</p>
+<p>Comprueba lo que pasa realmente. Intenta ejecutar el programa varias veces para ver si puedes obtener resultados diferentes.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Código del ejemplo</p>
+<pre data-role="codeBlock" data-info="java{4,7,9}" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U3S3_SharedMemory</span> <span class="token punctuation">{</span>
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Inicializar el objeto Contador</span>
+    <span class="token class-name">Contador</span> c <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Contador</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// Crear y lanzar 2 hilos (Sumador + Restador)</span>
+    <span class="token class-name">Sumador</span> s1 <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Sumador</span><span class="token punctuation">(</span><span class="token string">"Sumador1"</span><span class="token punctuation">,</span> c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Restador</span> r1 <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Restador</span><span class="token punctuation">(</span><span class="token string">"Restador1"</span><span class="token punctuation">,</span> c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Thread</span> h1 <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>r1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    s1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    h1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// El hilo principal espera a que los hilos s1 y r1 terminen</span>
+    s1<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    h1<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"El valor final de c es "</span> <span class="token operator">+</span> c<span class="token punctuation">.</span><span class="token function">valor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+  <span class="token punctuation">}</span>
+</code></pre><pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Contador</span> <span class="token punctuation">{</span>
+  <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-int">int</span> c <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  
+  <span class="token keyword keyword-public">public</span> <span class="token class-name">Contador</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>c <span class="token operator">=</span> c<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">incrementa</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    c<span class="token operator">++</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">decrementa</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    c<span class="token operator">--</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-int">int</span> <span class="token function">valor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> c<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><pre data-role="codeBlock" data-info="java{1,5,14}" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Sumador</span> <span class="token keyword keyword-extends">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
+  <span class="token keyword keyword-private">private</span> <span class="token class-name">Contador</span> c<span class="token punctuation">;</span>
+  <span class="token keyword keyword-public">public</span> <span class="token class-name">Sumador</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">,</span> <span class="token class-name">Contador</span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// To set the thread name we can access the Thread class constructor</span>
+    <span class="token keyword keyword-super">super</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>c <span class="token operator">=</span> c<span class="token punctuation">;</span>    
+  <span class="token punctuation">}</span>
+  
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Ejecutar 300 veces con espera entre 50ms y 150ms</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">300</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>      
+      <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+        c<span class="token punctuation">.</span><span class="token function">incrementa</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span> c<span class="token punctuation">.</span><span class="token function">valor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword keyword-long">long</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token class-name">Math</span><span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">100</span> <span class="token operator">+</span> <span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Nothing</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><pre data-role="codeBlock" data-info="java{1,3,13,17}" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Restador</span> <span class="token keyword keyword-implements">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">{</span>
+  <span class="token keyword keyword-private">private</span> <span class="token class-name">Contador</span> c<span class="token punctuation">;</span>
+  <span class="token keyword keyword-private">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+  <span class="token keyword keyword-public">public</span> <span class="token class-name">Restador</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">,</span> <span class="token class-name">Contador</span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Restador doesn't extend Thread, so it cannot call the Thread constructor</span>
+    <span class="token comment">// super(name);</span>
+    <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+    <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>c <span class="token operator">=</span> c<span class="token punctuation">;</span>    
+  <span class="token punctuation">}</span>
+  
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// Ejecutar 300 veces con espera entre 50ms y 150ms</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">300</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>      
+      <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+        c<span class="token punctuation">.</span><span class="token function">decrementa</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span> c<span class="token punctuation">.</span><span class="token function">valor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>              
+        <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword keyword-long">long</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token class-name">Math</span><span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">100</span> <span class="token operator">+</span> <span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Nothing</span>
+      <span class="token punctuation">}</span>      
+    <span class="token punctuation">}</span>    
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>Si ejecutamos el programa, la mayoría de veces obtendremos el resultado esperado, 100. Sin embargo, hay ocasiones en que podemos encontrar otros valores tales como 99, 101 o cualquier otro.</p>
+<p>Para evitar <strong>problemas de sincronización</strong> (son problemas como hemos visto aleatorios y muy difíciles de detectar), necesitamos que los hilos estén sincronizados entre sí.</p>
+</div>
+<p>Si analizamos el problema anterior, veremos que se está intentando ejecutar el siguiente código en paralelo desde diferentes hilos, en <strong>la misma instancia (memoria compartida)</strong>:</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code>  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">incrementa</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    c<span class="token operator">++</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">decrementa</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    c<span class="token operator">--</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+</code></pre><p>Si aplicásemos las <code>condiciones de Bernstein</code> a esos dos métodos, veríamos que no se cumple ninguna de las tres, por lo que ese código no puede ser ejecutado concurrentemente, al menos no sin tener problemas de concurrencia.</p>
+<p>Así, para evitar que varios hilos ejecuten esos métodos de forma concurrente, necesitamos estructuras de programación que nos ayuden a conseguirlo.</p>
+<div style="page-break-after:always;"></div>
+<h2 id="sincronización">Sincronización </h2>
+<p>El código anterior no funciona porque las operaciones que se realizan en los métodos <code>incrementa</code> y <code>decrementa</code> no son atómicas, sino que se descomponen en operaciones más simples que se ejecutan una tras otra.</p>
+<p>Cuando estas operaciones se ejecutan en un hilo, la ejecución del hilo se puede interrumpir y se pueden intercalar entre ellas operaciones de otros hilos. Según cómo se intercalen las operaciones y los datos a los que accedan, se pueden obtener resultados no esperados. Esto es lo que se conoce como una <code>condición de carrera</code>.</p>
+<p>Como vimos en la primera parte del tema, la comunicación entre threads se produce principalmente mediante el acceso compartido a objetos y sus propiedades. Este mecanismo de comunicación es muy eficiente pero presenta dos tipos de errores:</p>
+<ul>
+<li>Interferencia entre threads</li>
+<li>Errores de consistencia de la información en memoria.</li>
+</ul>
+<p>La herramienta de programación que utilizamos para prevenir este tipo de errores es la <em>sincronización</em>.</p>
+<p>La mayor parte del tiempo, los threads no tienen en cuenta al resto de hilos que se ejecutan en el programa ni les importa lo que éstos hagan. Pero si necesitan algo de otro thead, entonces necesitan la sincronización.</p>
+<h3 id="monitores-y-bloqueos">Monitores y bloqueos </h3>
+<p>La sincronización en Java se realiza usando <code>monitores</code>. Es una propiedad que proporciona la clase Object, por lo tanto todas nuestras clases Java, directa o indirectamente, heredan esta propiedad de Object. Este mecanismo permite a un único thread a la vez ejecutar la sección de código protegida por el monitor.</p>
+<p>Un monitor no es más que un bloqueo sobre un objeto. <strong>Cada objeto tiene un y sólo un bloqueo (candado) interno asociado</strong>. El bloqueo de un objeto solamente puede ser adquirido por un thread en cada momento.</p>
+<p>La sincronización implica muchos conceptos. El más utilizado es la <code>exclusión mutua</code> (<strong>sólo un hilo puede disponer de un monitor a la vez)</strong>. Por lo tanto, la sincronización utilizando monitores significa que cuando un hilo accede a una sección protegida por un monitor, ningún otro hilo puede acceder a esa o a cualquier otra sección protegida por ese mismo monitor, hasta que el hilo salga de la sección protegida</p>
+<p>Pero la sincronización también asegura que las escrituras en memoria realizadas por un thread dentro de un bloque protegido por un monitor son accesibles al resto de threads que accedan a los bloques protegidos por ese mismo monitor.</p>
+<div class="admonition danger">
+<p class="admonition-title">Un objeto, un monitor</p>
+<p>He recalcado en varias ocasiones que los bloques de código a los que se accede en <code>exclusión mutua</code> son aquellos que están protegidos por el mismo monitor. Esto es lo mismo que decir a aquellos que se realizan sobre el mismo objeto.<br>
+Cada objeto tiene asociado un monitor y la <code>exclusión mutua</code> y la <code>sincronización de memoria</code> tiene sentido si varios threads usan el mismo monitor para su sincronización.</p>
+</div>
+<p>Cada objeto gestiona una cola de hilos que quieren conseguir el bloqueo <strong>(monitor)</strong> del mismo. Como suele ser habitual, la elección del proceso de la cola que conseguirá <strong>el bloqueo es totalmente indeterminista</strong>, depende de múltiples factores y no sigue ningún orden preestablecido.</p>
+<h3 id="secciones-críticas">Secciones críticas </h3>
+<p>En Java la palabra reservada <code>synchronized</code> sirve para hacer que un bloque de código o un método sea protegido por el cerrojo del objeto. Para ejecutar un bloque o un método sincronizado, los hilos deben conseguir previamente el bloqueo (candado) del objeto, debiendo esperar a que quede libre (el hilo que lo tiene lo libere) si el monitor ya ha sido adquirido por otro hilo.</p>
+<p>Esto ocurre sólo si se está intentando <strong>acceder al monitor del mismo objeto que otro hilo</strong> ya tenga en propiedad.</p>
+<p>La palabra reservada synchronized puede aplicarse en distintos tipos de bloques de código y, en cada caso, se utilizará un objeto de bloqueo distinto.</p>
+<ul>
+<li>Métodos no estáticos</li>
+<li>Métodos estáticos</li>
+<li>Bloques de código dentro de un método</li>
+</ul>
+<p>Para métodos no estáticos se añade la palabra reservada synchronized a la definición del método.</p>
+<pre data-role="codeBlock" data-info="java{3}" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Counter</span> <span class="token punctuation">{</span>
+ <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-int">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+ <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-synchronized">synchronized</span> <span class="token keyword keyword-void">void</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> value<span class="token punctuation">)</span><span class="token punctuation">{</span>
+   <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>count <span class="token operator">+=</span> value<span class="token punctuation">;</span>
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>El bloqueo se aplica sobre la instancia del objeto sobre la que se ejecuta el método, es decir, <strong><code>this</code></strong>. En este caso dos hilos no podrían ejecutar a la vez dos métodos del mismo objeto marcados como synchronized.</p>
+<p>Cada objeto que instanciemos de la clase tendrá su propio monitor asociado que no interferirá con los bloqueos que se hayan hecho sobre otros objetos de la misma clase.</p>
+<p>Como ya hemos dicho, este comportamiento sólo es válido si todos los métodos sincronizados a los que se quiere acceder pertenecen a la misma instancia. De este modo el monitor es el mismo y se aplica la exclusión mutua en la ejecución de los bloques de código protegidos por el monitor.</p>
+<pre data-role="codeBlock" data-info="java{3,6}" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Counter</span> <span class="token punctuation">{</span>
+ <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-int">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+ <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-synchronized">synchronized</span> <span class="token keyword keyword-void">void</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> value<span class="token punctuation">)</span><span class="token punctuation">{</span>
+   <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>count <span class="token operator">+=</span> value<span class="token punctuation">;</span>
+ <span class="token punctuation">}</span>
+ <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-synchronized">synchronized</span> <span class="token keyword keyword-void">void</span> <span class="token function">sub</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> value<span class="token punctuation">)</span><span class="token punctuation">{</span>
+   <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>count <span class="token operator">-=</span> value<span class="token punctuation">;</span>
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="admonition info">
+<p class="admonition-title">Sincronización con métodos estáticos</p>
+<p>En este caso el bloqueo se realiza sobre la clase a la que pertenece el método. Como <strong>sólo hay una instancia de cada objeto clase en la JVM</strong>, sólo un hilo a la vez podrá adquirir el monitor y ejecutar el código protegido de una clase estática.<br>
+<strong>No es muy recomendable hacerlo de esta forma.</strong></p>
+</div>
+<p>La sincronización no tiene porqué realizarse sobre todo un método, <strong>aunque es lo más recomendable</strong>. A veces es preferible sincronizar sólo una parte de un método. Otras no es posible sincronizar el método completo. Para sincronizar un bloque de código usamos la palabra reservada synchronized seguida, entre paréntesis, del objeto del que usaremos el monitor. El código protegido se ubicará entre un par de llaves.</p>
+<pre data-role="codeBlock" data-info="java{2}" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> value<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword keyword-synchronized">synchronized</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>count <span class="token operator">+=</span> value<span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
+</code></pre><p>En el ejemplo se ha utilizado <code>this</code> como objeto para el monitor. Decimos que el código está sincronizado con el monitor del objeto que pongamos entre paréntesis. <strong>Un método sincronizado usa el objeto al que pertenece como monitor, es decir, también usa this</strong>.</p>
+<p>Sólo puede haber un thread ejecutando un bloque sincronizado para el mismo monitor. Los demás se quedan esperando.</p>
+<p>El siguiente código define dos bloques protegidos por la instancia a la que pertenecen. <strong>En términos de sincronización, ambos bloque son totalmente equivalentes.</strong>:</p>
+<pre data-role="codeBlock" data-info="java{2,8}" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">{</span> 
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-synchronized">synchronized</span> <span class="token keyword keyword-void">void</span> <span class="token function">log1</span><span class="token punctuation">(</span><span class="token class-name">String</span> msg1<span class="token punctuation">,</span> <span class="token class-name">String</span> msg2<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    log<span class="token punctuation">.</span><span class="token function">writeln</span><span class="token punctuation">(</span>msg1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    log<span class="token punctuation">.</span><span class="token function">writeln</span><span class="token punctuation">(</span>msg2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+ 
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">log2</span><span class="token punctuation">(</span><span class="token class-name">String</span> msg1<span class="token punctuation">,</span> <span class="token class-name">String</span> msg2<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword keyword-synchronized">synchronized</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+     log<span class="token punctuation">.</span><span class="token function">writeln</span><span class="token punctuation">(</span>msg1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     log<span class="token punctuation">.</span><span class="token function">writeln</span><span class="token punctuation">(</span>msg2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
+</code></pre><p>Por lo tanto, sólo un thread podría ejecutar uno de los dos bloques anteriores al mismo tiempo. Si otro hilo intentase ejecutar el mismo bloque, o el otro, se quedaría bloqueado en la cola de espera del monitor hasta que el monitor quede libre.</p>
+<div class="admonition warning">
+<p class="admonition-title">¿Qué objetos se pueden usar como monitores</p>
+<p>Oracle dice que se puede usar cualquier objeto como monitor de sincronización, sin embargo <strong>recomiendan que no se sincronice sobre String, o cualquier objeto envoltorio (wrapper) de los tipos de datos primitivos</strong> (Integer, Double, Boolean, ...).</p>
+<p>Para estar seguros, lo mejor es sincronizar sobre <code>this</code>, sobre una instancia de un objeto, en su defecto sobre un nuevo objeto de tipo object, aunque sea un objeto vacío sin propiedades ni funcionalidad.</p>
+</div>
+<h3 id="sincronización-y-actualización-de-la-información">Sincronización y actualización de la información </h3>
+<p>Sin el uso de la palabra reservada synchronized (o el modificador <code>volatile</code> ) no tenemos ninguna garantía de que cuando un hilo cambie el valor de una variable compartida con otros threads (por ejemplo a través de un objeto compartido entre todos los threads), los otros hilos puedan ver el valor modificado. No hay ninguna garantía de que cuando una variable se guarda en un registro de la CPU, el valor de ésta se vuelque a la memoria principal.</p>
+<p>Esto, en programación secuencial no supone ningún problema ya que el único hilo existente no necesita de estas actualizaciones "instantáneas". Si fuese necesario se usaría la palabra <code>volatile</code> para las variables a las que se quiera forzar ese comportamiento.</p>
+<p>En la programación multihilo, y dentro de la sincronización, un bloque protegido por un monitor nos garantiza que:</p>
+<ul>
+<li>Cuando un hilo entra en un bloque <code>synchronized</code> se actualizará el valor de todas las variables visibles para el hilo.</li>
+<li>Cuando un hilo salga de un bloque <code>synchronized</code> todos los cambios realizados por el hilo se actualizarán en la memoria principal.</li>
+</ul>
+<p>El comportamiento descrito es similar al que provoca el uso de la palabra reservada <code>volatile</code>, evitando el uso de caches y la desincronización de la información entre la CPU y la memoria principal.</p>
+<p>El siguiente ejemplo muestra un monitor que implementa un contador:</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-class">class</span> <span class="token class-name">Contador</span> <span class="token punctuation">{</span> 
+  <span class="token comment">// monitor contador</span>
+  <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-int">int</span> actual<span class="token punctuation">;</span> 
+  <span class="token keyword keyword-public">public</span> <span class="token class-name">Contador</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> inicial<span class="token punctuation">)</span> 
+  <span class="token punctuation">{</span> 
+    actual <span class="token operator">=</span> inicial<span class="token punctuation">;</span>    
+  <span class="token punctuation">}</span> 
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-synchronized">synchronized</span> <span class="token keyword keyword-void">void</span> <span class="token function">inc</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> actual<span class="token operator">++</span><span class="token punctuation">;</span> <span class="token punctuation">}</span> 
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-synchronized">synchronized</span> <span class="token keyword keyword-void">void</span> <span class="token function">dec</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> actual<span class="token operator">--</span><span class="token punctuation">;</span> <span class="token punctuation">}</span> 
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-synchronized">synchronized</span> <span class="token keyword keyword-int">int</span> <span class="token function">valor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword keyword-return">return</span> actual<span class="token punctuation">;</span><span class="token punctuation">}</span> 
+<span class="token punctuation">}</span> 
+ 
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Usuario</span> <span class="token keyword keyword-extends">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span> 
+  <span class="token comment">// clase hilo usuario</span>
+  <span class="token keyword keyword-private">private</span> <span class="token class-name">Contador</span> cnt<span class="token punctuation">;</span> 
+  <span class="token keyword keyword-public">public</span> <span class="token class-name">Usuario</span><span class="token punctuation">(</span><span class="token class-name">String</span> nombre<span class="token punctuation">,</span> <span class="token class-name">Contador</span> cnt<span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    <span class="token keyword keyword-super">super</span><span class="token punctuation">(</span>nombre<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>cnt <span class="token operator">=</span> cnt<span class="token punctuation">;</span>    
+  <span class="token punctuation">}</span> 
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">1000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+      cnt<span class="token punctuation">.</span><span class="token function">inc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Hola, soy "</span> <span class="token operator">+</span> <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">", mi contador vale "</span> <span class="token operator">+</span> cnt<span class="token punctuation">.</span><span class="token function">valor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token punctuation">}</span>    
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">EjemploContador</span> <span class="token punctuation">{</span> 
+  <span class="token comment">// principal</span>
+  <span class="token keyword keyword-final">final</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> nHebras <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span> 
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// método principal      </span>
+    <span class="token keyword keyword-final">final</span> <span class="token class-name">Contador</span> cont1 <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Contador</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       
+    <span class="token class-name">Usuario</span> hebra<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Usuario</span><span class="token punctuation">[</span>nHebras<span class="token punctuation">]</span><span class="token punctuation">;</span> 
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> nHebras<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>          
+      <span class="token comment">//crea hebras</span>
+      hebra<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Usuario</span><span class="token punctuation">(</span><span class="token string">"la hebra-"</span> <span class="token operator">+</span> i<span class="token punctuation">,</span> cont1<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+      <span class="token comment">// lanza hebras      </span>
+      hebra<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>    
+    <span class="token punctuation">}</span> 
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>Es importante hacer notar, aunque suene a pesado, que todos los hilos acceden al código protegido del objeto cont1 que se crea en el método main. Así, no puede haber dos hilos ejecutando a la vez ninguna de los tres métodos de la instancia cont1 de la clase Contador.</p>
+<div class="admonition danger">
+<p class="admonition-title">Usar "final" con objetos de tipo monitor</p>
+<p>Un objeto usado como monitor, o como memoria compartida entre hilos, debería ser de tipo <strong>final</strong>, porque si se le asigna un nuevo valor quedan si efecto todos los bloqueos que existan sobre dicho objeto. Un objeto de tipo final una vez que se ha creado y se le ha asignado un valor no se le puede asignar un nuevo valor.</p>
+</div>
+<div style="page-break-after:always;"></div>
+<h2 id="sincronización-entre-hilos">Sincronización entre hilos </h2>
+<p>Ya hemos visto un tipo de problema en el que varios hilos comparten recursos y se sincroniza el acceso a estos recursos mediante el uso de monitores. Hasta ahora, una vez que un hilo obtiene el bloqueo de un monitor, puede hacer uso del mismo de forma indiscriminada, sin tener en cuenta ninguna otra condición.</p>
+<p>Ahora vamos a ver cómo, en función del estado de los recursos, cada uno de los hilos podrá realizar determinadas acciones o no, permitiendo que los hilos se queden a la espera de un cambio de estado que podrá ser notificado por otros hilos.</p>
+<p>Para ello, además de un mecanismo de bloque sobre los recursos compartidos, será necesario un mecanismo de espera para que, en el caso de que el estado de los recursos compartidos no permita a un hilo realizar una acción, la ejecución del hilo quede en suspenso a la espera de que esa condición se cumpla.</p>
+<div class="admonition info">
+<p class="admonition-title">Esperas activas vs. esperas no activas</p>
+<p>El mecanismo es de <strong>espera no activa</strong>, es decir, no se debe consumir tiempo del procesador ni recursos del sistema para comprobar si es posible continuar con la ejecución, mientras no se reciba una notificación de que el estado ha cambiado y podría permitir que el hilo continúe su ejecución.</p>
+</div>
+<p>Esto también nos permitirá, colateralmente, controlar el orden de ejecución de los hilos en función de la relación que se establezca entre ellos.</p>
+<p>Para resolver este tipo de situaciones volvemos a utilizar métodos de la clase Object, accesibles para cualquier objeto.</p>
+<ul>
+<li><strong>wait()</strong>: interrumpe la ejecución del hilo actual. La ejecución del hilo queda bloqueada mientras otro hilo no ejecute el método notify (o notifyAll) sobre el objeto. Este método, por tanto, proporciona un mecanismo de espera no activa.</li>
+<li><strong>notify()</strong>: desbloquea uno de los hilos que están esperando sobre un objeto tras haber ejecutado el método wait()., de manera que pueda continuar su ejecución. Este método proporciona un mecanismo de notificación para terminar con la espera no activa de los hilos que están a la espera de un objeto de bloqueo. <strong>El orden en que se desbloquean los hilos en un objeto de bloqueo vuelve a ser indeterminista</strong> y no tiene porqué coincidir con el orden en que se bloquearon.</li>
+<li><strong>notifyAll()</strong>: desbloquea todos los hilos que están esperando sobre un objeto de bloqueo tras haber ejecutado el método wait(), de manera que puedan continuar su ejecución.</li>
+</ul>
+<p>wait, notify and notifyAll se utilizan para permitir a los hilos comunicarse entre ellos mediante un mecanismo de <em>signal&amp;continue</em>.</p>
+<div class="admonition danger">
+<p class="admonition-title">Contexto de ejecución de los métodos de sincronización</p>
+<p>El hilo que llama a wait(), notify() o notifyAll() debe tener el bloqueo del monitor del objeto sobre el que se llama. Si no lo tiene, se lanzará una excepción de tipo <code>java.lang.IllegalMonitorStateException</code>.</p>
+<p>Por lo tanto, <strong>estos métodos deben ser llamados desde un bloque sincronizado</strong>.</p>
+</div>
+<p>Cuando se llama al método <strong>wait()</strong>, el hilo estará dentro de un bloque sincronizado, por lo tanto tendrá el bloqueo del monitor. En ese momento el hilo libera el bloqueo de <em>ese monitor</em> y se queda en una <strong>cola (perteneciente al objeto) de hilos en espera de ser notificados</strong>, diferente a la de los hilos que están esperando por el bloqueo.</p>
+<p>Cuando se desbloquea un hilo porque otro ha llamado a <strong>notify()/notifyAll()</strong>, el hilo vuelve al punto donde hizo el wait(), por lo tanto sigue dentro de un bloque sincronizado. Para poder continuar con la ejecución tendrá que pasar a la <strong>cola de hilos esperando por el bloqueo</strong> y esperar a ser seleccionado para seguir ejecutándose.</p>
+<p><img src="././assets/imgs/Monitor_queues.png" alt="Colsa de un monitor" style="display:block;margin:0 auto;width:75%;max-width:400px;"></p>
+<p>Veamos un ejemplo del uso de wait() y notify() en un bloque sincronizado:</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-synchronized">synchronized</span><span class="token punctuation">(</span>objBloqueo<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token keyword keyword-while">while</span><span class="token punctuation">(</span><span class="token operator">!</span>condiciónParaPoderSeguir<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Espera que la condición cambie y otro hilo avise</span>
+      objBloqueo<span class="token punctuation">.</span><span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// Si el hilo ha llegado hasta aquí, significa que o bien al principio</span>
+  <span class="token comment">// o bien tras haber realizado una o más esperas y haber sido notificado</span>
+  <span class="token comment">// de cambios por parte de otros hilos, la condición se ha cumplido</span>
+
+  <span class="token comment">// Además ha conseguido el bloqueo del monitor para poder continuar </span>
+  <span class="token comment">// dentro del bloque synchronized</span>
+  realizar_operación<span class="token punctuation">;</span>
+
+  <span class="token comment">// Esta parte es opcional. La puede realizar este mismo hilo, en este </span>
+  <span class="token comment">// mismo método, o bien la puede realizar otro hilo en otro método</span>
+  <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>condiciónParaQueOtrosSigan<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    objetoBloqueo<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// o objetoBloqueo.notifyAll()</span>
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+</code></pre><p>En el ejemplo anterior, las condiciones suelen estar basadas en propiedades del propio objBloqueo, ya que de esta forma se mantiene un estado compartido por todos los hilos.</p>
+<p>Veamos ahora otro ejemplo</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token comment">// It is the common java class on which thread will act and call wait and notify method.</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Book</span> <span class="token punctuation">{</span>
+  <span class="token class-name">String</span> title<span class="token punctuation">;</span>
+  <span class="token keyword keyword-boolean">boolean</span> isCompleted<span class="token punctuation">;</span>
+
+  <span class="token keyword keyword-public">public</span> <span class="token class-name">Book</span><span class="token punctuation">(</span><span class="token class-name">String</span> title<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-super">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>title <span class="token operator">=</span> title<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword keyword-public">public</span> <span class="token class-name">String</span> <span class="token function">getTitle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> title<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">setTitle</span><span class="token punctuation">(</span><span class="token class-name">String</span> title<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>title <span class="token operator">=</span> title<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-boolean">boolean</span> <span class="token function">isCompleted</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> isCompleted<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">setCompleted</span><span class="token punctuation">(</span><span class="token keyword keyword-boolean">boolean</span> isCompleted<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>isCompleted <span class="token operator">=</span> isCompleted<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> 
+<span class="token punctuation">}</span>
+</code></pre><pre data-role="codeBlock" data-info="java{14,17}" class="language-java java"><code><span class="token comment">// It will first take a lock on book object </span>
+<span class="token comment">// Then, the thread will wait until other thread call notify method, then after it will complete its processing. </span>
+<span class="token comment">// So in this example, it will wait for BookWriter to complete the book.</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">BookReader</span> <span class="token keyword keyword-implements">implements</span> <span class="token class-name">Runnable</span><span class="token punctuation">{</span>
+  <span class="token class-name">Book</span> book<span class="token punctuation">;</span>
+
+  <span class="token keyword keyword-public">public</span> <span class="token class-name">BookReader</span><span class="token punctuation">(</span><span class="token class-name">Book</span> book<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-super">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>book <span class="token operator">=</span> book<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-synchronized">synchronized</span> <span class="token punctuation">(</span>book<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">" is waiting for the book to be completed: "</span><span class="token operator">+</span>book<span class="token punctuation">.</span><span class="token function">getTitle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+        book<span class="token punctuation">.</span><span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+        e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">": Book has been completed now!! you can read it"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span> 
+<span class="token punctuation">}</span>
+</code></pre><pre data-role="codeBlock" data-info="java{15,22,25}" class="language-java java"><code><span class="token comment">// This class will notify thread(in case of notify) which is waiting on book object. </span>
+<span class="token comment">// It will not give away lock as soon as notify is called, it first complete its synchronized block. </span>
+<span class="token comment">// So in this example, BookWriter will complete the book and notify it to BookReaders. </span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">BookWriter</span> <span class="token keyword keyword-implements">implements</span> <span class="token class-name">Runnable</span><span class="token punctuation">{</span>
+  <span class="token class-name">Book</span> book<span class="token punctuation">;</span>
+ 
+  <span class="token keyword keyword-public">public</span> <span class="token class-name">BookWriter</span><span class="token punctuation">(</span><span class="token class-name">Book</span> book<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-super">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>book <span class="token operator">=</span> book<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+ 
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-synchronized">synchronized</span> <span class="token punctuation">(</span>book<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Author is Starting book : "</span> <span class="token operator">+</span>book<span class="token punctuation">.</span><span class="token function">getTitle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      book<span class="token punctuation">.</span><span class="token function">setCompleted</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Book has been completed now"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+      book<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"notify one reader"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> 
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><pre data-role="codeBlock" data-info="java{8,9,26}" class="language-java java"><code><span class="token comment">// This is our main class which will create object of above classes and run it.</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U3S5_Books</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span> args<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    <span class="token comment">// Book object on which wait and notify method will be called</span>
+    <span class="token class-name">Book</span> book<span class="token operator">=</span><span class="token keyword keyword-new">new</span> <span class="token class-name">Book</span><span class="token punctuation">(</span><span class="token string">"The Alchemist"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">BookReader</span> johnReader<span class="token operator">=</span><span class="token keyword keyword-new">new</span> <span class="token class-name">BookReader</span><span class="token punctuation">(</span>book<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">BookReader</span> arpitReader<span class="token operator">=</span><span class="token keyword keyword-new">new</span> <span class="token class-name">BookReader</span><span class="token punctuation">(</span>book<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// BookReader threads which will wait for completion of book</span>
+    <span class="token class-name">Thread</span> johnThread<span class="token operator">=</span><span class="token keyword keyword-new">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>johnReader<span class="token punctuation">,</span><span class="token string">"John"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Thread</span> arpitThread<span class="token operator">=</span><span class="token keyword keyword-new">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>arpitReader<span class="token punctuation">,</span><span class="token string">"Arpit"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    arpitThread<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    johnThread<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// To ensure both readers started waiting for the book</span>
+    <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+      <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// BookWriter thread which will notify once book get completed</span>
+    <span class="token class-name">BookWriter</span> bookWriter<span class="token operator">=</span><span class="token keyword keyword-new">new</span> <span class="token class-name">BookWriter</span><span class="token punctuation">(</span>book<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Thread</span> bookWriterThread<span class="token operator">=</span><span class="token keyword keyword-new">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>bookWriter<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    bookWriterThread<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="admonition note">
+<p class="admonition-title">Comentarios y preguntas sobre el código anterior</p>
+<p>Si ejecutamos el código anterior, tenemos que hacernos varias preguntas:</p>
+<div class="admonition question">
+<p class="admonition-title">¿Cuántos wait() se hacen? ¿Y cuántos notify()?</p>
+<p><strong>Solución</strong>: Se están haciendo 2 wait(), 1 por cada hilo BookReader y sólo un notify(), así que algo no cuadra.</p>
+<p>Uno de los lectores se queda sin notificar, por lo tanto un hilo se queda esperando en un wait(). Como ese hilo no termina, el proceso tampoco. Hay que recordar que un proceso no termina hasta que lo hace el último de sus hilos. Esto en Netbeans implica que el programa no acaba y lo tenemos que parar.</p>
+<p><strong>Solución al problema</strong>: En este caso tenemos dos alternativas. La primera pasa por usar notifyAll() en vez de notify(). De esta forma los dos BookReader se activan y se quedan a la espera de poder tomar el bloqueo del monitor. Uno lo hará primero y el otro después, pero los dos acabarán leyendo el libro.<br>
+La otra opción es, siguiendo con notify(), que cada lector cuando acabe de leer el libro notifique a otros posibles lectores que haya en espera para que uno se despierte y lea el libro.</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">En el main hemos hecho que primero empiecen los BookReaders y una vez que están esperando el BookWriter escriba el libro y avise. ¿Qué pasa si lo hacemos al revés o si los lanzamos todos juntos y no sabemos en qué orden se van a ejecutar?</p>
+<p>Si lanzamos primero el BookWriter, este acaba el libro y notifica a... nadie, porque los BookReaders todavía no estarán esperando. Después llegarán los BookReaders y se quedarán los dos colgados, ya que ningún otro hilo les notificará.</p>
+<p><strong>Solución</strong>: Los hilos ahora mismo se están bloqueando de manera indiscriminada, pero realmente deben bloquearse sólo si el libro que quieren leer no está acabado. Por lo tanto tenemos que controlar con una condición el bloqueo de los BookReader. Tal y como hemos comentado las condiciones las debe tener el objeto compartido, en este caso book, que lo comparten el BookWriter y los dos BookReader. La condición que nos sirve para discriminar si un BookReader puede continuar o no es la propiedad isCompleted que consultamos a través del método book.isCompleted(),</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>book<span class="token punctuation">.</span><span class="token function">isCompleted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    book<span class="token punctuation">.</span><span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+</code></pre></div>
+<p>Con esos dos cambios la aplicación debería funcionar con cualquier número de BookReaders y de BookWriters, sin importar el orden ni la cantidad.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">¿notify() o notifyAll()?</p>
+<p>Todo dependerá del sistema que estemos programando, pero por norma general, si queremos que tras modificar el estado del sistema sólo continúe un hilo, llamaremos a <code>notify()</code>.</p>
+<p>Sino, debería utilizarse <code>notifyAll()</code>. Si todo está bien programado el hilo comprobará si puede seguir y, en caso contrario, volverá a hacer un <code>wait()</code> y seguir esperando, por eso no supone un problema que que más de un hilo se active.</p>
+<p>El uso de <code>notify()</code> supone un mayor riesgo de que se produzcan bloqueos indefinidos de hilos a la espera de notificaciones que nunca van a llegar, siendo este bloqueo diferente de un <strong>interbloqueo o deadlock</strong>. Debemos ser muy cuidadosos con la programación de los mecanismos de sincronización.</p>
+<p>Hay que tener en cuenta también que debería haber al menos una llamada <code>notify()</code> por cada <code>wait()</code> que se haya realizado, aunque eso tampoco asegura que algún hilo no se quede bloqueado.</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Modifica el ejemplo Sumador-Restador</p>
+<p>Haz las modificaciones necesarias en las clases del proyecto U3S3_SharedMemory (guárdalo como U3S3_SharedMemory_v2) para que:</p>
+<ul>
+<li>El primer hilo que haga una operación sobre el contador sea un Sumador</li>
+<li>Después de un Sumador siempre se ejecute un Restador y después de un Restador siempre se ejecute un Sumador, haciendo una secuencia Sumador-Restador-Sumador-Restador-...</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">U3S3_SharedMemory_v2</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Contador</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-int">int</span> c <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-boolean">boolean</span> ahoraSumador <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Contador</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>c <span class="token operator">=</span> c<span class="token punctuation">;</span>
+        ahoraSumador <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-synchronized">synchronized</span> <span class="token keyword keyword-void">void</span> <span class="token function">incrementa</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>ahoraSumador<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+                <span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// El hilo hace su tarea</span>
+        c<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span>  <span class="token function">valor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Cambia el estado y avisa al resto de hilos por si alguno puede seguir</span>
+        ahoraSumador <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token function">notifyAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-synchronized">synchronized</span> <span class="token keyword keyword-void">void</span> <span class="token function">decrementa</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>ahoraSumador<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+                <span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// El hilo hace su tarea</span>
+        c<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span>  <span class="token function">valor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Cambia el estado y avisa al resto de hilos por si alguno puede seguir</span>
+        ahoraSumador <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token function">notifyAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-int">int</span> <span class="token function">valor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-return">return</span> c<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>En la clase Contador hemos incorporado un estado, que controla qué hilo es el que puede ejecutar y cuál el que tiene que esperar.</p>
+<p>Además, como se comenta más adelante, se ha movido la salida de los hilos a los métodos de esta clase.</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Restador</span>  <span class="token keyword keyword-implements">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">Contador</span> c<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Restador</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">,</span> <span class="token class-name">Contador</span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// super(name);</span>
+        <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+        <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>c <span class="token operator">=</span> c<span class="token punctuation">;</span>
+        
+    <span class="token punctuation">}</span>
+    
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// Ejecutar 300 veces con espera entre 50ms y 150ms</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">300</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+                c<span class="token punctuation">.</span><span class="token function">decrementa</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword keyword-long">long</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token class-name">Math</span><span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">100</span> <span class="token operator">+</span> <span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// Nothing</span>
+            <span class="token punctuation">}</span>            
+        <span class="token punctuation">}</span>        
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>Tanto Restador como Sumador siguen siendo prácticamente idénticos.</p>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Sumador</span>  <span class="token keyword keyword-extends">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">Contador</span> c<span class="token punctuation">;</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Sumador</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">,</span> <span class="token class-name">Contador</span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-super">super</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>c <span class="token operator">=</span> c<span class="token punctuation">;</span>
+        
+    <span class="token punctuation">}</span>
+    
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Ejecutar 300 veces con espera entre 50ms y 150ms</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">300</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+                c<span class="token punctuation">.</span><span class="token function">incrementa</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword keyword-long">long</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token class-name">Math</span><span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">100</span> <span class="token operator">+</span> <span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// Nothing</span>
+            <span class="token punctuation">}</span>            
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>La clase principal se mantiene igual.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Salida sincronizada</p>
+<p>Como se puede observar, la <strong>salida</strong> que en el ejemplo original se realizaba en el método run de Sumador y Restador, ahora se ha movido a la clase Contador, en concreto a los métodos <code>synchronized</code>.</p>
+<p>Hay que tener cuidado con la salida por pantalla. Todos los threads están usando System.out a la vez y los resultados que se muestran por pantalla. Aunque suene extraño, el <strong>orden en el que se muestran los mensajes no siempre es el mismo orden en el que se han producido</strong>. Por eso es importante que las salidas de los hilos se muevan dentro de los bloques sincronizados.</p>
+<p>Si no controlamos la forma de mostrar la salida podemos encontrarnos con problemas que están bien resueltos pero que la salida nos dice lo contrario.</p>
+</div>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

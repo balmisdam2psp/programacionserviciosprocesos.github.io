@@ -1,0 +1,516 @@
+<!DOCTYPE html><html><head>
+      <title>PSP - U3 Actividades (productor-consumidor)</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css);
+code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}@font-face{font-family:"Material Icons";font-style:normal;font-weight:400;src:local("Material Icons"),local("MaterialIcons-Regular"),url("data:application/x-font-woff;charset=utf-8;base64,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") format("woff")}.admonition{box-shadow:0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);position:relative;margin:1.5625em 0;padding:0 1.2rem;border-left:.4rem solid rgba(68,138,255,.8);border-radius:.2rem;background-color:rgba(255,255,255,.05);overflow:auto}.admonition>p{margin-top:.8rem}.admonition>.admonition-title{margin:0 -1.2rem;padding:.8rem 1.2rem .8rem 3.6rem;border-bottom:1px solid rgba(68,138,255,.2);background-color:rgba(68,138,255,.1);font-weight:700}.admonition>.admonition-title:before{position:absolute;left:1.2rem;font-size:1.5rem;color:rgba(68,138,255,.8);content:"\E3C9"}.admonition>.admonition-title:before{font-family:Material Icons;font-style:normal;font-variant:normal;font-weight:400;line-height:2rem;text-transform:none;white-space:nowrap;speak:none;word-wrap:normal;direction:ltr}.admonition.abstract,.admonition.summary,.admonition.tldr{border-left-color:rgba(0,176,255,.8)}.admonition.abstract>.admonition-title,.admonition.summary>.admonition-title,.admonition.tldr>.admonition-title{background-color:rgba(0,176,255,.1);border-bottom-color:rgba(0,176,255,.2)}.admonition.abstract>.admonition-title:before,.admonition.summary>.admonition-title:before,.admonition.tldr>.admonition-title:before{color:#00b0ff;content:"\E8D2"}.admonition.hint,.admonition.tip{border-left-color:rgba(0,191,165,.8)}.admonition.hint>.admonition-title,.admonition.tip>.admonition-title{background-color:rgba(0,191,165,.1);border-bottom-color:rgba(0,191,165,.2)}.admonition.hint>.admonition-title:before,.admonition.tip>.admonition-title:before{color:#00bfa5;content:"\E80E"}.admonition.info,.admonition.todo{border-left-color:rgba(0,184,212,.8)}.admonition.info>.admonition-title,.admonition.todo>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.info>.admonition-title:before,.admonition.todo>.admonition-title:before{color:#00b8d4;content:"\E88E"}.admonition.check,.admonition.done,.admonition.success{border-left-color:rgba(0,200,83,.8)}.admonition.check>.admonition-title,.admonition.done>.admonition-title,.admonition.success>.admonition-title{background-color:rgba(0,200,83,.1);border-bottom-color:rgba(0,200,83,.2)}.admonition.check>.admonition-title:before,.admonition.done>.admonition-title:before,.admonition.success>.admonition-title:before{color:#00c853;content:"\E876"}.admonition.faq,.admonition.help,.admonition.question{border-left-color:rgba(100,221,23,.8)}.admonition.faq>.admonition-title,.admonition.help>.admonition-title,.admonition.question>.admonition-title{background-color:rgba(100,221,23,.1);border-bottom-color:rgba(100,221,23,.2)}.admonition.faq>.admonition-title:before,.admonition.help>.admonition-title:before,.admonition.question>.admonition-title:before{color:#64dd17;content:"\E887"}.admonition.attention,.admonition.caution,.admonition.warning{border-left-color:rgba(255,145,0,.8)}.admonition.attention>.admonition-title,.admonition.caution>.admonition-title,.admonition.warning>.admonition-title{background-color:rgba(255,145,0,.1);border-bottom-color:rgba(255,145,0,.2)}.admonition.attention>.admonition-title:before{color:#ff9100;content:"\E417"}.admonition.caution>.admonition-title:before,.admonition.warning>.admonition-title:before{color:#ff9100;content:"\E002"}.admonition.fail,.admonition.failure,.admonition.missing{border-left-color:rgba(255,82,82,.8)}.admonition.fail>.admonition-title,.admonition.failure>.admonition-title,.admonition.missing>.admonition-title{background-color:rgba(255,82,82,.1);border-bottom-color:rgba(255,82,82,.2)}.admonition.fail>.admonition-title:before,.admonition.failure>.admonition-title:before,.admonition.missing>.admonition-title:before{color:#ff5252;content:"\E14C"}.admonition.bug,.admonition.danger,.admonition.error{border-left-color:rgba(255,23,68,.8)}.admonition.bug>.admonition-title,.admonition.danger>.admonition-title,.admonition.error>.admonition-title{background-color:rgba(255,23,68,.1);border-bottom-color:rgba(255,23,68,.2)}.admonition.danger>.admonition-title:before{color:#ff1744;content:"\E3E7"}.admonition.error>.admonition-title:before{color:#ff1744;content:"\E14C"}.admonition.bug>.admonition-title:before{color:#ff1744;content:"\E868"}.admonition.example,.admonition.snippet{border-left-color:rgba(0,184,212,.8)}.admonition.example>.admonition-title,.admonition.snippet>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.example>.admonition-title:before,.admonition.snippet>.admonition-title:before{color:#00b8d4;content:"\E242"}.admonition.cite,.admonition.quote{border-left-color:rgba(158,158,158,.8)}.admonition.cite>.admonition-title,.admonition.quote>.admonition-title{background-color:rgba(158,158,158,.1);border-bottom-color:rgba(158,158,158,.2)}.admonition.cite>.admonition-title:before,.admonition.quote>.admonition-title:before{color:#9e9e9e;content:"\E244"}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/catamaran/v28/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
+}
+.markdown-preview.markdown-preview .box_bg_lightgrey {
+  background-color: #f5f5f5;
+  border: 2px solid #969696;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .box_bg_lightgreen {
+  background-color: #f5faf5;
+  border: 2px solid #969b96;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .contenedor {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto 30px auto;
+}
+.markdown-preview.markdown-preview .fondo {
+  background: url(https://balmisdigigs.github.io/digitalizacion.github.io/imagenes/fondos/quote.png);
+  background-size: cover;
+  width: 75%;
+  height: 160px;
+  border-radius: 10px;
+  position: relative;
+}
+.markdown-preview.markdown-preview .cita {
+  font-family: Arial;
+  font-style: italic;
+  font-weight: 600;
+  text-align: justify;
+  line-height: 1.5rem;
+  opacity: 0.6;
+  color: white;
+  padding: 5rem;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  font-size: 1.3rem;
+  transform: translate(-50%, -50%);
+}
+.markdown-preview.markdown-preview .abre_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-left: 30px;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, -15%);
+}
+.markdown-preview.markdown-preview .cierra_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-right: 30px;
+  right: 0%;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, 55%);
+}
+.markdown-preview.markdown-preview .autor {
+  font-family: Arial;
+  color: white;
+  margin: 0px;
+  padding-left: 30px;
+  position: absolute;
+  top: 83%;
+  font-size: 1rem;
+}
+.markdown-preview.markdown-preview .flotante {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: center;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: space-between;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: row;
+  }
+}
+.markdown-preview.markdown-preview .flotante_izq {
+  margin-right: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: auto;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: auto;
+  }
+}
+.markdown-preview.markdown-preview .galeria_imagenes {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: row;
+  }
+}
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  const configureMermaidIconPacks = () => {
+    window["mermaid"].registerIconPacks([
+      {
+        name: "logos",
+        loader: () =>
+          fetch("https://unpkg.com/@iconify-json/logos@1/icons.json").then(
+            (res) => res.json()
+          ),
+      },
+    ]);
+  };
+
+  if (document.readyState !== 'loading') {
+    configureMermaidIconPacks();
+  } else {
+    document.addEventListener("DOMContentLoaded", () => {
+      configureMermaidIconPacks();
+    });
+  }
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<p><img src="..\..\imagenes\img-BalmisHeader.png" alt="Cabecera"></p>
+<h1 id="psp---u3-actividades-productor-consumidor">PSP - U3 Actividades (productor-consumidor) </h1>
+<p><a href="./u3_actividades2.pdf">Descargar estos apuntes</a></p>
+<h2 id="índice">Índice </h2>
+
+<div class="md-toc">
+<div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#30-clase-pspactividadesu3a30_restaurante" class="md-toc-link">
+            <ol start="30">
+<li>Clase psp.actividades.U3A30_Restaurante</li>
+</ol>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#31-clase-pspactividadesu3a31_colecta" class="md-toc-link">
+            <ol start="31">
+<li>Clase psp.actividades.U3A31_Colecta</li>
+</ol>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#32-clase-pspactividadesu3a32_colecta2" class="md-toc-link">
+            <ol start="32">
+<li>Clase psp.actividades.U3A32_Colecta2</li>
+</ol>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#33-clase-pspactividadesu3a33_casino" class="md-toc-link">
+            <ol start="33">
+<li>Clase psp.actividades.U3A33_Casino</li>
+</ol>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#34-clase-pspactividadesu3a34_grandesalmacenes" class="md-toc-link">
+            <ol start="34">
+<li>Clase psp.actividades.U3A34_GrandesAlmacenes</li>
+</ol>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#35-clase-pspactividadesu3a35_descansolaboral" class="md-toc-link">
+            <ol start="35">
+<li>Clase psp.actividades.U3A35_DescansoLaboral</li>
+</ol>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#36-clase-pspactividadesu3a36_parking" class="md-toc-link">
+            <ol start="36">
+<li>Clase psp.actividades.U3A36_Parking</li>
+</ol>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#37-clase-pspactividadesu3a37_parkingcamiones" class="md-toc-link">
+            <ol start="37">
+<li>Clase psp.actividades.U3A37_ParkingCamiones</li>
+</ol>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#38-clase-pspactividadesu3a38_puente" class="md-toc-link">
+            <ol start="38">
+<li>Clase psp.actividades.U3A38_Puente</li>
+</ol>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#39-clase-pspactividadesu3a39_puentedoblesentido" class="md-toc-link">
+            <ol start="39">
+<li>Clase psp.actividades.U3A39_PuenteDobleSentido</li>
+</ol>
+
+          </a></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Para todas las aplicaciones, <strong>las excepciones deben controlarse en el código del programa</strong>. Si no se indica lo contrario, en el bloque catch siempre se mostrará la pila de llamadas usando el método <code>printStackTrace()</code> de la excepción capturada junto con la versión traducida del mensaje de error asociado, método <code>getLocalizedMessage()</code>.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Aspectos a tener en cuenta</p>
+<p>En estas actividades volvemos a usar la nomenclatura de clases y proyectos explicada en la hoja de <a href="https://apuntesvicente.github.io/actividadesPSP/UD2/ActividadesAutoEvaluaci%C3%B3n.html">actividades de autoevaluación de la U2</a></p>
+<div class="admonition note">
+<p class="admonition-title">Ponerle nombre a los hilos</p>
+<p>Es importante darle nombre a los threads y mostrar ese nombre en las salidas por consola. De esta forma se puede identificar qué hilo es el que está produciendo esa información.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Uso de colores en la consola</p>
+<p>Para diferenciar las salidas de los diferentes hilos, siempre que sea posible, podéis consultar el <a href="https://psp2dam.github.io/psp_pages/es/unit2/console_annex.html#uso-de-colores-en-la-salida-por-consola">(Anexo I de la Unidad 2)</a>.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Tiempos de simulación</p>
+<p>Realiza las simulaciones de las actividades usando tiempos proporcionales a los que se indican en el enunciado.</p>
+<ul>
+<li>Por ejemplo, si habla de 1h y 5h, se pueden usar 10ms/50ms o bien 2ms/10ms, 100ms/500ms, 1s/5s.</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Parametrización de las actividades</p>
+<p>Siempre que sea posible, parametriza las actividades para que se puedan ejecutar con diferentes valores.</p>
+<p>La parametrización se puede hacer mediante argumentos de la línea de comandos, ficheros de configuración, etc.</p>
+<p>Lo ideal es que en la clase principal se definan/lean constantes y que el resto de clases reciban los valores que necesiten a través de sus <code>constructores</code>.</p>
+<p>De esta forma podemos modificar fácilmente los valores de configuración sin tener que modificar el código de las clases.</p>
+</div>
+</div>
+<div style="page-break-after:always;"></div>
+<h2 id="30-clase-pspactividadesu3a30_restaurante">30. Clase psp.actividades.U3A30_Restaurante </h2>
+<p>Considera un restaurante que tiene un cocinero y un camarero. El camarero debe esperar a que el cocinero prepare una comida. Cuando el cocinero tiene una comida preparada, se lo notifica al camarero (toca una campana), para que sirva la comida y vuelva a esperar. El cocinero no puede preparar otra comida hasta que el camarero haya servido la comida que ha preparado.</p>
+<p>El programa que lo modela mostrará cuando el cocinero ha preparado un plato de comida y cuando el camarero lo sirve.<br>
+El camarero deberá servir los mismos platos que ha cocinado el cocinero, y en el mismo orden en que éste los ha preparado.</p>
+<p>Realiza la simulación con las siguientes clases:</p>
+<ul>
+<li><strong>U3A30_Carta</strong>: dispondrá de un método llamado “elegirComida” que devuelva aleatoriamente el nombre de un plato de comida de entre los que ofrezca el restaurante (la carta del restaurante).</li>
+<li><strong>U3A30_Plato</strong>: Esta clase proporcionará los métodos “prepara” y “sirve” para depositar la comida en él y servirla respectivamente.</li>
+<li><strong>U3A30_Camarero</strong>: El camarero se ejecutará el mismo número de iteraciones que el cocinero. En cada uno de ellas toma la comida del plato y la sirve. Entre cada iteración duerme un tiempo aleatorio entre 1 y 3 minutos.</li>
+<li><strong>U3A30_Cocinero</strong>: El cocinero preparará 8 platos. Cada vez dejará en el plato de comida una comida de la carta elegida al azar. Entre cocinado y cocinado se quedará descansando durante un tiempo aleatorio entre 2 y 4 minutos.</li>
+<li><strong>U3A30_Restaurante</strong>: pondrá en marcha la aplicación.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Cambio los parámetros del problema</p>
+<p>Si modificas los tiempos de espera del camarero y/o del cocinero, puedes comprobar la simulación bajo distintos escenarios, obteniendo resultados diferentes.</p>
+<p>Puedes forzar a que el camarero siempre espere al cocinero, o que el cocinero siempre tenga la comida lista cuando el camarero vaya a servirla.</p>
+<p>Puedes llegar incluso a eliminar el tiempo de espera de uno de los dos, o de los dos, para ver cómo se comporta el programa en esos casos.</p>
+</div>
+<p>A continuación se muestra un ejemplo de ejecución del programa:</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>Cocinero ha preparado un nuevo plato de <span class="token punctuation">(</span>Lentejas<span class="token punctuation">)</span>
+Camarero ha servido un plato de <span class="token punctuation">(</span>Lentejas<span class="token punctuation">)</span>
+Camarero esperando que se prepare un nuevo plato
+Cocinero ha preparado un nuevo plato de <span class="token punctuation">(</span>Lentejas<span class="token punctuation">)</span>
+Camarero intentando servir <span class="token punctuation">(</span>Lentejas<span class="token punctuation">)</span>
+Camarero ha servido un plato de <span class="token punctuation">(</span>Lentejas<span class="token punctuation">)</span>
+Cocinero ha preparado un nuevo plato de <span class="token punctuation">(</span>Ensalada mixta<span class="token punctuation">)</span>
+Camarero ha servido un plato de <span class="token punctuation">(</span>Ensalada mixta<span class="token punctuation">)</span>
+Camarero esperando que se prepare un nuevo plato
+Cocinero ha preparado un nuevo plato de <span class="token punctuation">(</span>Sopa de verduras<span class="token punctuation">)</span>
+Camarero intentando servir <span class="token punctuation">(</span>Sopa de verduras<span class="token punctuation">)</span>
+Camarero ha servido un plato de <span class="token punctuation">(</span>Sopa de verduras<span class="token punctuation">)</span>
+Cocinero ha preparado un nuevo plato de <span class="token punctuation">(</span>Ternera plancha<span class="token punctuation">)</span>
+Camarero ha servido un plato de <span class="token punctuation">(</span>Ternera plancha<span class="token punctuation">)</span>
+Camarero esperando que se prepare un nuevo plato
+Cocinero ha preparado un nuevo plato de <span class="token punctuation">(</span>Macarrones con tomate<span class="token punctuation">)</span>
+Camarero intentando servir <span class="token punctuation">(</span>Macarrones con tomate<span class="token punctuation">)</span>
+Camarero ha servido un plato de <span class="token punctuation">(</span>Macarrones con tomate<span class="token punctuation">)</span>
+Camarero esperando que se prepare un nuevo plato
+Cocinero ha preparado un nuevo plato de <span class="token punctuation">(</span>Ternera plancha<span class="token punctuation">)</span>
+Camarero intentando servir <span class="token punctuation">(</span>Ternera plancha<span class="token punctuation">)</span>
+Camarero ha servido un plato de <span class="token punctuation">(</span>Ternera plancha<span class="token punctuation">)</span>
+Camarero esperando que se prepare un nuevo plato
+Cocinero ha preparado un nuevo plato de <span class="token punctuation">(</span>Arroz de marisco<span class="token punctuation">)</span>
+Camarero intentando servir <span class="token punctuation">(</span>Arroz de marisco<span class="token punctuation">)</span>
+Camarero ha servido un plato de <span class="token punctuation">(</span>Arroz de marisco<span class="token punctuation">)</span>
+</code></pre><div style="page-break-after:always;"></div>
+<h2 id="31-clase-pspactividadesu3a31_colecta">31. Clase psp.actividades.U3A31_Colecta </h2>
+<p>Tenemos a 4 personas (colectores) haciendo una colecta.</p>
+<p>Según vaya el día, cada persona tardan entre 10 y 200 minutos en conseguir una cantidad de entre 4€ y 25€.<br>
+La colecta termina cuando se llega a recoger 2000€.</p>
+<p>Realiza varias simulaciones para ver cuánto tiempo tardan en completar la colecta y muestra información de lo que ha recogido cada una de las 4 personas.</p>
+<h2 id="32-clase-pspactividadesu3a32_colecta2">32. Clase psp.actividades.U3A32_Colecta2 </h2>
+<blockquote>
+<p>Empieza a partir de la solución del problema anterior.</p>
+</blockquote>
+<p>Ahora, además de colectores, hay encargados de recaudar el dinero. Estos se encargan de recoger el dinero de los colectores y llevarlo a la oficina.</p>
+<p>Los recaudadores, en un intervalo de entre 20 y 300 minutos pueden recoger entre 10€ y 40€.</p>
+<p>Los colectores no pueden recoger más dinero cuando se ha llegado al tope, pero ahora no terminan la colecta, sólo se toman un descanso hasta que alguno de los encargados retire dinero.</p>
+<p>Lo mismo pasa con los encargados, que si no pueden recoger dinero esperarán a que los colectores aporten más a la colecta.</p>
+<p>El número de encargados será variable (fijadlo como una constante del programa) y se escogerá para probar toda la casuística del problema.</p>
+<ul>
+<li>Cuantos más encargados haya éstos tendrán que esperar a que los colectores aporten dinero.</li>
+<li>Si hay muchos más colectores que encargados, los colectores tendrán que esperar a que los encargados recojan el dinero.</li>
+</ul>
+<p><strong>El programa no tiene condición de finalización</strong> es una simulación infinita.<br>
+Se deben mostrar mensajes informando claramente de lo que está sucediendo en cada momento, y de quién está realizando cada acción.</p>
+<div style="page-break-after:always;"></div>
+<h2 id="33-clase-pspactividadesu3a33_casino">33. Clase psp.actividades.U3A33_Casino </h2>
+<p>Queremos simular los posibles beneficios de diversas estrategias de juego en un casino. La <strong>ruleta francesa</strong> es un juego en el que hay una ruleta con 37 números (del 0 al 36).</p>
+<ul>
+<li>Cada 60 segundos el croupier saca un número al azar y los diversos jugadores apuestan para ver si ganan.</li>
+<li>Todos los jugadores empiezan con 1.000 euros y la banca (que controla la ruleta) con 50.000.</li>
+<li>Cuando los jugadores pierden dinero, la banca incrementa su saldo en la apuesta del jugador.</li>
+</ul>
+<h3 id="apostar-a-un-número">Apostar a un número </h3>
+<p>Vamos a simular que 4 jugadores apuestan a un número al azar.</p>
+<ul>
+<li>Cada uno de ellos elige un número al azar del 1 al 36 (no el 0).</li>
+<li>Siempre apuestan 10€ de su saldo a ese ese número.</li>
+<li>Si sale su número su saldo se incrementa en 360 euros (36 veces lo apostado).</li>
+</ul>
+<h3 id="apostar-a-parimpar">Apostar a par/impar </h3>
+<p>Vamos a simular que 4 jugadores apuestan a par/impar.</p>
+<ul>
+<li>Cada uno de ellos apuestan al azar a que saldrá un número par o un número impar.</li>
+<li>Siempre apuestan 10€ y si ganan incrementan su saldo en 20 euros (el doble de lo apostado).</li>
+</ul>
+<h3 id="martingala">Martingala </h3>
+<p>Vamos a simular que 4 jugadores apuestan a un número al azar.</p>
+<ul>
+<li>Cada uno de ellos elige un número al azar del 1 al 36 (no el 0).</li>
+<li>Empiezan apostando 10€ de su saldo a ese número.</li>
+<li>Si ganan incrementan su saldo en 360 euros (36 veces lo apostado).</li>
+<li>Si pierden jugarán el doble de su apuesta anterior (es decir, 20, luego 40, luego 80, y así sucesivamente).</li>
+<li>Si ganan siempre multiplican su apuesta por 36.</li>
+</ul>
+<blockquote>
+<p>La banca acepta todas las apuestas pero nunca paga más dinero del que tiene.<br>
+Si sale el 0, todo el mundo pierde y la banca se queda con el dinero de todas las apuestas.</p>
+</blockquote>
+<p><strong>El juego acaba cuando todos los jugadores se hayan quedado <code>sin blanca</code> o se haya producido <code>bancarota</code>.</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Flujo del juego</p>
+<p>El flujo del juego será el siguiente:</p>
+<ul>
+<li>Se muestra el saldo de cada jugador y de la banca.</li>
+<li>Cada jugador realiza su apuesta y espera a que se saque el número. Se muestra la apuesta realizada.</li>
+<li>El croupier saca un número y avisa a los jugadores.</li>
+<li>Se actualiza el saldo de cada jugador y de la banca.</li>
+<li>Se comprueba si hay algún jugador que se ha quedado sin dinero. <strong>Éste se elimina del juego</strong>.</li>
+<li>Se comprueba si la banca se ha quedado sin dinero o si no quedan jugadores. <strong>Fin del juego</strong>.</li>
+<li>Si no se ha acabado el juego, <strong>se vuelve a empezar</strong>.</li>
+</ul>
+</div>
+<div style="page-break-after:always;"></div>
+<h2 id="34-clase-pspactividadesu3a34_grandesalmacenes">34. Clase psp.actividades.U3A34_GrandesAlmacenes </h2>
+<p>En unos grandes almacenes hay 300 clientes agolpados en la puerta para intentar conseguir un producto del cual solo hay 100 unidades.</p>
+<p>Por la puerta solo cabe una persona, pero la paciencia de los clientes es limitada por lo que solo harán un máximo de 10 intentos para entrar por la puerta. Si después de 10 intentos la puerta no se ha encontrado libre ni una sola vez, el cliente desiste y se marcha.</p>
+<p>Cuando se consigue entrar por la puerta el cliente puede encontrarse con dos situaciones:</p>
+<ul>
+<li>Quedan productos: el cliente cogerá uno y se marchará.</li>
+<li>No quedan productos: el cliente simplemente se marchará.</li>
+</ul>
+<p>Realizar la simulación en Java de dicha situación.</p>
+<div class="admonition warning">
+<p class="admonition-title">Planteamiento del problema</p>
+<p>Tened en cuenta que dentro de este problema realmente hay dos, por un lado está el acceso a la tienda y por otro la compra del producto.</p>
+</div>
+<h2 id="35-clase-pspactividadesu3a35_descansolaboral">35. Clase psp.actividades.U3A35_DescansoLaboral </h2>
+<p>Tenemos a 4 personas trabajando entre 2 y 4 horas, después se preparan un bocadillo y vuelven a trabajar, y así continuamente.</p>
+<p>La empresa tiene una pequeña despensa con productos para preparar bocadillos. Inicialmente se tienen 6 hojas de lechuga, 3 tomates y 500g de jamón.</p>
+<p>Para cada bocadillo se necesitan 2 hojas de lechuga, 1 tomate y 100g de jamón.</p>
+<p>Existe un servicio de catering que cada 8 horas repone la lechuga, cada 5 horas repone el tomate y cada 12 horas repone el jamón. Todos los productos, por problemas de espacio, se reponen hasta alcanzar las cantidades iniciales.</p>
+<p>La empresa quiere realizar una simulación para ver si con este sistema los trabajadores pierden mucho tiempo esperando para preparar sus bocadillos.</p>
+<div class="admonition info">
+<p class="admonition-title">Proveedores</p>
+<p>Los proveedores de los productos no se quedan esperando a que los trabajadores recojan los productos, simplemente completan el stock hasta llenar la despensa.</p>
+<p>Un ejemplo de la simulación, para la reposición, sería el siguiente:<br>
+A las 5 horas de empezar la simulación, se reponen los tomates, 3 horas después se reponen las lechugas, 2 horas después se reponen de nuevo los tomates, 2 horas más tarde se repone jamón, 3 horas después se vuelven a reponer tomates, una 1 hora después se vuelven a reponer lechugas, etc.<br>
+Cada producto lleva su tiempo de reposición independiente según los tiempos indicados.</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>Tomates:  ----X----X----X----X----X----X----X----X----X----X----X----X----X----X----X
+Lechugas: -------X-------X-------X-------X-------X-------X-------X-------X-------X---
+Jamón:    -----------X-----------X-----------X-----------X-----------X-----------X---
+</code></pre></div>
+<div style="page-break-after:always;"></div>
+<h2 id="36-clase-pspactividadesu3a36_parking">36. Clase psp.actividades.U3A36_Parking </h2>
+<p>Se tiene un aparcamiento con N(10) plazas, numeradas de 1 a N(10), al que intentan acceder coches continuamente.</p>
+<p>Los coches llegan con una frecuencia entre 5 y 15 minutos.</p>
+<p>Cada coche se identifica con una matrícula (aleatoria en formato LLL 1234 -3 letras y 4 dígitos-) que queda asociada a la plaza de aparcamiento libre que se le asigna, si la hay.</p>
+<ul>
+<li>Si el parking está lleno, los coches esperan en la entrada a que haya plaza.</li>
+<li>Si un coche consigue aparcar, el tiempo de permanencia de los coches en el parking está entre 30 y 60 minutos.</li>
+</ul>
+<p>Realiza varias simulaciones para ver si el parking se va llenando, y en cuanto tiempo lo hace, o si por el contrario nunca llega a llenarse.</p>
+<p>Muestra información detallada de lo que va pasando, informando de cuántas plazas están ocupadas y cuántas quedan libres en cada momento. Informa también si un coche se queda esperando en la entrada.</p>
+<p>En ete ejemplo se ha optado por asignar las plazas de aparcamiento de forma secuencial, es decir, si hay plazas libres, se asigna la primera que esté libre. Se puede optar por asignarlas de forma cíclica, aleatoria. Tienes libertad para hacerlo como más te convenga.</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>ENTRADA: Coche 1234-ABC entra en la plaza 1
+    Plazas libres: 9
+    Parking: [1234-ABC] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+ENTRADA: Coche 2345-DEF entra en la plaza 2
+    Plazas libres: 8
+    Parking: [1234-ABC] [2345-DEF] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+ENTRADA: Coche 3456-GHI entra en la plaza 3
+    Plazas libres: 7
+    Parking: [1234-ABC] [2345-DEF] [3456-GHI] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+SALIDA: Coche 1234-ABC abandona la plaza 1
+    Plazas libres: 8
+    Parking: [ ] [2345-DEF] [3456-GHI] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+ENTRADA: Coche 4567-JKL entra en la plaza 1
+    Plazas libres: 7
+    Parking: [4567-JKL] [2345-DEF] [3456-GHI] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+SALIDA: Coche 3456-GHI abandona la plaza 3
+    Plazas libres: 8
+    Parking: [4567-JKL] [2345-DEF] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+</code></pre><div class="admonition warning">
+<p class="admonition-title">Cola de espera</p>
+<p>Si un coche se queda esperando en la entrada, se debe mostrar un mensaje indicándolo. Puedes usar System.err para diferenciar el mensaje de COLA de los de ENTRADA y SALIDA.</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>COLA: Coche 5678-MNO espera en la entrada
+</code></pre><p>La reentrada de un coche que ha estado esperando en la entrada se puede gestionar de dos formas:</p>
+<ul>
+<li>Se coge cualquiera de los coches que está esperando y se le asigna la plaza que ha dejado libre el coche que ha salido.</li>
+<li>Se coge el primer coche que se quedó esperando y se le asigna la plaza que ha dejado libre el coche que ha salido.</li>
+</ul>
+<p>La segunda opción es la que ocurre en realidad, ya que los coches están en cola a la entrada del parking esperando a que quede una plaza libre. La segunda es más sencilla de implementar.</p>
+<p><strong>Puedes elegir cualquiera de las dos opciones, o empezar por la más sencilla y después intentar la otra.</strong></p>
+</div>
+<div style="page-break-after:always;"></div>
+<h2 id="37-clase-pspactividadesu3a37_parkingcamiones">37. Clase psp.actividades.U3A37_ParkingCamiones </h2>
+<p>Partiendo del problema anterior, ahora en el parking también pueden entrar camiones. El problema es que un camión necesita dos plazas contiguas, una par y otra impar, siendo la impar la menor de ellas (en nuestro parking, entre una plaza par y la siguiente impar hay una columna).</p>
+<p>El número de camiones que accede a nuestro parking es mucho menor que el de coches. Escoger el número de vehículos de cada tipo teniendo en cuenta que deberían guardar una relación de 10/3.</p>
+<h2 id="38-clase-pspactividadesu3a38_puente">38. Clase psp.actividades.U3A38_Puente </h2>
+<p>Necesitamos simular un sistema que controla el paso de personas por un puente, siempre en la misma dirección, para que se cumplan las siguientes restricciones.</p>
+<ul>
+<li>No pueden pasar más de tres personas a la vez,</li>
+<li>No puede haber más de 200kg de peso en ningún momento.</li>
+</ul>
+<p>El tiempo de llegada entre dos personas está entre 1 y 30 minutos y para atravesar el puente se tarda también un tiempo entre 10 y 50 minutos. Las personas tienen un peso entre 40 y 120kg.</p>
+<p>Realizar la simulación usando una escala de tiempo proporcional.</p>
+<p>Muestra cuántas personas hay en el puente en cada momento, cuánto peso está soportando el puente y cuánto tiempo les queda a cada uno para terminar de cruzar el puente.</p>
+<div class="admonition note">
+<p class="admonition-title">Información</p>
+<p>La información que se muestra en cada momento se refiere a cada vez que se muestra información por consola.<br>
+En cada salida se debe mostrar toda la información indicada para poder comprobar que el programa funciona correctamente.</p>
+</div>
+<h2 id="39-clase-pspactividadesu3a39_puentedoblesentido">39. Clase psp.actividades.U3A39_PuenteDobleSentido </h2>
+<p>Partimos del problema anterior. Ahora se permite el paso de personas en los dos sentidos.</p>
+<p>Se han modificado las restricciones:</p>
+<ul>
+<li>Como máximo puede haber cuatro personas en el puente</li>
+<li>Pueden pasar un máximo de tres en un mismo sentido.</li>
+<li>El peso máximo se ha aumentado hasta los 250kg.</li>
+</ul>
+<p>Amplia la información con la nueva información, indicando en qué sentido va cada persona.</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
