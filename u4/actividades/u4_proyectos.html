@@ -202,17 +202,22 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 <li>Proyecto U4P1_PreguntasRespuestas</li>
 </ol>
 
-          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
-          <a href="#2-proyecto-u4p2_juegoadivinarnumero-modo-normal-hasta-7-puntos" class="md-toc-link">
-            <ol start="2">
+          </a></div><details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#2-proyecto-u4p2_juegoadivinarnumero-modo-normal-hasta-7-puntos" class="md-toc-link"><ol start="2">
 <li>Proyecto U4P2_JuegoAdivinarNumero (modo normal) <code>hasta 7 puntos</code></li>
 </ol>
-
-          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
           <a href="#2a-ampliación-juego-adivinar-número-modo-compartido-3-puntos" class="md-toc-link">
             <p>2.A Ampliación: Juego adivinar número (modo compartido) <code>+3 puntos</code></p>
 
-          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          </a></div>
+        </div>
+      </details>
+    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
           <a href="#3-proyecto-u4p3_descargaarchivos" class="md-toc-link">
             <ol start="3">
 <li>Proyecto U4P3_DescargaArchivos</li>
@@ -256,8 +261,8 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 </ul>
 <p>Para ello, se te pide:</p>
 <p>a) Implementación y diseño del protocolo<br>
-b)	Implementación de la aplicación Cliente (psp.proyectos.U4P1_JugadorPR)<br>
-c)	Implementación de la aplicación Servidor multihilo) (psp.proyectos.U4P1_ServidorPR)</p>
+b) Implementación de la aplicación Cliente (psp.proyectos.U4P1_JugadorPR)<br>
+c) Implementación de la aplicación Servidor multihilo) (psp.proyectos.U4P1_ServidorPR)</p>
 <div class="admonition note">
 <p class="admonition-title">Mejoras</p>
 <p>Puedes añadirle las mejoras que desees. Indícalas en el texto habilitado con la entrega del proyecto.</p>
@@ -400,7 +405,7 @@ c)	Implementación de la aplicación Servidor multihilo) (psp.proyectos.U4P1_Ser
 <li>El servidor envía un mensaje que le sirve al cliente para saber si el número a acertar es mayor (+), menor (-)  o ha acertado (=). En caso de no haber acertado, envía otro mensaje indicando el número de intentos restantes.</li>
 <li>El cliente se desconectará cuando haya acertado o bien cuando el número de intentos restantes sea 0. La instancia del server que atiende al cliente también finaliza.</li>
 </ul>
-<p><img src="./Soluciones/JuegoAdivinoProtocolo.png" alt="Juego Adivino"></p>
+<p><img src="./soluciones/JuegoAdivinoProtocolo.png" alt="Juego Adivino"></p>
 <div class="admonition warning">
 <p class="admonition-title">Información al usuario</p>
 <p>El servidor debe informar al cliente de los intentos restantes en todo momento.<br>
@@ -409,7 +414,7 @@ Cuando el cliente recibe los comandos del servidor, no se los muestra tal cual a
 </div>
 <p>Cada jugador juega de manera individual con el servidor. Tenéis que probar a jugar con un par de jugadores, desde la misma máquina o desde otra.</p>
 <p>Cuando el jugador acaba podéis hacer que tenga la opción de volver a jugar, para lo cual tendrá que volver a conectarse con el server.</p>
-<h2 id="2a-ampliación-juego-adivinar-número-modo-compartido-3-puntos">2.A Ampliación: Juego adivinar número (modo compartido) <code>+3 puntos</code> </h2>
+<h3 id="2a-ampliación-juego-adivinar-número-modo-compartido-3-puntos">2.A Ampliación: Juego adivinar número (modo compartido) <code>+3 puntos</code> </h3>
 <p>Siguiendo el protocolo del ejercicio anterior, modificad el servidor para que ahora permita jugar la misma partida a varios jugadores.</p>
 <p>Esto implica que hay información compartida entre todos los workers y que podemos necesitar métodos sincronizados para evitar problemas de concurrencia.</p>
 <ul>
@@ -492,7 +497,7 @@ En el servidor tendremos las carpetas <strong>download</strong> y <strong>upload
 <p>El cliente se desconecta enviando (<strong>EXIT</strong>). Cuando recibe el OK por parte del servidor, el cliente termina su ejecución.</p>
 </li>
 </ul>
-<p><img src="./Soluciones/DescargaArchivosProtocolo.png" alt="DescargaArchivos"></p>
+<p><img src="./soluciones/DescargaArchivosProtocolo.png" alt="DescargaArchivos"></p>
 <div class="admonition note">
 <p class="admonition-title">ERRORES</p>
 <p>Si se envía cualquier otro comando al servidor, este responderá con el mensaje <strong>UNKNOWN_COMMAND</strong>.</p>
