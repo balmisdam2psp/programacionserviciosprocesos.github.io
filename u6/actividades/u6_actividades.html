@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>UD6 Funciones resumen</title>
+      <title>PSP - U6 Actividades</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -190,129 +190,118 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
     
       <div class="crossnote markdown-preview  ">
       
-<h1 id="unidad-6-técnicas-de-programación-segura-funciones-resumen">Unidad 6. Técnicas de programación segura. Funciones resumen </h1>
-<p><a href="./u6_hash-functions.pdf">Descargar estos apuntes</a></p>
+<p><img src="..\..\imagenes\img-BalmisHeader.png" alt="Cabecera"></p>
+<h1 id="psp---u6-actividades">PSP - U6 Actividades </h1>
+<p><a href="./u6_actividades.pdf">Descargar estos apuntes</a></p>
 <h2 id="índice">Índice </h2>
 
 <div class="md-toc">
-<details style="padding:0;;padding-left:0px;" open="">
-        <summary class="md-toc-link-wrapper">
-          <a href="#funciones-resumen" class="md-toc-link"><p>Funciones resumen</p>
-</a>
-          </summary>
-        <div>
-          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
-          <a href="#funciones-hash" class="md-toc-link">
-            <p>Funciones hash</p>
+<div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#1-actividad-u6a01_filechecksum" class="md-toc-link">
+            <ol>
+<li>Actividad U6A01_FileCheckSum</li>
+</ol>
 
-          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
-          <a href="#messagedigest" class="md-toc-link">
-            <p>MessageDigest</p>
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#2-actividad-u6a02_creditcardhack" class="md-toc-link">
+            <ol start="2">
+<li>Actividad U6A02_CreditCardHack</li>
+</ol>
 
-          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
-          <a href="#messagedigest-con-gnupg" class="md-toc-link">
-            <p>MessageDigest con GnuPG</p>
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#3-actividad-u6a03_echoseguro" class="md-toc-link">
+            <ol start="3">
+<li>Actividad U6A03_EchoSeguro</li>
+</ol>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#4-actividad-u6a04_echoasimétrico" class="md-toc-link">
+            <ol start="4">
+<li>Actividad U6A04_EchoAsimétrico</li>
+</ol>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#5-actividad-u6a05_chatduossl" class="md-toc-link">
+            <ol start="5">
+<li>Actividad U6A05_ChatDuoSSL</li>
+</ol>
 
           </a></div>
-        </div>
-      </details>
-    
+</div>
+<div class="admonition info">
+<p class="admonition-title">Nombre del proyecto</p>
+<p>En estas actividades volvemos a usar la nomenclatura de clases y proyectos explicada en la hoja de <a href="https://apuntesvicente.github.io/actividadesPSP/UD2/ActividadesAutoEvaluaci%C3%B3n.html">actividades de autoevaluación de la U2</a></p>
 </div>
 <div style="page-break-after:always;"></div>
-<h2 id="funciones-resumen">Funciones resumen </h2>
-<h3 id="funciones-hash">Funciones hash </h3>
-<p>Un <em>Message digest</em> o resumen de mensaje, más conocidos como <strong>funciones hash</strong>, es una marca digital de un bloque de datos. Existe un gran número de algoritmos diseñados para procesar esto resúmenes, los dos más conocidos son SHA-1 y MD5.</p>
-<p>De un resumen cabe destacar las siguientes características:</p>
+<h2 id="1-actividad-u6a01_filechecksum">1. Actividad U6A01_FileCheckSum </h2>
+<p>Vamos a realizar un programa que genere un resumen de uno o varios archivos de texto.</p>
+<p>El programa recibirá como argumentos el nombre de los archivos a procesar y, como último argumento, el algoritmo a utilizar.</p>
+<p>Cada archivo se leerá línea a línea y se irá generando el resumen por líneas. Una vez completado el resumen se procederá como se detalla a continuación:</p>
 <ul>
-<li>Para el mismo algoritmo, el resumen siempre tiene el mismo tamaño, independientemente del tamaño de los datos que se haya usado para generarlo.</li>
-<li>Es imposible recuperar la información original a partir de un resumen.</li>
-<li>El resumen no debe desvelar nada sobre los datos que se utilizaron para generarlo.</li>
-<li>Es computacionalmente inviable encontrar dos mensajes que tengan el mismo valor de resumen.  Matemáticamente es altamente improbable, pero no imposible.</li>
-<li>Un pequeño cambio en los datos resumidos genera un resumen completamente diferente.</li>
+<li>Si existe un archivo con el mismo nombre y acabado con el nombre del algoritmo indicado (por ejemplo, para el archivo prueba1.txt y el algoritmo SHA-1, existe el archivo prueba1.txt.sha-1), se leerá el valor almacenado en dicho archivo y se comparará con el resumen obtenido.
+<ul>
+<li>Si son iguales se indicará que el archivo no ha sido modificado</li>
+<li>Si no coinciden se mostrará un mensaje indicando que el archivo ha sido modificado y se sobreescribirá el valor del archivo que contiene el resumen.</li>
 </ul>
-<p>Los resúmenes se usan para generar identificadores únicos y confiables. A veces se les llama <em>checksum</em>, ya que sirven para comprobar si una descarga se ha realizado correctamente, generando su resumen y comparándolo con el que generó el archivo original.</p>
+</li>
+<li>Si no existe un archivo con el mismo nombre y acabado con el nombre del algoritmo indicado, se creará ese archivo y se guardará el resumen obtenido, en hexadecimal. Se mostrará un mensaje indicando que se ha creado el resumen para el archivo.</li>
+</ul>
+<div style="page-break-after:always;"></div>
+<h2 id="2-actividad-u6a02_creditcardhack">2. Actividad U6A02_CreditCardHack </h2>
+<p>Hemos conseguido una la base de datos con información de tarjetas de crédito.<br>
+Investigando hemos descubierto que este banco almacena el pin de las tarjetas con un resumen SHA1.</p>
+<p>Nos hemos fijado en las siguientes entrada de la base de datos</p>
+<table>
+<thead>
+<tr>
+<th>Titular</th>
+<th>PIN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amancio Ortega</td>
+<td>7110EDA4D09E062AA5E4A390B0A572AC0D2C0220</td>
+</tr>
+<tr>
+<td>Luis Bárcenas</td>
+<td>39DFA55283318D31AFE5A3FF4A0E3253E2045E43</td>
+</tr>
+<tr>
+<td>Juan Carlos de Borbón</td>
+<td>4170AC2A2782A1516FE9E13D7322AE482C1BD594</td>
+</tr>
+</tbody>
+</table>
+<p>Sabiendo que el PIN de las tarjetas es un número de 4 dígitos, prepara un programa que reciba como parámetro n resúmenes correspondientes a PINs de tarjetas y, usando un algoritmo de fuerza bruta, busque a qué PIN corresponden esos resúmenes.</p>
+<div style="page-break-after:always;"></div>
+<h2 id="3-actividad-u6a03_echoseguro">3. Actividad U6A03_EchoSeguro </h2>
+<p>Partiendo del cliente y servidor de ECHO que hicimos en el tema anterior, modifícalos para que la información que intercambian vaya cifrada.</p>
+<p>La clave simétrica compartida la leerán de un archivo que estará en la carpeta claves del proyecto de cada uno.</p>
+<p>Crea una clase auxiliar en el proyecto del server que genere una clave y guarde la clave en un archivo dentro de la carpeta claves. La generación de la clave debe ser aleatoria, indicando el tamaño de clave según el algoritmo de cifrado a utilizar.</p>
+<p>Crea una clase de utilidades que tenga métodos para cifrar y descifrar. Esta clase puede ser compartida entre el cliente y el servidor.</p>
+<p>Prueba qué pasa si la clave del cliente y del servidor no son la misma.</p>
+<div style="page-break-after:always;"></div>
+<h2 id="4-actividad-u6a04_echoasimétrico">4. Actividad U6A04_EchoAsimétrico </h2>
+<p>Partiendo del cliente y servidor de ECHO que hicimos en el tema anterior, modifícalos para que la información que intercambian vaya cifrada y codificada en Base64.</p>
+<p>En este caso la información estará cifrada con una clave privada en el servidor y la correspondiente clave pública en el cliente.</p>
+<p>Crea una carpeta JavaSecurity en tu carpeta personal para guardar las claves que generes (publicEcho.der y privateEcho.pkcs8)<br>
+No uses rutas absolutas. Usa las System.Properties para llegar a la carpeta personal.</p>
+<p>Cada parte debe mostrar tanto la información que le llega (en formato raw) y la información descifrada.</p>
+<div style="page-break-after:always;"></div>
+<h2 id="5-actividad-u6a05_chatduossl">5. Actividad U6A05_ChatDuoSSL </h2>
+<p>Modifica la actividad de ChatDuo, la tuya o la que os he dejado como solución, y añade seguridad SSL en las comunicaciones.</p>
+<p>Crea una carpeta <strong>JavaSecurity</strong> en tu carpeta personal para guardar los keyStores que crees, tanto para el cliente (<strong>ChatDuoClientTrustServer</strong>, password: duo) como para el servidor (<strong>ChatDuoServerCertificate</strong>, password: chat).</p>
+<p>No uses rutas absolutas. Usa las System.Properties para llegar a la carpeta personal de cada usuario.</p>
 <div class="admonition warning">
-<p class="admonition-title">Un hash no sirve para cifrar</p>
-<p>Es importante destacar que, debido a que es imposible obtener los datos que generaron un resumen a partir del propio resumen, el resumen no se puede usar para cifrar información.</p>
-<p>Por el contrario, es un mecanismo que se usa para comparar. Su uso más extendido es con las contraseñas, ya que en las bases de datos se guarda un resumen en vez de la contraseña en claro. De esta forma, cuando se recibe una contraseña se genera su resumen y se compara con el valor almacenado.</p>
-</div>
-<h3 id="messagedigest">MessageDigest </h3>
-<p>La clase <em>MessageDigest</em> permite a las aplicaciones implementar algoritmos de resumen criptográficamente seguros como SHA-256 o SHA-512</p>
-<p>Para generar un hash con JCA se procede de la siguiente forma:</p>
-<ol>
-<li>Se crea un objeto de la clase <em>MesageDigest</em> con el método estático <em>getInstance()</em> de la misma clase, especificando el nombre del algoritmo. Opcionalmente, se puede especificar el nombre del proveedor.</li>
-<li>Se añaden datos con el método <em>update()</em>. Se puede añadir un byte o un array de bytes. Este método se puede invocar varias veces para ir añadiendo nuevos datos.</li>
-<li>Se obtiene el valor de hash con el método <em>digest()</em>.</li>
-<li>Si se quisiera calcular un nuevo hash, se invocaría el método <em>reset()</em> para volver a empezar el proceso.</li>
-</ol>
-<p>A continuación podemos ver un ejemplo</p>
-<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U6S2_MessageDigest</span> <span class="token punctuation">{</span>
-
-    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token class-name">String</span> plaintext <span class="token operator">=</span> <span class="token string">"Esto es un texto plano."</span><span class="token punctuation">;</span>
-        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
-            <span class="token comment">// Obtenemos un ENGINE que implementa el algoritmo especificado</span>
-            <span class="token comment">// Se puede indicar cualquier algoritmo disponible en el sistema</span>
-            <span class="token comment">// SHA-224, SHA-512, SHA-256, SHA3-224, ...</span>
-            <span class="token class-name">MessageDigest</span> m <span class="token operator">=</span> <span class="token class-name">MessageDigest</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token string">"SHA-256"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-            <span class="token comment">// Opcional - Reinicia el objeto para un nuevo uso </span>
-            <span class="token comment">// Por si queremos poner este código en un bucle y procesar más</span>
-            <span class="token comment">// de un mensaje</span>
-            m<span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-            <span class="token comment">// Realiza el resumen de los datos pasados por parámetro</span>
-            <span class="token comment">// Si queremos procesar la información poco a poco, </span>
-            <span class="token comment">// debemos ir llamando al método update para cada bloque de datos</span>
-            m<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>plaintext<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-            <span class="token comment">// Completa el cálculo del valor del hash y devuelve el resumen</span>
-            <span class="token keyword keyword-byte">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> digest <span class="token operator">=</span> m<span class="token punctuation">.</span><span class="token function">digest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-            <span class="token comment">// Mensaje de resumen</span>
-            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Resumen (raw data): "</span> <span class="token operator">+</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span>digest<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-            <span class="token comment">// Mensaje en formato hexadecimal</span>
-            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Resumen (hex data): "</span> <span class="token operator">+</span> <span class="token function">toHexadecimal</span><span class="token punctuation">(</span>digest<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            
-            
-            <span class="token comment">// Información del proceso</span>
-            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"=&gt; Algoritmo: "</span> <span class="token operator">+</span> m<span class="token punctuation">.</span><span class="token function">getAlgorithm</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">", Provider: "</span> <span class="token operator">+</span> m<span class="token punctuation">.</span><span class="token function">getProvider</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span> m<span class="token punctuation">.</span><span class="token function">getProvider</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getVersionStr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchAlgorithmException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No se ha encontrado la implementación del algoritmo MD5 en ningún Provider"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token keyword keyword-static">static</span> <span class="token class-name">String</span> <span class="token function">toHexadecimal</span><span class="token punctuation">(</span><span class="token keyword keyword-byte">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> hash<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token class-name">String</span> hex <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
-        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> hash<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token class-name">String</span> h <span class="token operator">=</span> <span class="token class-name">Integer</span><span class="token punctuation">.</span><span class="token function">toHexString</span><span class="token punctuation">(</span>hash<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>h<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                hex <span class="token operator">+=</span> <span class="token string">"0"</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-            hex <span class="token operator">+=</span> h<span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword keyword-return">return</span> hex<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre><p>y esta sería la salida proporcionada</p>
-<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code>Resumen <span class="token punctuation">(</span>raw data<span class="token punctuation">)</span>: �Y�"�3��`b����bs?<span class="token punctuation">;</span>������~E
-Resumen <span class="token punctuation">(</span>hex data<span class="token punctuation">)</span>: FB59D31122913314111B92CD60628ED7E7DE62733F3B10DEDAF303AAABE57E45
-<span class="token operator">=</span><span class="token operator">&gt;</span> Algoritmo: SHA-256, Provider: SUN <span class="token number">11</span>
-</code></pre><h3 id="messagedigest-con-gnupg">MessageDigest con GnuPG </h3>
-<p>Con la suite GnuPG podemos generar resúmenes de archivos utilizando los algoritmos que nos proporciona la suite.</p>
-<div class="admonition info">
-<p class="admonition-title">Algoritmos disponibles para GnuPG</p>
-<p>Para ver la lista de algoritmos disponibles tenemos que mostrar la ayuda del comando</p>
+<p class="admonition-title">Longitud de clave</p>
+<p>Dependiendo de la versión del JDK, e incluso del tipo de JDK que empleemos, podemos encontrarnos con el siguiente error</p>
 <blockquote>
-<p>gpg --help</p>
+<p>“Keystore password must be at least 6 characters”</p>
 </blockquote>
-<p>y en la parte superior observamos la información de los algoritmos disponibles para cada tipo de servicio. En concreto, de resúmenes, en mi versión instalada:</p>
-<p>Resumen: SHA1, RIPEMD160, SHA256, SHA384, SHA512, SHA224</p>
+<p>En ese caso, añadid el año al password de los keyStores, teniendo por tanto duo2025 en el cliente y chat2025 en el servidor.</p>
 </div>
-<p>Para generar un resumen de un archivo, ejecutamos el comando de la siguiente forma</p>
-<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code>gpg --print-md SHA256 filename.ext
-</code></pre>
+
       </div>
       
       
