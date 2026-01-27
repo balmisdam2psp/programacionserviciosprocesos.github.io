@@ -272,7 +272,7 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 <li>Cerrar los streams.</li>
 <li>Cerrar el socket.</li>
 </ol>
-<pre data-role="codeBlock" data-info="java {.line-numbers, highlight=[12,14,17,36,38,51,52,54]}" class="language-java java line-numbers" data-line="12,14,17,36,38,51,52,54"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">BasicClient</span> <span class="token punctuation">{</span>
+<pre data-role="codeBlock" data-info="java { highlight=[12,14,17,36,38,51,52,54]}" class="language-java java" data-line="12,14,17,36,38,51,52,54"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">BasicClient</span> <span class="token punctuation">{</span>
 
     <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
         <span class="token class-name">Socket</span> socketCliente <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
@@ -329,7 +329,7 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
-</code><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span><div class="line-highlight-wrapper">
+</code><div class="line-highlight-wrapper">
 
 
 
@@ -603,7 +603,8 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 
 
 <div aria-hidden="true" class="line-highlight" data-range="54" data-start="54">
-</div></div></pre><div class="admonition info">
+</div></div></pre><p><a href="./assets/src/u4_tcp_1_ejemplo.java">Descarga el ejemplo de código</a></p>
+<div class="admonition info">
 <p class="admonition-title">Herramientas para simular clientes genéricos</p>
 <p>Si sólo tenemos que desarrollar un servidor y no tenemos o no queremos hacer un cliente para las pruebas, tenemos varias herramientas que nos ayudan a hacer de clientes genéricos, útiles para una gran variedad de servidores, incluso para servidores estándar como FTP, HTTP, etc.</p>
 <p>La primera herramienta es una aplicación y un protocolo de nivel de aplicación de TCP/IP, es la herramienta <code>Telnet</code>.</p>
@@ -1084,7 +1085,8 @@ dis<span class="token punctuation">.</span><span class="token function">writeDou
 
 
 <div aria-hidden="true" class="line-highlight" data-range="53" data-start="53">
-</div></div></pre><p>Quedando la secuencia de acciones entre el cliente y el servidor de la siguiente manera</p>
+</div></div></pre><p><a href="./assets/src/u4_tcp_2_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>Quedando la secuencia de acciones entre el cliente y el servidor de la siguiente manera</p>
 <p><img src="./assets/imgs/monothread_server_sequence.png" alt="Estados de un servidor monohilo"></p>
 <p>El servidor monohilo se encarga de realizar las operaciones de E/S con el cliente. Hasta que no acaba no puede hacer otro <code>accept</code> y atender a otro cliente.</p>
 <div class="admonition warning">
@@ -1213,7 +1215,8 @@ dis<span class="token punctuation">.</span><span class="token function">writeDou
 
 
 <div aria-hidden="true" class="line-highlight" data-range="24" data-start="24">
-</div></div></pre><p>Y esta sería una implementación estándar de un worker</p>
+</div></div></pre><p><a href="./assets/src/u4_tcp_3_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>Y esta sería una implementación estándar de un worker</p>
 <pre data-role="codeBlock" data-info="java{highlight=[13,15,22,26]}" class="language-java java" data-line="13,15,22,26"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Worker</span> <span class="token keyword keyword-extends">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
 
     <span class="token keyword keyword-private">private</span> <span class="token class-name">Socket</span> socketCliente<span class="token punctuation">;</span>
@@ -1320,7 +1323,8 @@ dis<span class="token punctuation">.</span><span class="token function">writeDou
 
 
 <div aria-hidden="true" class="line-highlight" data-range="26" data-start="26">
-</div></div></pre><p>Quedando ahora la secuencia de acciones entre el cliente y el servidor de la siguiente manera</p>
+</div></div></pre><p><a href="./assets/src/u4_tcp_4_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>Quedando ahora la secuencia de acciones entre el cliente y el servidor de la siguiente manera</p>
 <p><img src="./assets/imgs/multithread_server_sequence.png" alt="Estados de un servidor monohilo"></p>
 <div class="pagebreak"> </div>
 <div class="admonition info">

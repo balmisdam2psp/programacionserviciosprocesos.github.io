@@ -3,7 +3,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css">
       
       
       
@@ -405,7 +405,8 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 
 
 <div aria-hidden="true" class="line-highlight" data-range="23" data-start="23">
-</div></div></pre><p>Copia el código anterior y ejecútalo en tu IDE. ¿Qué ves en la salida?</p>
+</div></div></pre><p><a href="./assets/src/u3_1_1_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>Copia el código anterior y ejecútalo en tu IDE. ¿Qué ves en la salida?</p>
 <div class="admonition question">
 <p class="admonition-title">¿Qué está pasando con la ejecución del programa anterior?</p>
 <p>Tras ejecutarlo, ¿el mensaje "Comienza la cuenta atrás!" está puesto en el sitio correcto?</p>
@@ -505,7 +506,8 @@ thread<span class="token punctuation">.</span><span class="token function">start
 
 
 <div aria-hidden="true" class="line-highlight" data-range="7" data-start="7">
-</div></div></pre><p><strong>Si nos fijamos en las lineas resaltadas podemos observar las diferencias entre una y otra forma.</strong></p>
+</div></div></pre><p><a href="./assets/src/u3_1_2_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p><strong>Si nos fijamos en las lineas resaltadas podemos observar las diferencias entre una y otra forma.</strong></p>
 <pre data-role="codeBlock" data-info="java{highlight=[1,7]}" class="language-java java" data-line="1,7"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">EjemploRunnable</span> <span class="token keyword keyword-implements">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">{</span>
     <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token comment">// Código del hilo</span>
@@ -524,7 +526,8 @@ thread<span class="token punctuation">.</span><span class="token function">start
 
 
 <div aria-hidden="true" class="line-highlight" data-range="7" data-start="7">
-</div></div></pre><h3 id="subclass-or-runnable">Subclass or Runnable? </h3>
+</div></div></pre><p><a href="./assets/src/u3_1_3_ejemplo.java">Descarga el ejemplo de código</a></p>
+<h3 id="subclass-or-runnable">Subclass or Runnable? </h3>
 <p>No hay nada que indique que una forma es mejor que otra. Ambos métodos son similares y el resultado es el mismo. <strong>El método preferido debería ser implementar Runnable</strong> y pasarle la instancia al constructor de Thread.</p>
 <div class="admonition warning">
 <p class="admonition-title">Unas cuantas razones en contra de usar Thread</p>

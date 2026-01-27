@@ -3,7 +3,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css">
       
       
       
@@ -254,7 +254,8 @@ processOutput<span class="token punctuation">.</span><span class="token function
 </code><div class="line-highlight-wrapper">
 
 <div aria-hidden="true" class="line-highlight" data-range="3" data-start="3">
-</div></div></pre><p><img src="./assets/imgs/Java_Stream_Readers_BufferedReaders.jpg" alt="alt_text"></p>
+</div></div></pre><p><a href="./assets/src/u2_3_1_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p><img src="./assets/imgs/Java_Stream_Readers_BufferedReaders.jpg" alt="alt_text"></p>
 <div class="admonition warning">
 <p class="admonition-title">Charsets y encodings</p>
 <p>Desde el inicio de la informática los juegos de caracteres y las codificaciones han supuesto un auténtico quebradero de cabeza para los programadores, especialmente cuando trabajamos con juegos de caracteres no anglosajones. Pues bien, la consola de Windows no iba a ser una excepción.</p>
@@ -291,7 +292,8 @@ processError<span class="token punctuation">.</span><span class="token function"
 </code><div class="line-highlight-wrapper">
 
 <div aria-hidden="true" class="line-highlight" data-range="3" data-start="3">
-</div></div></pre><div class="admonition info">
+</div></div></pre><p><a href="./assets/src/u2_3_2_ejemplo.java">Descarga el ejemplo de código</a></p>
+<div class="admonition info">
 <p class="admonition-title">Patrón de diseño Decorator o Wrapper</p>
 <p>En ambos tipos de streams de entrada (input y error) estamos recogiendo la información de un objeto de tipo BufferedReader. Podríamos usar directamente el InputStream que nos devuelven los métodos de Process, pero tendríamos que encargarnos nosotros de convertir los bytes a caracteres, de leer el stream carácter a carácter y de controlar el flujo al no disponer de un buffer.</p>
 <p>Todo esto nos lo podemos ahorrar usando clases que gestionan el flujo a un nivel de concreción más alto, usando sin llegar a ser conscientes otro patrón de diseño bastante común, <strong>Patrón de diseño Decorator</strong> también llamado <strong>wrapper o envoltorio</strong>.</p>
@@ -388,7 +390,8 @@ processError<span class="token punctuation">.</span><span class="token function"
 
 
 <div aria-hidden="true" class="line-highlight" data-range="17" data-start="17">
-</div></div></pre><h3 id="entrada-estándar-getoutputstream">Entrada estándar: getOutputStream() </h3>
+</div></div></pre><p><a href="./assets/src/u2_3_3_ejemplo.java">Descarga el ejemplo de código</a></p>
+<h3 id="entrada-estándar-getoutputstream">Entrada estándar: getOutputStream() </h3>
 <p>No sólo podemos recoger la información que envía el proceso hijo sino que, además, también podemos enviar información desde el proceso padre al proceso hijo, usando el último de los tres streams que nos queda, el <code>stdin</code>.</p>
 <p>Igual que con las entradas que llegan desde el proceso hijo, podemos enviar la información usando directamente el OutputStream del proceso, pero lo haremos de nuevo con un Decorator.</p>
 <p>En este caso, el <em>wrapper</em> de mayor nivel nivel para usar un OutputStream es la clase PrintWriter que nos ofrece métodos similares a los de <code>System.out.printxxxxx</code> para gestionar el flujo de comunicación con el proceso hijo.</p>
@@ -401,7 +404,8 @@ toProcess<span class="token punctuation">.</span><span class="token function">pr
 
 
 <div aria-hidden="true" class="line-highlight" data-range="4" data-start="4">
-</div></div></pre><h3 id="heredar-la-es-del-proceso-padre">Heredar la E/S del proceso padre </h3>
+</div></div></pre><p><a href="./assets/src/u2_3_4_ejemplo.java">Descarga el ejemplo de código</a></p>
+<h3 id="heredar-la-es-del-proceso-padre">Heredar la E/S del proceso padre </h3>
 <p>Con el método <code>inheritIO()</code> podemos redireccionar todos los flujos de E/S del proceso hijo a la E/S estándar del proceso padre.</p>
 <pre data-role="codeBlock" data-info="java{highlight=3}" class="language-java java" data-line="3"><code><span class="token class-name">ProcessBuilder</span> processBuilder <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProcessBuilder</span><span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">,</span> <span class="token string">"-c"</span><span class="token punctuation">,</span> <span class="token string">"echo hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
@@ -412,7 +416,8 @@ processBuilder<span class="token punctuation">.</span><span class="token functio
 </code><div class="line-highlight-wrapper">
 
 <div aria-hidden="true" class="line-highlight" data-range="3" data-start="3">
-</div></div></pre><p>En el ejemplo anterior, tras invocar al método inheritIO() podemos ver la salida del comando ejecutado en la consola del proceso padre dentro del IDE Netbeans.</p>
+</div></div></pre><p><a href="./assets/src/u2_3_5_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>En el ejemplo anterior, tras invocar al método inheritIO() podemos ver la salida del comando ejecutado en la consola del proceso padre dentro del IDE Netbeans.</p>
 <div class="admonition warning">
 <p class="admonition-title">Úsalo para depurar la comunicación/sincronización padre-hijo</p>
 <p>Este método es útil para depurar, pero no se recomienda para código de producción. Es mejor usar los métodos getInputStream() y getErrorStream() para leer las salidas y errores del subproceso, y el método getOutputStream() para escribir en el subproceso.</p>
@@ -444,7 +449,8 @@ processBuilder<span class="token punctuation">.</span><span class="token functio
 
 
 <div aria-hidden="true" class="line-highlight" data-range="7" data-start="7">
-</div></div></pre><p>En el ejemplo anterior podemos observar como se crea un archivo temporal llamado <em>java-version.log</em> e indicamos a ProcessBuilder que la salida la redirija a este archivo.</p>
+</div></div></pre><p><a href="./assets/src/u2_3_6_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>En el ejemplo anterior podemos observar como se crea un archivo temporal llamado <em>java-version.log</em> e indicamos a ProcessBuilder que la salida la redirija a este archivo.</p>
 <p>Es lo mismo que si llamásemos a nuestra aplicación usando el operador de redirección de salida:</p>
 <blockquote>
 <p>java ejemplo-java-version &gt; java-version.log</p>
@@ -465,7 +471,8 @@ processBuilder<span class="token punctuation">.</span><span class="token functio
 </code><div class="line-highlight-wrapper">
 
 <div aria-hidden="true" class="line-highlight" data-range="3" data-start="3">
-</div></div></pre><p>Otra vez más, es importante hacer notar la llamada a  <code>redirectErrorStream(true)</code>. En el caso de que se produzca algún error, se mezclarán con los mensajes de salida en el fichero..</p>
+</div></div></pre><p><a href="./assets/src/u2_3_7_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>Otra vez más, es importante hacer notar la llamada a  <code>redirectErrorStream(true)</code>. En el caso de que se produzca algún error, se mezclarán con los mensajes de salida en el fichero..</p>
 <p>En el APi de ProcessBuilder encontramos métodos para redireccionar también la salida de error estándar y la entrada estándar de los procesos.</p>
 <ul>
 <li>redirectError(File)</li>
