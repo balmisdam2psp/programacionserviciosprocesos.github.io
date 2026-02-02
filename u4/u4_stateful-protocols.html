@@ -3,7 +3,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css">
       
       
       
@@ -21,7 +21,7 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
   font-family: 'Catamaran';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/catamaran/v27/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/catamaran/v28/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
 }
 .markdown-preview.markdown-preview .box_bg_lightgrey {
   background-color: #f5f5f5;
@@ -646,7 +646,8 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 
 
 <div aria-hidden="true" class="line-highlight" data-range="71" data-start="71">
-</div></div></pre><p>El código corresponde al worker de un servidor multihilo. Analicemos ahora el código por partes</p>
+</div></div></pre><p><a href="./assets/src/u4_stateful-protocols_1_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>El código corresponde al worker de un servidor multihilo. Analicemos ahora el código por partes</p>
 <p>Es recomendable usar propiedades para guardar los mensajes que queramos comparar y tener un ENuM para definir los estados. Los <code>enum</code> en Java permiten ser usados en los bloques switch-case.</p>
 <p>La propiedad <strong>estado</strong> va a ser el punto central que controle el flujo de ejecución del servidor.</p>
 <pre data-role="codeBlock" data-info="java{highlight=6}" class="language-java java" data-line="6"><code><span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> messages <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">"Hi Server!"</span><span class="token punctuation">,</span> <span class="token string">"Hi Client!"</span><span class="token punctuation">,</span> <span class="token string">"Bye Server!"</span><span class="token punctuation">,</span> <span class="token string">"Error. Unknown or unexpected command"</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -661,7 +662,8 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 
 
 <div aria-hidden="true" class="line-highlight" data-range="6" data-start="6">
-</div></div></pre><p>En el constructor, además de todas las propiedades, inicializamos el estado, asignándole el valor del estado inicial.</p>
+</div></div></pre><p><a href="./assets/src/u4_stateful-protocols_2_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>En el constructor, además de todas las propiedades, inicializamos el estado, asignándole el valor del estado inicial.</p>
 <pre data-role="codeBlock" data-info="java{highlight=4}" class="language-java java" data-line="4"><code><span class="token class-name">U4A03_SaludoWorker</span><span class="token punctuation">(</span><span class="token class-name">Socket</span> socketCliente<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>socketCliente <span class="token operator">=</span> socketCliente<span class="token punctuation">;</span>
     <span class="token comment">// Inicializamos el valor del estado al estado inicial</span>
@@ -671,7 +673,8 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 
 
 <div aria-hidden="true" class="line-highlight" data-range="4" data-start="4">
-</div></div></pre><p>El servidor estará ejecutándose hasta que se alcance el estado final</p>
+</div></div></pre><p><a href="./assets/src/u4_stateful-protocols_3_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>El servidor estará ejecutándose hasta que se alcance el estado final</p>
 <pre data-role="codeBlock" data-info="java:no-line-numbers" class="language-java:no-line-numbers java:no-line-numbers"><code>// Recibe lo que envía el cliente hasta que el mensaje sea
 // END OF TRANSMISSION
 while (estado != Estados.END) {
@@ -689,7 +692,8 @@ while (estado != Estados.END) {
 
 
 <div aria-hidden="true" class="line-highlight" data-range="4" data-start="4">
-</div></div></pre><p>Este es el código que implementa el diagrama de estados que he diseñado para esta actividad.<br>
+</div></div></pre><p><a href="./assets/src/u4_stateful-protocols_4_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>Este es el código que implementa el diagrama de estados que he diseñado para esta actividad.<br>
 Fijaos que el servidor tiene que realizar una comprobación para cada línea que sale de un estado. En este caso al ser sólo dos líneas, sirve con un if-else, pero puede ser un número mayor de opciones.</p>
 <p>Además, una de las opciones tiene un comportamiento totalmente diferente al resto, ya que <strong>cuando se recibe el mensaje final, el protocolo no dice que enviemos una respuesta al cliente</strong>.</p>
 <p>Esto <code>debemos controlarlo en el cliente</code>, porque si lo programamos de forma que envíe un mensaje y espere una respuesta, puede quedarse bloqueado en la lectura. Aprovechando que este es el último mensaje, más adelante veremos cómo se ha solventado en el cliente.y las opciones que tenemos para evitar posibles bloqueos como este.</p>
@@ -739,7 +743,8 @@ Fijaos que el servidor tiene que realizar una comprobación para cada línea que
 
 
 <div aria-hidden="true" class="line-highlight" data-range="16" data-start="16">
-</div></div></pre><h2 id="ejemplo-de-cliente-con-estados">Ejemplo de cliente con estados </h2>
+</div></div></pre><p><a href="./assets/src/u4_stateful-protocols_5_ejemplo.java">Descarga el ejemplo de código</a></p>
+<h2 id="ejemplo-de-cliente-con-estados">Ejemplo de cliente con estados </h2>
 <p>Aunque un cliente interactivo como los que usamos para las pruebas no deberían cambiar su funcionalidad, sí hay que hacer pequeños ajustes para adaptar su funcionamiento a las posibles respuestas y errores que envía el servidor.</p>
 <p><img src="./assets/imgs/client_sample_state_protocol.png" alt="Diagrama de estados U4A03_ProtocoloSaludo"></p>
 <p>Como ya hemos dicho en el código del servidor, si implementamos el protocolo como un cliente de envío-respuesta, hay un caso en el que no debemos esperar una respuesta. Este es el caso de la salida, en la que se envía un mensaje pero no esperamos respuesta por parte del servidor.</p>
@@ -882,7 +887,8 @@ Fijaos que el servidor tiene que realizar una comprobación para cada línea que
 
 
 <div aria-hidden="true" class="line-highlight" data-range="41" data-start="41">
-</div></div></pre><p>El código corresponde a un cliente interactivo genérico, que va enviando mensajes y esperando la respuesta de los mismos sin hacer ningún tipo de control sobre lo que se envía o lo que recibe.</p>
+</div></div></pre><p><a href="./assets/src/u4_stateful-protocols_6_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>El código corresponde a un cliente interactivo genérico, que va enviando mensajes y esperando la respuesta de los mismos sin hacer ningún tipo de control sobre lo que se envía o lo que recibe.</p>
 <p>Analicemos algunos aspectos del código del cliente</p>
 <p>La parte que sigue es equivalente a la que hemos usado en el servidor. No modificamos el flujo envío-recepción, pero sí que comprobamos si el lado del servidor ha cerrado el socket (ha realizado todo el protocolo correctamente) para decidir que el cliente finalice su ejecución.</p>
 <pre data-role="codeBlock" data-info="java{highlight=3}" class="language-java java" data-line="3"><code><span class="token comment">// Recibe la respuesta del servidor por el InputStream</span>
@@ -899,7 +905,8 @@ linea <span class="token operator">=</span> entrada<span class="token punctuatio
 </code><div class="line-highlight-wrapper">
 
 <div aria-hidden="true" class="line-highlight" data-range="3" data-start="3">
-</div></div></pre><div class="admonition warning">
+</div></div></pre><p><a href="./assets/src/u4_stateful-protocols_7_ejemplo.java">Descarga el ejemplo de código</a></p>
+<div class="admonition warning">
 <p class="admonition-title">Lectura con timeout</p>
 <p>Otra manera distinta de hacer lo mismo es usando lecturas con timeout.</p>
 <p>En este ejemplo podríamos haber comprobado si el mensaje enviado es el mensaje de finalización. Es ese caso, si todo ha ido bien, no deberíamos esperar una respuesta por parte del server, pero si ha habido algún error, sí debemos realizar una lectura del socket.</p>
