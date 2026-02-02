@@ -424,7 +424,8 @@ Certificate was added to keystore
 
 
 <div aria-hidden="true" class="line-highlight" data-range="24" data-start="24">
-</div></div></pre><p>En el cliente el proceso es el mismo, tras la llamada al método createSocket, obtenemos una instancia de SSLSocket que utilizamos igual que si fuese un Socket.</p>
+</div></div></pre><p><a href="./assets/src/u6_jsse_1_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>En el cliente el proceso es el mismo, tras la llamada al método createSocket, obtenemos una instancia de SSLSocket que utilizamos igual que si fuese un Socket.</p>
 <pre data-role="codeBlock" data-info="java{highlight=[5,12,13,19,20]}" class="language-java java" data-line="5,12,13,19,20"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">U6S5_SSLClient</span> <span class="token punctuation">{</span>
 
     <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arg<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
@@ -555,7 +556,8 @@ Certificate was added to keystore
 
 
 <div aria-hidden="true" class="line-highlight" data-range="20" data-start="20">
-</div></div></pre><p>Si ejecutamos el cliente y el servidor directamente, obtendremos el siguiente error</p>
+</div></div></pre><p><a href="./assets/src/u6_jsse_2_ejemplo.java">Descarga el ejemplo de código</a></p>
+<p>Si ejecutamos el cliente y el servidor directamente, obtendremos el siguiente error</p>
 <pre data-role="codeBlock" data-info="sh:no-line-numbers" class="language-sh:no-line-numbers sh:no-line-numbers"><code>Programa Cliente iniciado....
 Exception in thread "main" javax.net.ssl.SSLHandshakeException: Received fatal alert: handshake_failure
 </code></pre><p>Para ejecutar el programa servidor es necesario indicar el certificado que se utilizará.</p>
