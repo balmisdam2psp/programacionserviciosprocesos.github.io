@@ -223,20 +223,19 @@ En la entrega del ejercicio no se puede usar el método <code>inheritIO()</code>
 <p>Si faltan parámetros o son inválidos, el programa debe mostrar <strong>un mensaje de uso</strong> y finalizar con <strong>código ≠ 0</strong>.</p>
 </div>
 <p><code>MainPipeline</code>, tras recibir y procesar los parámetros, debe realizar los siguientes pasos:</p>
-<h4 id="parte-a--lanzar-el-primer-proceso-con-argumentos-y-redirección-de-la-entrada">Parte A — Lanzar el primer proceso con argumentos y redirección de la entrada </h4>
+<h4 id="parte-a--lanzar-el-primer-proceso-con-argumentos-y-redirecciones">Parte A — Lanzar el primer proceso con argumentos y redirecciones </h4>
 <ol>
 <li>Lanza <code>ProcesadorTexto</code>, pasándole el fichero <code>input.txt</code> <strong>como redirección de entrada</strong> (es decir: el proceso  leerá el contenido de input.txt desde STDIN).</li>
-<li>La salida estándar (STDOUT) del proceso 1 debe guardarse en <code>out1.txt</code>.</li>
-<li>Los errores (STDERR) del proceso 1 deben redirigirse a un fichero <code>errores1.log</code>.</li>
+<li>La salida estándar (STDOUT) del proceso 1 debe guardarse en <code>out1.txt</code> mediante la <strong>redirección de la salida</strong> del proceso.</li>
+<li>Los errores (STDERR) del proceso 1 deben <strong>redirigirse</strong> a un fichero <code>errores1.log</code>.</li>
 <li>Tras lanzar el proceso 1, <code>MainPipeline</code>, debe esperar su finalización un tiempo limite recibido como parámetro. Si supera el timeout debe terminar con código 3.</li>
 </ol>
 <h4 id="parte-b--lanzar-el-segundo-proceso-gestionando-su-es">Parte B — Lanzar el segundo proceso gestionando su E/S </h4>
 <ol>
 <li>Solo si el proceso anterior termina con código 0, se debe lanzar el segundo proceso <code>ResumenTexto</code>.</li>
-<li>Lee el contenidos de la salida generada por el proceso <code>ProcesadorTexto</code> en el archivo <code>out1.txt</code> y enviarla al proceso <code>ResumenTexto</code> línea a línea por STDIN.</li>
-<li>Captura la salida de <code>ResumenTexto</code> con Streams (sin inheritIO).</li>
-<li>El STDOUT de <code>ResumenTexto</code> debe guardarse en <code>out2.txt</code>, pero no con redirectOutput. Debe hacerse leyendo process2.getInputStream() y escribiendo a FileOutputStream(out2.txt).</li>
-<li>Los errores del proceso se deben redirigir a <code>errores2.log</code>.</li>
+<li>Leer el contenido del archivo <code>out1.txt</code> y <strong>enviarlo, línea a línea,</strong> al STDIN del proceso <code>ResumenTexto</code>.</li>
+<li>Captura la salida de <code>ResumenTexto</code> (sin inheritIO) y <strong>escribirla directamente</strong> en <code>out2.txt</code>, pero no con redirectOutput. Debe hacerse leyendo process2.getInputStream() y escribiendo a FileOutputStream(out2.txt).</li>
+<li>Los errores del proceso se deben <strong>redirigir</strong> a <code>errores2.log</code>.</li>
 </ol>
 <div style="page-break-after:always;"></div>
 <div class="admonition summary">
