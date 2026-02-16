@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>PSP - Exámenes Procesos y comunicaciones</title>
+      <title>PSP - Examen Hilos (Productor/Consumidor)</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -191,185 +191,56 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
       <div class="crossnote markdown-preview  ">
       
 <p><img src="..\imagenes\img-BalmisHeader.png" alt="Cabecera"></p>
-<h1 id="psp---u2-actividades">PSP - U2 Actividades </h1>
-<p><a href="./u2_examenes.pdf">Descargar estos apuntes</a></p>
-<h2 id="índice">Índice </h2>
-
-<div class="md-toc">
-<div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
-          <a href="#lectordialogos" class="md-toc-link">
-            <p>LectorDialogos</p>
-
-          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
-          <a href="#estación-meteorológica" class="md-toc-link">
-            <p>Estación meteorológica</p>
-
-          </a></div>
-</div>
-<div style="page-break-after:always;"></div>
-<h2 id="lectordialogos">LectorDialogos </h2>
-<div class="admonition warning">
-<p class="admonition-title">Proyecto base</p>
-<p>El proyecto base LectorDialogos contiene la clase LectorFicheros que se usará como proceso hijo. <strong>No se puede modificar nada en esa clase</strong>.<br>
-En la entrega del ejercicio no se puede usar el método <code>inheritIO()</code>.</p>
-</div>
-<h4 id="pspexameneslectordialogos">psp.examenes.LectorDialogos </h4>
-<p>Cread esta clase para que tenga la funcionalidad que se describe a continuación:</p>
-<ul>
-<li>La clase recibirá un <strong>parámetro de entrada</strong> con el nombre de alguno de los archivos (sólo el nombre, sin especificar la ruta) que hay en la carpeta <code>datos</code> del proyecto.</li>
-<li>Esta clase actuará como <strong>proceso principal</strong>. Se encargará de lanzar, en primer lugar, la clase <code>LectorFicheros</code> como proceso hijo.</li>
-<li>El proceso hijo tendrá <strong>redirigida su entrada estándar</strong> al fichero que LectorDiálogos recibido como parámetro.</li>
-<li>El proceso padre esperará a que finalice el proceso hijo, y mostrará el valor de finalización del mismo.</li>
-<li>A continuación, recuperará la salida estándar del proceso hijo y la mostrará, también por la salida estándar, línea a línea, precedida del texto <code>P1</code>.</li>
-<li>Por último, recuperará la salida de error del proceso hijo y la mostrará, también por la salida de error, línea a línea, precedida del texto <code>P2&gt;</code>.</li>
-</ul>
-<p>Una vez finalice el proceso anterior, el proceso principal lanzará otro proceso con las siguientes características:</p>
-<ul>
-<li>Ejecutar el comando de consola <code>sort</code></li>
-<li>Redirigir su entrada estándar desde el archivo “datos/listaAlumnado.txt”.</li>
-<li>De este proceso recogemos la salida estándar para mostrarla por consola, precediendo<br>
-cada línea con el prefijo <code>ordenarPalabras&gt; </code>.</li>
-<li>De este proceso recogemos la salida de error para mostrarla por consola (por la salida<br>
-de error), precediendo cada línea con el prefijo <code>cmdError&gt; </code></li>
-</ul>
-<p>Cuando finalice la ejecución del proceso deberemos recuperar su código de finalización y mostrarlo por consola.</p>
-<div style="page-break-after:always;"></div>
-<h2 id="estación-meteorológica">Estación meteorológica </h2>
-<p>Queremos crear una aplicación para simular el funcionamiento de una estación meteorológica y los datos que se van generando en los sensores que incorpora.</p>
-<p>Dentro de la estación, tenemos varios sensores que van generando información cada cierto tiempo.<br>
-Cuando encendemos la estación, hay un <code>programa principal</code> que se encarga de lanzar cada uno de los <code>drivers</code> asociados a los sensores manteniendo la comunicación con ellos y recibiendo la información que los sensores van generando secuencialmente.</p>
-<p>En la estación meteorológica tenemos sensores para medir:</p>
-<ul>
-<li>Temperatura: Genera un valor de temperatura entre <strong>-10 y 40 grados centígrados cada 2 segundos</strong>.</li>
-<li>Humedad: Genera un valor de humedad entre <strong>0% y 100% cada 3 segundos</strong>.</li>
-<li>Presión atmosférica: Genera un valor de presión entre <strong>950 y 1050 hPa cada 5 segundos</strong>.</li>
-</ul>
-<p>Se pide realizar una aplicación en Java que simule el funcionamiento de la estación meteorológica y todos los <code>drivers</code> asociados, mostrando por consola los mensajes necesarios para entender qué está pasando en cada momento.</p>
-<p>Cada <code>driver de un sensor</code> lo vamos a simular con un <strong>proceso</strong>.</p>
-<ul>
-<li>Los drivers de los sensores deben funcionar de forma independiente, generando la información de forma asíncrona.</li>
-<li>Cada driver está parametrizado para recibir como <code>argumentos</code> el nombre del Sensor, los valores mínimos y máximos que puede generar, las unidades de medida y el tiempo que tarda en capturar cada valor.</li>
-</ul>
-<p>La estación hace un polling (lectura periódica) <strong>cada 10 segundos</strong> a cada <code>driver de sensor</code> para recoger la información que va generando cada sensor.</p>
-<ul>
-<li>En ese tiempo, cada sensor puede haber generado varios valores.</li>
-<li>La estación debe recoger todos los valores generados por cada sensor desde la última lectura y mostrarlos por consola.</li>
-</ul>
+<h1 id="psp---examen-1a-evaluación">PSP - Examen 1a Evaluación </h1>
+<h2 id="autobús-de-pspexamenspeed">Autobús de psp.examen.Speed </h2>
+<p>Vamos a realizar un programa en Java que simule cómo funciona el autobús de la película Speed (1994), en la cual el autobús debe circular entre 50 y 80 Km/h, de lo contrario estallará una bomba dentro del mismo.</p>
+<p>El programa en Java utilizará un objeto Autobús que tendrá una matrícula y una velocidad, que estará <strong>inicializada a 50 Km./h</strong>.</p>
+<p>Modificarán la velocidad del Autobús, un <strong>hilo acelerando</strong> y otro <strong>hilo frenando</strong>, con un número aleatorio entre 1 y 10 Km./h.</p>
+<p>El autobús comenzará acelerando (parte de una velocidad inicial de 50 Km.h) poco a poco hasta llegar (o superar) los 80 km/h., en cuyo momento comenzará a frenar, poco a poco hasta llegar (o estar por debajo) a los 50 Km./h, en cuyo momento volverá a acelerar...y así cíclicamente.</p>
+<p>Esperaremos <strong>1 segundo</strong> entre cada acelerada/frenada para que se vea con más claridad cómo va avanzando el autobús.</p>
 <div class="admonition summary">
-<p class="admonition-title">Información del proceso</p>
-<p>La aplicación debe mostrar claramente qué está pasando en cada momento.</p>
-<p>La salida por consola debe permitir distinguir fácilmente qué sensor genera qué dato, el dato en sí y cuándo se ha generado <code>(colores opcionales, nombres obligatorios)</code>.<br>
-<em>El nombre de los procesos debe establecerse como "SensorTemperatura", "SensorHumedad", "SensorPresion", etc.</em></p>
+<p class="admonition-title">Ejemplo de ejecución:</p>
+<blockquote>
+<p>Acelerando 5... Velocidad actual: 55 km/h<br>
+Aún no debe frenar 7<br>
+Acelerando 7... Velocidad actual: 62 km/h<br>
+Aún no debe frenar 7<br>
+Acelerando 1... Velocidad actual: 63 km/h<br>
+Aún no debe frenar 7<br>
+Acelerando 10... Velocidad actual: 73 km/h<br>
+Aún no debe frenar 7<br>
+Acelerando 6... Velocidad actual: 79 km/h<br>
+Aún no debe frenar 7<br>
+Acelerando 1... Velocidad actual: 80 km/h<br>
+Aún no debe frenar 7<br>
+<strong>Acelerando 2... Velocidad actual: 82 km/h<br>
+Frenando 7... Velocidad actual: 75 km/h</strong><br>
+Aun no debe acelerar 9<br>
+Frenando 7... Velocidad actual: 68 km/h<br>
+Aun no debe acelerar 9<br>
+Frenando 10... Velocidad actual: 58 km/h<br>
+Aun no debe acelerar 9<br>
+Frenando 7... Velocidad actual: 51 km/h<br>
+Aun no debe acelerar 9<br>
+<strong>Frenando 10... Velocidad actual: 41 km/h<br>
+Acelerando 9... Velocidad actual: 50 km/h</strong><br>
+Aún no debe frenar 3<br>
+Acelerando 7... Velocidad actual: 57 km/h<br>
+Aún no debe frenar 3<br>
+Acelerando 8... Velocidad actual: 65 km/h<br>
+Aún no debe frenar 3<br>
+Acelerando 3... Velocidad actual: 68 km/h<br>
+Aún no debe frenar 3<br>
+Acelerando 8... Velocidad actual: 76 km/h<br>
+Aún no debe frenar 3<br>
+<strong>Acelerando 4... Velocidad actual: 80 km/h<br>
+Frenando 2... Velocidad actual: 78 km/h</strong></p>
+</blockquote>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Errores en los sensores</p>
-<p>Los sensores que hemos comprado <strong>fallan cada 10 lecturas</strong> (tienen un 10% de probabilidad de fallar), generando un error en la lectura.</p>
-<p>En caso de error, el <code>driver del sensor</code> debe enviar un mensaje de error al programa principal en lugar del valor medido.</p>
-<p>El programa principal debe diferenciar y manejar estos errores adecuadamente, mostrando un mensaje de error por consola que especifique qué sensor ha fallado y en qué momento.</p>
+<div class="admonition question">
+<p class="admonition-title">Se pide</p>
+<p>Programar las clases necesarias de forma que los hilos se coordinen entre sí y se genere una salida como la mostrada en el ejemplo.</p>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Procesos genéricos</p>
-<p>En cualquier momento puede añadirse un nuevo sensor a la estación.<br>
-Programa el programa principal y los drivers de forma que pueda lanzar cualquier número de procesos, leyendo sus parámetros desde una colección de datos que incluya, al menos, la siguiente información:</p>
-<pre data-role="codeBlock" data-info="" class="language-text"><code># nombre_sensor,valor_minimo,valor_maximo,unidades,tiempo_lectura
-SensorTemperatura,-10,40,grados,2000
-SensorHumedad,0,100,porcentaje,3000
-SensorPresion,950,1050,hPa,5000
-</code></pre><div class="admonition tip">
-<p class="admonition-title">Carga inicial de datos</p>
-<p>La colección de datos está cargada en memoria cuando se inicia el programa principal.<br>
-Tienes que encargarte de crear y rellenar esa colección de datos.</p>
-</div>
-</div>
-<div class="admonition info">
-<p class="admonition-title">Simulación en escala</p>
-<p>Se pide simular en escala el proceso de cada sensor.<br>
-Cada segundo real = 100 ms en la simulación.</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Gestión de excepciones en el código</p>
-<p>Controla y maneja excepciones en tu código (no las escales), mostrando la pila cuando sea necesario.</p>
-</div>
-<div style="page-break-after:always;"></div>
-<h3 id="rúbrica-de-corrección">Rúbrica de corrección </h3>
-<table>
-<thead>
-<tr>
-<th>Criterio</th>
-<th>Ponderación</th>
-<th>Excelente (5)</th>
-<th>Bien (3)</th>
-<th>Mal (1)</th>
-<th>Insuficiente (0)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Diseño y organización del código</td>
-<td></td>
-<td>Código modular, limpio y bien estructurado, con separación clara de procesos y comunicación.</td>
-<td>Código organizado, con ligeras mejoras posibles en modularidad y claridad.</td>
-<td>Código funcional pero con estructura y modularidad limitadas.</td>
-<td>Código desorganizado, difícil de seguir.</td>
-</tr>
-<tr>
-<td>Uso de ProcessBuilder y Process</td>
-<td></td>
-<td>Uso correcto y completo de ProcessBuilder y Process para crear y manejar procesos externos.</td>
-<td>Uso mayormente correcto con algún manejo incompleto o subóptimo.</td>
-<td>Uso parcial o incompleto de las clases para procesos.</td>
-<td>Uso incorrecto o inexistente de procesos externos.</td>
-</tr>
-<tr>
-<td>Comunicación a través de Streams</td>
-<td></td>
-<td>Comunicación clara y correcta mediante InputStream y OutputStream con protocolo definido y eficiente.</td>
-<td>Comunicación efectiva, pero con pequeños aspectos mejorables en protocolo o claridad.</td>
-<td>Comunicación funcional pero poco robusta o clara.</td>
-<td>Comunicación inexistente o mal implementada.</td>
-</tr>
-<tr>
-<td>Manejo de errores y excepciones</td>
-<td></td>
-<td>Maneja correctamente excepciones en creación y comunicación con procesos, con mensajes claros.</td>
-<td>Manejo adecuado pero con faltas en algunos casos o mensajes deficientes.</td>
-<td>Manejo limitado y poco consistente de errores.</td>
-<td>No hay manejo o es deficiente, generando caídas o bloqueos.</td>
-</tr>
-<tr>
-<td>Control de flujo sin sincronización</td>
-<td></td>
-<td>Diseña un control de flujo eficaz que evita pérdidas o sobrescrituras con comunicación sin sincronización.</td>
-<td>Control de flujo adecuado con mínimos aspectos mejorables.</td>
-<td>Control de flujo básico, con posibles inconsistencias.</td>
-<td>No controla flujo correctamente, errores frecuentes.</td>
-</tr>
-<tr>
-<td>Salida y estado del sistema</td>
-<td></td>
-<td>Salidas claras, informativas y detalladas que reflejan el estado de cada proceso y la comunicación.</td>
-<td>Salidas completas pero quizás menos detalladas o formateadas.</td>
-<td>Salidas funcionales pero poco claras o con poca información.</td>
-<td>Salidas confusas, inexistentes o poco útiles para entender el sistema.</td>
-</tr>
-<tr>
-<td>Parámetros y configuración</td>
-<td></td>
-<td>Parámetros completamente configurables y documentados, facilidad para variar pruebas.</td>
-<td>Parámetros configurables pero con poca documentación o flexibilidad limitada.</td>
-<td>Algunos parámetros ajustables, poca documentación.</td>
-<td>Sin parámetros configurables ni documentación sobre ellos.</td>
-</tr>
-<tr>
-<td>Documentación y explicaciones</td>
-<td></td>
-<td>Explicación clara y detallada del diseño, protocolo y estrategia de comunicación y control.</td>
-<td>Documentación adecuada con áreas mejorables en detalles.</td>
-<td>Documentación básica con falta de profundidad o claridad.</td>
-<td>Documentación insuficiente o inexistente.</td>
-</tr>
-</tbody>
-</table>
 
       </div>
       

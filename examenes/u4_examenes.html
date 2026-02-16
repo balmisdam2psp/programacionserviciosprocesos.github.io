@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>PSP - Exámenes Procesos y comunicaciones</title>
+      <title>PSP - Examenes Sockets</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -191,107 +191,297 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
       <div class="crossnote markdown-preview  ">
       
 <p><img src="..\imagenes\img-BalmisHeader.png" alt="Cabecera"></p>
-<h1 id="psp---u2-actividades">PSP - U2 Actividades </h1>
-<p><a href="./u2_examenes.pdf">Descargar estos apuntes</a></p>
+<h1 id="psp---u4-exámenes">PSP - U4 Exámenes </h1>
+<p><a href="./u4_examenes.pdf">Descargar estos apuntes</a></p>
 <h2 id="índice">Índice </h2>
 
 <div class="md-toc">
-<div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
-          <a href="#lectordialogos" class="md-toc-link">
-            <p>LectorDialogos</p>
+<details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#ejercicio-sistema-de-reservas-de-hoteles" class="md-toc-link"><p>Ejercicio: Sistema de Reservas de Hoteles</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#instrucciones-generales" class="md-toc-link">
+            <p>Instrucciones Generales</p>
 
-          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
-          <a href="#estación-meteorológica" class="md-toc-link">
-            <p>Estación meteorológica</p>
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#comandos-del-cliente-4-comandos" class="md-toc-link">
+            <p>Comandos del Cliente (4 comandos)</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#respuestas-del-servidor" class="md-toc-link">
+            <p>Respuestas del Servidor</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#salida-del-servidor-consola" class="md-toc-link">
+            <p>Salida del Servidor (consola)</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#salida-del-cliente-ejemplo" class="md-toc-link">
+            <p>Salida del Cliente (ejemplo)</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#notas-técnicas" class="md-toc-link">
+            <p>Notas Técnicas</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#fábrica-de-bicicletas" class="md-toc-link">
+            <p>Fábrica de bicicletas</p>
 
           </a></div>
+        </div>
+      </details>
+    
 </div>
 <div style="page-break-after:always;"></div>
-<h2 id="lectordialogos">LectorDialogos </h2>
-<div class="admonition warning">
-<p class="admonition-title">Proyecto base</p>
-<p>El proyecto base LectorDialogos contiene la clase LectorFicheros que se usará como proceso hijo. <strong>No se puede modificar nada en esa clase</strong>.<br>
-En la entrega del ejercicio no se puede usar el método <code>inheritIO()</code>.</p>
-</div>
-<h4 id="pspexameneslectordialogos">psp.examenes.LectorDialogos </h4>
-<p>Cread esta clase para que tenga la funcionalidad que se describe a continuación:</p>
+<h1 id="ejercicio-sistema-de-reservas-de-hoteles">Ejercicio: Sistema de Reservas de Hoteles </h1>
+<p>Desarrolla una aplicación <strong>cliente/servidor TCP multihilo sin estados</strong> que simule un sistema de reservas de hoteles en tiempo real, como los usados en webs de viajes. El servidor gestionará habitaciones disponibles de forma compartida entre múltiples clientes.</p>
+<p>La aplicación debe permitir a los clientes listar habitaciones disponibles, consultar la disponibilidad de un tipo de habitación concreta, reservar habitaciones y finalizar sesión mostrando un resumen de sus reservas.</p>
+<h2 id="instrucciones-generales">Instrucciones Generales </h2>
 <ul>
-<li>La clase recibirá un <strong>parámetro de entrada</strong> con el nombre de alguno de los archivos (sólo el nombre, sin especificar la ruta) que hay en la carpeta <code>datos</code> del proyecto.</li>
-<li>Esta clase actuará como <strong>proceso principal</strong>. Se encargará de lanzar, en primer lugar, la clase <code>LectorFicheros</code> como proceso hijo.</li>
-<li>El proceso hijo tendrá <strong>redirigida su entrada estándar</strong> al fichero que LectorDiálogos recibido como parámetro.</li>
-<li>El proceso padre esperará a que finalice el proceso hijo, y mostrará el valor de finalización del mismo.</li>
-<li>A continuación, recuperará la salida estándar del proceso hijo y la mostrará, también por la salida estándar, línea a línea, precedida del texto <code>P1</code>.</li>
-<li>Por último, recuperará la salida de error del proceso hijo y la mostrará, también por la salida de error, línea a línea, precedida del texto <code>P2&gt;</code>.</li>
+<li><strong>Servidor</strong>: Crea un <code>ServerSocket</code> en puerto 4444. Usa hilos <code>Worker</code> para cada cliente. Gestiona una estructura <code>ConcurrentHashMap&lt;String, Double&gt;</code> para precios de habitaciones por tipo (ej: "individual"=50.0, "doble"=80.0). Usa <code>ConcurrentHashMap&lt;String, Integer&gt;</code> para stock de habitaciones disponibles por tipo (ej: "individual"=5). Ambas estructuras son compartidas y thread-safe.</li>
+<li><strong>Cliente</strong>: Envía comandos al servidor y muestra respuestas formateadas.</li>
+<li><strong>Protocolo</strong>: Cualquier comando en cualquier orden. Mensajes terminan en salto de línea. Usa <code>PrintWriter</code> y <code>BufferedReader</code>.</li>
+<li><strong>Datos iniciales</strong>: 3 individuales (50€), 4 dobles (80€), 2 suites (150€).[<sup>1][</sup>2]</li>
 </ul>
-<p>Una vez finalice el proceso anterior, el proceso principal lanzará otro proceso con las siguientes características:</p>
+<h2 id="comandos-del-cliente-4-comandos">Comandos del Cliente (4 comandos) </h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Comando</th>
+<th style="text-align:left">Formato</th>
+<th style="text-align:left">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">LISTAR</td>
+<td style="text-align:left"><code>LISTAR</code></td>
+<td style="text-align:left">Lista tipos disponibles con stock y precio.</td>
+</tr>
+<tr>
+<td style="text-align:left">STOCK tipo</td>
+<td style="text-align:left"><code>STOCK individual</code></td>
+<td style="text-align:left">Muestra stock actual de un tipo (ej: "individual").</td>
+</tr>
+<tr>
+<td style="text-align:left">RESERVAR tipo cantidad</td>
+<td style="text-align:left"><code>RESERVAR doble 2</code></td>
+<td style="text-align:left">Reduce stock si disponible; sino error.</td>
+</tr>
+<tr>
+<td style="text-align:left">SALIR nombre</td>
+<td style="text-align:left"><code>SALIR juan</code></td>
+<td style="text-align:left">Lista reservas del usuario (usa Map adicional si necesitas historial) y cierra conexión.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="respuestas-del-servidor">Respuestas del Servidor </h2>
 <ul>
-<li>Ejecutar el comando de consola <code>sort</code></li>
-<li>Redirigir su entrada estándar desde el archivo “datos/listaAlumnado.txt”.</li>
-<li>De este proceso recogemos la salida estándar para mostrarla por consola, precediendo<br>
-cada línea con el prefijo <code>ordenarPalabras&gt; </code>.</li>
-<li>De este proceso recogemos la salida de error para mostrarla por consola (por la salida<br>
-de error), precediendo cada línea con el prefijo <code>cmdError&gt; </code></li>
+<li><strong>LISTAR</strong>: "individual:5:50.0doble:4:80.0suite:2:150.0" (concatenado, sin espacios extra).</li>
+<li><strong>STOCK tipo</strong>: "OK:3" o "KO:Tipo no existe".</li>
+<li><strong>RESERVAR tipo cantidad</strong>: "OK:stock_restante" o "KO:No disponible".</li>
+<li><strong>SALIR nombre</strong>: "Reservas: doble:2 total:160.0" (ejemplo; usa historial por usuario en otra Map&lt;String, Map&lt;String,Integer&gt;&gt; sincronizada).</li>
 </ul>
-<p>Cuando finalice la ejecución del proceso deberemos recuperar su código de finalización y mostrarlo por consola.</p>
+<h2 id="salida-del-servidor-consola">Salida del Servidor (consola) </h2>
+<p>Muestra todos los mensajes recibidos/enviados con formato:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>-- CLIENTE IP:PUERTO comando args
+Reservas actualizadas: individual=4, doble=3...
+Error: Tipo 'triple' no existe.
+Cliente desconectado.
+</code></pre><p>Ejemplo completo:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Escuchando en puerto 4444
+-- CLIENTE /127.0.0.1:54321 LISTAR
+-- CLIENTE /127.0.0.1:54321 RESERVAR individual 1
+Reservas actualizadas: individual=2, doble=4, suite=2
+-- CLIENTE /192.168.1.100:12345 STOCK doble
+-- CLIENTE /192.168.1.100:12345 SALIR maria
+Cliente desconectado.
+</code></pre><h2 id="salida-del-cliente-ejemplo">Salida del Cliente (ejemplo) </h2>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando (LISTAR/STOCK tipo/RESERVAR tipo cant/SALIR nombre): LISTAR
+Disponibles: individual:3:50.0 doble:4:80.0 suite:2:150.0
+Introduce comando: RESERVAR individual 1
+OK, quedan 2 individuales.
+Introduce comando: SALIR pepe
+Tus reservas: individual:1 total:50.0
+</code></pre><h2 id="notas-técnicas">Notas Técnicas </h2>
+<ul>
+<li>Sincroniza accesos a Maps con <code>synchronized</code> si no usas ConcurrentHashMap.</li>
+<li>Gestiona excepciones: muestra errores y continúa.</li>
+<li>Prueba con varios clientes simultáneos para verificar concurrencia.[<sup>2][</sup>3][^1]</li>
+</ul>
 <div style="page-break-after:always;"></div>
-<h2 id="estación-meteorológica">Estación meteorológica </h2>
-<p>Queremos crear una aplicación para simular el funcionamiento de una estación meteorológica y los datos que se van generando en los sensores que incorpora.</p>
-<p>Dentro de la estación, tenemos varios sensores que van generando información cada cierto tiempo.<br>
-Cuando encendemos la estación, hay un <code>programa principal</code> que se encarga de lanzar cada uno de los <code>drivers</code> asociados a los sensores manteniendo la comunicación con ellos y recibiendo la información que los sensores van generando secuencialmente.</p>
-<p>En la estación meteorológica tenemos sensores para medir:</p>
+<h2 id="fábrica-de-bicicletas">Fábrica de bicicletas </h2>
+<p>Crea una aplicación para simular el funcionamiento de una fábrica de bicicletas.</p>
+<p>En la fábrica de bicicletas BalmisBikes tenemos tres tipos de trabajadores que deben coordinarse para cumplir con las siguientes tareas:</p>
 <ul>
-<li>Temperatura: Genera un valor de temperatura entre <strong>-10 y 40 grados centígrados cada 2 segundos</strong>.</li>
-<li>Humedad: Genera un valor de humedad entre <strong>0% y 100% cada 3 segundos</strong>.</li>
-<li>Presión atmosférica: Genera un valor de presión entre <strong>950 y 1050 hPa cada 5 segundos</strong>.</li>
+<li>Operarios de cuadros: Producen cuadros de bicicleta. Hay <strong>3 operarios</strong> de cuadros.</li>
+<li>Operarios de ruedas: Producen pares de ruedas. Hay <strong>2 operarios</strong> de ruedas.</li>
+<li>Montadores: Montan bicicletas usando 1 cuadro y 2 ruedas (un par). Hay <strong>4 montadores</strong>.</li>
 </ul>
-<p>Se pide realizar una aplicación en Java que simule el funcionamiento de la estación meteorológica y todos los <code>drivers</code> asociados, mostrando por consola los mensajes necesarios para entender qué está pasando en cada momento.</p>
-<p>Cada <code>driver de un sensor</code> lo vamos a simular con un <strong>proceso</strong>.</p>
+<p>La producción sigue este proceso:</p>
 <ul>
-<li>Los drivers de los sensores deben funcionar de forma independiente, generando la información de forma asíncrona.</li>
-<li>Cada driver está parametrizado para recibir como <code>argumentos</code> el nombre del Sensor, los valores mínimos y máximos que puede generar, las unidades de medida y el tiempo que tarda en capturar cada valor.</li>
-</ul>
-<p>La estación hace un polling (lectura periódica) <strong>cada 10 segundos</strong> a cada <code>driver de sensor</code> para recoger la información que va generando cada sensor.</p>
+<li>
+<p>Los operarios pueden producir un cuadro o un par de ruedas y dejarlos en su almacén, pero si el almacén está lleno, deben esperar.</p>
 <ul>
-<li>En ese tiempo, cada sensor puede haber generado varios valores.</li>
-<li>La estación debe recoger todos los valores generados por cada sensor desde la última lectura y mostrarlos por consola.</li>
+<li>El almacén de cuadros tiene una capacidad de <strong>4 unidades</strong> y el de pares de ruedas tiene una capacidad de <strong>10 unidades (5 pares)</strong>.</li>
+<li>Los operarios de cuadros tardan entre <strong>2h y 4h</strong> en producir un cuadro</li>
+<li>Los operarios de ruedas tardan entre <strong>1h y 3h</strong> en producir un par de ruedas.</li>
 </ul>
+</li>
+<li>
+<p>Los montadores solo pueden armar una bicicleta si hay, al menos, 1 cuadro y 1 par de ruedas disponibles. Si no es posible, deben esperar.</p>
+<ul>
+<li>Los montadores tardan entre <strong>media hora y 2h</strong> en montar una bicicleta.</li>
+</ul>
+</li>
+</ul>
+<p>Se pide realizar una aplicación en Java, siguiendo el modelo productor-consumidor, que simule el funcionamiento de la fábrica, mostrando por consola los mensajes necesarios para entender qué está pasando en cada momento.</p>
+<p>La simulación debe ejecutar un mínimo de <strong>20 montajes</strong> exitosos de bicicletas antes de finalizar.</p>
 <div class="admonition summary">
 <p class="admonition-title">Información del proceso</p>
-<p>La aplicación debe mostrar claramente qué está pasando en cada momento.</p>
-<p>La salida por consola debe permitir distinguir fácilmente qué sensor genera qué dato, el dato en sí y cuándo se ha generado <code>(colores opcionales, nombres obligatorios)</code>.<br>
-<em>El nombre de los procesos debe establecerse como "SensorTemperatura", "SensorHumedad", "SensorPresion", etc.</em></p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Errores en los sensores</p>
-<p>Los sensores que hemos comprado <strong>fallan cada 10 lecturas</strong> (tienen un 10% de probabilidad de fallar), generando un error en la lectura.</p>
-<p>En caso de error, el <code>driver del sensor</code> debe enviar un mensaje de error al programa principal en lugar del valor medido.</p>
-<p>El programa principal debe diferenciar y manejar estos errores adecuadamente, mostrando un mensaje de error por consola que especifique qué sensor ha fallado y en qué momento.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Procesos genéricos</p>
-<p>En cualquier momento puede añadirse un nuevo sensor a la estación.<br>
-Programa el programa principal y los drivers de forma que pueda lanzar cualquier número de procesos, leyendo sus parámetros desde una colección de datos que incluya, al menos, la siguiente información:</p>
-<pre data-role="codeBlock" data-info="" class="language-text"><code># nombre_sensor,valor_minimo,valor_maximo,unidades,tiempo_lectura
-SensorTemperatura,-10,40,grados,2000
-SensorHumedad,0,100,porcentaje,3000
-SensorPresion,950,1050,hPa,5000
-</code></pre><div class="admonition tip">
-<p class="admonition-title">Carga inicial de datos</p>
-<p>La colección de datos está cargada en memoria cuando se inicia el programa principal.<br>
-Tienes que encargarte de crear y rellenar esa colección de datos.</p>
-</div>
+<p>La aplicación debe mostrar claramente qué está pasando en cada momento.<br>
+Los mensajes deben indicar el estado: producción, espera, montaje y retirada de piezas, con el nombre del hilo responsable.</p>
+<p>La salida por consola debe permitir distinguir fácilmente qué trabajador produce qué y cuándo (colores opcionales, nombres obligatorios).<br>
+<em>El nombre de los trabajadores se puede establecer como "OperarioCuadros-1", "OperarioRuedas-2", "Montador-3", etc.</em></p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">Simulación en escala</p>
-<p>Se pide simular en escala el proceso de cada sensor.<br>
-Cada segundo real = 100 ms en la simulación.</p>
+<p>Se pide simular en escala el proceso de cada trabajador.<br>
+Cuando se indica que un trabajador tarda entre X e Y horas en realizar su tarea, puede tardar un tiempo aleatorio (todo el rango posible de tiempo) entre esos valores, no solo horas enteras.<br>
+Cada hora real = 100 ms en la simulación.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Gestión de excepciones en el código</p>
 <p>Controla y maneja excepciones en tu código (no las escales), mostrando la pila cuando sea necesario.</p>
 </div>
+<div class="admonition danger">
+<p class="admonition-title">Parametrización del código</p>
+<p>Ten en cuenta que el número de operarios, capacidades de almacén, tiempos de producción y montaje, etc., deben estar parametrizados en constantes al inicio del código para facilitar su modificación.<br>
+<strong>Es recomendable probar diferentes configuraciones para comprobar el correcto funcionamiento de la aplicación en distintos escenarios.</strong></p>
+</div>
+<div style="page-break-after:always;"></div>
+<h3 id="opciones-de-prueba-del-sistema">Opciones de prueba del sistema </h3>
+<p>Aquí tienes varios conjuntos de valores para los parámetros principales del ejercicio de la fábrica de bicicletas. Estos sets permiten simular y analizar diferentes escenarios de concurrencia, carga y sincronización para poner a prueba la robustez y flexibilidad del código</p>
+<table>
+<thead>
+<tr>
+<th>Escenario</th>
+<th>Operarios Cuadros</th>
+<th>Operarios Ruedas</th>
+<th>Montadores</th>
+<th>Capacidad Cuadros</th>
+<th>Capacidad Ruedas</th>
+<th>Bicicletas a montar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Básico (equilibrado)</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>10</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Alta presión en montaje</td>
+<td>2</td>
+<td>3</td>
+<td>10</td>
+<td>5</td>
+<td>10</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Buffer reducido</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>2</td>
+<td>4</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Muchos operarios</td>
+<td>5</td>
+<td>5</td>
+<td>4</td>
+<td>7</td>
+<td>12</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Cuellos de botella montaje</td>
+<td>2</td>
+<td>3</td>
+<td>8</td>
+<td>3</td>
+<td>6</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Montaje más lento</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>5</td>
+<td>10</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Máxima simultaneidad</td>
+<td>4</td>
+<td>6</td>
+<td>6</td>
+<td>10</td>
+<td>15</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Montadores esperando</td>
+<td>1</td>
+<td>2</td>
+<td>6</td>
+<td>3</td>
+<td>6</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Producción escasa</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>4</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Gran escala</td>
+<td>8</td>
+<td>10</td>
+<td>12</td>
+<td>25</td>
+<td>40</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p>Estos conjuntos permiten comprobar:</p>
+<ul>
+<li>Esperas largas de montadores por piezas (más montadores que operarios o buffers pequeños).</li>
+<li>Saturación de almacenes (más operarios que montadores).</li>
+<li>Escenarios equilibrados donde todos trabajan a ritmo similar.</li>
+<li>Parámetros extremos para analizar cuellos de botella y posibles condiciones de carrera o deadlocks.​​</li>
+</ul>
 <div style="page-break-after:always;"></div>
 <h3 id="rúbrica-de-corrección">Rúbrica de corrección </h3>
+<p>Cada criterio se evalúa individualmente con una nota de 0 a 5, según el nivel alcanzado.</p>
+<p>Se recomienda ponderar más los apartados de “Sincronización y concurrencia”, “Implementación de hilos” y “Gestión de buffers”, dada la naturaleza de la actividad.​</p>
+<p>Para nota máxima, es imprescindible que no haya condiciones de carrera, deadlocks o bloqueos injustificados, y que la actividad sea reproducible modificando los parámetros principales.</p>
 <table>
 <thead>
 <tr>
@@ -305,71 +495,56 @@ Cada segundo real = 100 ms en la simulación.</p>
 </thead>
 <tbody>
 <tr>
-<td>Diseño y organización del código</td>
-<td></td>
-<td>Código modular, limpio y bien estructurado, con separación clara de procesos y comunicación.</td>
-<td>Código organizado, con ligeras mejoras posibles en modularidad y claridad.</td>
-<td>Código funcional pero con estructura y modularidad limitadas.</td>
-<td>Código desorganizado, difícil de seguir.</td>
+<td>Diseño de Clases y Modularidad</td>
+<td>0,1</td>
+<td>Todas las clases cumplen su función, bien diseñadas y con responsabilidades claras. Código modular, reutilizable y fácil de mantener. Excepciones bien capturadas, se usa printStackTrace y mensajes claros para depuración.</td>
+<td>Estructura adecuada, aunque algo mejorable en separación de responsabilidades. Se gestionan la mayoría de excepciones, pero podrían mejorar los mensajes o detalles.</td>
+<td>Se mezclan responsabilidades o hay redundancia, pero la solución funciona. Se atrapan excepciones pero se ignoran o falta detalle en el tratamiento.</td>
+<td>Diseño confuso, poco modular o incorrecto. No se gestionan excepciones, el código puede interrumpirse inesperadamente.</td>
 </tr>
 <tr>
-<td>Uso de ProcessBuilder y Process</td>
-<td></td>
-<td>Uso correcto y completo de ProcessBuilder y Process para crear y manejar procesos externos.</td>
-<td>Uso mayormente correcto con algún manejo incompleto o subóptimo.</td>
-<td>Uso parcial o incompleto de las clases para procesos.</td>
-<td>Uso incorrecto o inexistente de procesos externos.</td>
+<td>Implementación de Hilos</td>
+<td>0,2</td>
+<td>Todos los hilos cumplen la lógica, gestionados correctamente y lanzados desde el main.</td>
+<td>Los hilos se crean y controlan, pero hay leves errores o incoherencias menores.</td>
+<td>Al menos un hilo tiene errores significativos o faltan instrucciones clave.</td>
+<td>Errores graves, los hilos están mal implementados, faltan o solo hay uno.</td>
 </tr>
 <tr>
-<td>Comunicación a través de Streams</td>
-<td></td>
-<td>Comunicación clara y correcta mediante InputStream y OutputStream con protocolo definido y eficiente.</td>
-<td>Comunicación efectiva, pero con pequeños aspectos mejorables en protocolo o claridad.</td>
-<td>Comunicación funcional pero poco robusta o clara.</td>
-<td>Comunicación inexistente o mal implementada.</td>
+<td>Sincronización y Concurrencia</td>
+<td>0,3</td>
+<td>Perfecto uso de synchronized, wait, notifyAll y/o bloqueos para evitar condiciones de carrera y asegurar acceso seguro a los buffers.</td>
+<td>Sincronización generalmente correcta, pero con pequeñas ineficiencias.</td>
+<td>Hay algún error o falta de cobertura en condiciones límite, pero sin bloquear la ejecución.</td>
+<td>Falta sincronización, hay condiciones de carrera o deadlocks.</td>
 </tr>
 <tr>
-<td>Manejo de errores y excepciones</td>
-<td></td>
-<td>Maneja correctamente excepciones en creación y comunicación con procesos, con mensajes claros.</td>
-<td>Manejo adecuado pero con faltas en algunos casos o mensajes deficientes.</td>
-<td>Manejo limitado y poco consistente de errores.</td>
-<td>No hay manejo o es deficiente, generando caídas o bloqueos.</td>
+<td>Manejo de Buffers (Objetos compartidos)</td>
+<td>0,1</td>
+<td>Buffers seguros y parametrizables, gestionan correctamente los desbloqueos y bloqueos.</td>
+<td>Los buffers funcionan, pero son rígidos o con algún detalle mejorable.</td>
+<td>Falta parametrización o la gestión de bloqueo/desbloqueo no es óptima pero válida.</td>
+<td>Gestión incorrecta o ausencia de buffers concurrentes.</td>
 </tr>
 <tr>
-<td>Control de flujo sin sincronización</td>
-<td></td>
-<td>Diseña un control de flujo eficaz que evita pérdidas o sobrescrituras con comunicación sin sincronización.</td>
-<td>Control de flujo adecuado con mínimos aspectos mejorables.</td>
-<td>Control de flujo básico, con posibles inconsistencias.</td>
-<td>No controla flujo correctamente, errores frecuentes.</td>
+<td>Salida y Mensajes por Consola</td>
+<td>0,2</td>
+<td>Mensajes claros, con hilos identificados (nombres/colores) y representan bien la situación.</td>
+<td>Mensajes comprensibles y sincronizados, pequeña confusión puntual.</td>
+<td>Los mensajes existen, pero no siempre claros, faltan detalles de identificación.</td>
+<td>Mensajes insuficientes, ambiguos o inexistentes.</td>
 </tr>
 <tr>
-<td>Salida y estado del sistema</td>
-<td></td>
-<td>Salidas claras, informativas y detalladas que reflejan el estado de cada proceso y la comunicación.</td>
-<td>Salidas completas pero quizás menos detalladas o formateadas.</td>
-<td>Salidas funcionales pero poco claras o con poca información.</td>
-<td>Salidas confusas, inexistentes o poco útiles para entender el sistema.</td>
-</tr>
-<tr>
-<td>Parámetros y configuración</td>
-<td></td>
-<td>Parámetros completamente configurables y documentados, facilidad para variar pruebas.</td>
-<td>Parámetros configurables pero con poca documentación o flexibilidad limitada.</td>
-<td>Algunos parámetros ajustables, poca documentación.</td>
-<td>Sin parámetros configurables ni documentación sobre ellos.</td>
-</tr>
-<tr>
-<td>Documentación y explicaciones</td>
-<td></td>
-<td>Explicación clara y detallada del diseño, protocolo y estrategia de comunicación y control.</td>
-<td>Documentación adecuada con áreas mejorables en detalles.</td>
-<td>Documentación básica con falta de profundidad o claridad.</td>
-<td>Documentación insuficiente o inexistente.</td>
+<td>Parametrización y Flexibilidad</td>
+<td>0,1</td>
+<td>Todos los parámetros son configurables (nº hilos, capacidades), fácil de probar escenarios.</td>
+<td>La mayoría de parámetros son configurables, falta alguno menos relevante.</td>
+<td>Apenas parametrización, el código depende de constantes internas no modificables.</td>
+<td>Ejercicio rígido, para modificar hay que tocar demasiado el código fuente.</td>
 </tr>
 </tbody>
 </table>
+<div style="page-break-after:always;"></div>
 
       </div>
       

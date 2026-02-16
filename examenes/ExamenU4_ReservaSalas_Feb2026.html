@@ -1,0 +1,1066 @@
+<!DOCTYPE html><html><head>
+      <title>PSP - Examen Cliente / Servidor (Sockets)</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css);
+code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}@font-face{font-family:"Material Icons";font-style:normal;font-weight:400;src:local("Material Icons"),local("MaterialIcons-Regular"),url("data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAfIAAsAAAAADDAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kosY21hcAAAAYAAAADTAAACjtP6ytBnbHlmAAACVAAAAxgAAAQ4zRtvlGhlYWQAAAVsAAAALwAAADYRwZsnaGhlYQAABZwAAAAcAAAAJAeKAzxobXR4AAAFuAAAABIAAAA8OGQAAGxvY2EAAAXMAAAAIAAAACAG5AfwbWF4cAAABewAAAAfAAAAIAEfAERuYW1lAAAGDAAAAVcAAAKFkAhoC3Bvc3QAAAdkAAAAYgAAAK2vz7wkeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkPsQ4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVLy4xKzzX4chhrmK4QpQmBEkBwAZygyweJzFkr0NwjAQhZ+TEP6CRUfHBEwRUWaQTICyQbpMwRCskA5RUIONxG0RnnNpKAIV4qzPku/8c353ACYAYrIjCWCuMAh2ptf0/hiL3p/gyPUWa3osqlt0L1zu9r71z8dGrJRykFoauXQd932Lj5vhG+MjxGeYI8MKETObMpslf5EyP8tg+vHun5r539PvlvXzaVhRFVQDTPEWKVQR90KhnnC5Ek67vUKN4VuFasM/ldARj43CCkCsEjpJSoVVgRyU0GVSK6wUpFFCx8lFgX0BiXpRPQB4nE2TTWjcRhTH3xttpDhxN7uxPlp3u/FK7moRPixafRijNosxSw/LUsIwNcaEHPZggo/FmEKMCKWU4kNOOftQSlhE8alnH0Ix9BqWnHooPRrTQ0+mnu2bXTu2pPdGM9LM/6c3fwECTM4gBBMYQNqxzLrZAjqYSlqu2TAHZQA0/DQJH6FtzqGDnvbt4Ggwvzw/nL8EfH8kW0fsuRqhgWXZnY7M1picaUL7Du5BHeDzMIl83dAt016wH1qmvtSMo5R6YRJHTR//FXsff/nj/tc/5K9P5d+nP22+fFK5u7v3K39SW3y+OtDKO3L85vD09PD9z5X17a2N1g4tqk01RlqX7gyoEmnsWQtVr4rtZMmukEaFBZxzefkCn11cyKMLZgshRwgTYNoLNXCBz2ja7HvZG7hDpPSNfoo5vs0knK/9hb+rNpu+8kHPgk/Ao4kK3tWtTpSEtvkA9c+wE6UaUdwieNkaHg55tBEtRiEPw1s0+FtrtTcc9two2lhMknV7PZF/cs6+uUFTmpTGbEx7sQCPSLOttHS3GRltqp7SNzVSKzl6aWnZT/CX5k6/v9N3Hh8fHBwffJVjhrC6OgH5dkIt/tPsq+d/PD5Qz7G7efzq1THFjdZVPe/N6ulQ3JnDWSE5junsFsVIiFwL/htf1S5gJ3BfOcUxfHKLnzqpFpyfZ9cX+/5WB6a+Y0pHpzkNrYNVDwMsikK+y7WuLCRg/oFHkA8VT3rDg5ZnU6ktzzINymV0m74Xd5pfIGXyFeVEQSShkzqG7TBBa2OxVRKitLXv7h3uuftXnXq7lz2tZ/WnWa9dx9dCjDhHzmuVQATlmljr9dZErUydSo2Hbi/b1vXtrOeGCk2/8s3ZlO8+ueJT8BVlw5pGw2oYccdSiHHqx0RlabHqdNR9jAETl6PreJcPBnnfpTLnOQ8C3OV8AmQGzouV1iZdeb5SSIoVc8W8/kcDtksUH5FrU6/aqBqNWcMEzxG4DAQ14qRQhi9mWU0rzepKezbjfgCwQKxVYq5ajRgpRqy45CqwkJydcEkbTkvRz8P5/2ZpDTN4nGNgZGBgAOKb6v+/xvPbfGXgZmEAgeuB2kkI+v8bFgbmKiCXg4EJJAoAPyAKhQB4nGNgZGBg1vmvwxDDwgACQJKRARXwAwAzZQHQeJxjYQCCFAYGFgbSMQAcWACdAAAAAAAAAAwALgBgAIQAmADSAQgBIgE8AVABoAHeAfwCHHicY2BkYGDgZ7BgYGMAASYg5gJCBob/YD4DAA/hAWQAeJxlkbtuwkAURMc88gApQomUJoq0TdIQzEOpUDokKCNR0BuzBiO/tF6QSJcPyHflE9Klyyekz2CuG8cr7547M3d9JQO4xjccnJ57vid2cMHqxDWc40G4Tv1JuEF+Fm6ijRfhM+oz4Ra6eBVu4wZvvMFpXLIa40PYQQefwjVc4Uu4Tv1HuEH+FW7i1mkKn6Hj3Am3sHC6wm08Ou8tpSZGe1av1PKggjSxPd8zJtSGTuinyVGa6/Uu8kxZludCmzxMEzV0B6U004k25W35fj2yNlCBSWM1paujKFWZSbfat+7G2mzc7weiu34aczzFNYGBhgfLfcV6iQP3ACkSaj349AxXSN9IT0j16JepOb01doiKbNWt1ovippz6sVYYwsXgX2rGVFIkq7Pl2PNrI6qW6eOshj0xaSq9mpNEZIWs8LZUfOouNkVXxp/d5woqebeYIf4D2J1ywQB4nG3LOw6AIBAE0B384B+PAkgEa+QwNnYmHt+EpXSal5lkSBBnoP8oCFSo0aCFRIceA0ZMmLFAYSW88rmvtMUjG3RiQ9HvpfusM6zWNmtc5H/iPewha50tOt5PS/QBx2IeSwAA") format("woff")}.admonition{box-shadow:0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);position:relative;margin:1.5625em 0;padding:0 1.2rem;border-left:.4rem solid rgba(68,138,255,.8);border-radius:.2rem;background-color:rgba(255,255,255,.05);overflow:auto}.admonition>p{margin-top:.8rem}.admonition>.admonition-title{margin:0 -1.2rem;padding:.8rem 1.2rem .8rem 3.6rem;border-bottom:1px solid rgba(68,138,255,.2);background-color:rgba(68,138,255,.1);font-weight:700}.admonition>.admonition-title:before{position:absolute;left:1.2rem;font-size:1.5rem;color:rgba(68,138,255,.8);content:"\E3C9"}.admonition>.admonition-title:before{font-family:Material Icons;font-style:normal;font-variant:normal;font-weight:400;line-height:2rem;text-transform:none;white-space:nowrap;speak:none;word-wrap:normal;direction:ltr}.admonition.abstract,.admonition.summary,.admonition.tldr{border-left-color:rgba(0,176,255,.8)}.admonition.abstract>.admonition-title,.admonition.summary>.admonition-title,.admonition.tldr>.admonition-title{background-color:rgba(0,176,255,.1);border-bottom-color:rgba(0,176,255,.2)}.admonition.abstract>.admonition-title:before,.admonition.summary>.admonition-title:before,.admonition.tldr>.admonition-title:before{color:#00b0ff;content:"\E8D2"}.admonition.hint,.admonition.tip{border-left-color:rgba(0,191,165,.8)}.admonition.hint>.admonition-title,.admonition.tip>.admonition-title{background-color:rgba(0,191,165,.1);border-bottom-color:rgba(0,191,165,.2)}.admonition.hint>.admonition-title:before,.admonition.tip>.admonition-title:before{color:#00bfa5;content:"\E80E"}.admonition.info,.admonition.todo{border-left-color:rgba(0,184,212,.8)}.admonition.info>.admonition-title,.admonition.todo>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.info>.admonition-title:before,.admonition.todo>.admonition-title:before{color:#00b8d4;content:"\E88E"}.admonition.check,.admonition.done,.admonition.success{border-left-color:rgba(0,200,83,.8)}.admonition.check>.admonition-title,.admonition.done>.admonition-title,.admonition.success>.admonition-title{background-color:rgba(0,200,83,.1);border-bottom-color:rgba(0,200,83,.2)}.admonition.check>.admonition-title:before,.admonition.done>.admonition-title:before,.admonition.success>.admonition-title:before{color:#00c853;content:"\E876"}.admonition.faq,.admonition.help,.admonition.question{border-left-color:rgba(100,221,23,.8)}.admonition.faq>.admonition-title,.admonition.help>.admonition-title,.admonition.question>.admonition-title{background-color:rgba(100,221,23,.1);border-bottom-color:rgba(100,221,23,.2)}.admonition.faq>.admonition-title:before,.admonition.help>.admonition-title:before,.admonition.question>.admonition-title:before{color:#64dd17;content:"\E887"}.admonition.attention,.admonition.caution,.admonition.warning{border-left-color:rgba(255,145,0,.8)}.admonition.attention>.admonition-title,.admonition.caution>.admonition-title,.admonition.warning>.admonition-title{background-color:rgba(255,145,0,.1);border-bottom-color:rgba(255,145,0,.2)}.admonition.attention>.admonition-title:before{color:#ff9100;content:"\E417"}.admonition.caution>.admonition-title:before,.admonition.warning>.admonition-title:before{color:#ff9100;content:"\E002"}.admonition.fail,.admonition.failure,.admonition.missing{border-left-color:rgba(255,82,82,.8)}.admonition.fail>.admonition-title,.admonition.failure>.admonition-title,.admonition.missing>.admonition-title{background-color:rgba(255,82,82,.1);border-bottom-color:rgba(255,82,82,.2)}.admonition.fail>.admonition-title:before,.admonition.failure>.admonition-title:before,.admonition.missing>.admonition-title:before{color:#ff5252;content:"\E14C"}.admonition.bug,.admonition.danger,.admonition.error{border-left-color:rgba(255,23,68,.8)}.admonition.bug>.admonition-title,.admonition.danger>.admonition-title,.admonition.error>.admonition-title{background-color:rgba(255,23,68,.1);border-bottom-color:rgba(255,23,68,.2)}.admonition.danger>.admonition-title:before{color:#ff1744;content:"\E3E7"}.admonition.error>.admonition-title:before{color:#ff1744;content:"\E14C"}.admonition.bug>.admonition-title:before{color:#ff1744;content:"\E868"}.admonition.example,.admonition.snippet{border-left-color:rgba(0,184,212,.8)}.admonition.example>.admonition-title,.admonition.snippet>.admonition-title{background-color:rgba(0,184,212,.1);border-bottom-color:rgba(0,184,212,.2)}.admonition.example>.admonition-title:before,.admonition.snippet>.admonition-title:before{color:#00b8d4;content:"\E242"}.admonition.cite,.admonition.quote{border-left-color:rgba(158,158,158,.8)}.admonition.cite>.admonition-title,.admonition.quote>.admonition-title{background-color:rgba(158,158,158,.1);border-bottom-color:rgba(158,158,158,.2)}.admonition.cite>.admonition-title:before,.admonition.quote>.admonition-title:before{color:#9e9e9e;content:"\E244"}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/catamaran/v28/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
+}
+.markdown-preview.markdown-preview .box_bg_lightgrey {
+  background-color: #f5f5f5;
+  border: 2px solid #969696;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .box_bg_lightgreen {
+  background-color: #f5faf5;
+  border: 2px solid #969b96;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
+}
+.markdown-preview.markdown-preview .contenedor {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto 30px auto;
+}
+.markdown-preview.markdown-preview .fondo {
+  background: url(https://balmisdigigs.github.io/digitalizacion.github.io/imagenes/fondos/quote.png);
+  background-size: cover;
+  width: 75%;
+  height: 160px;
+  border-radius: 10px;
+  position: relative;
+}
+.markdown-preview.markdown-preview .cita {
+  font-family: Arial;
+  font-style: italic;
+  font-weight: 600;
+  text-align: justify;
+  line-height: 1.5rem;
+  opacity: 0.6;
+  color: white;
+  padding: 5rem;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  font-size: 1.3rem;
+  transform: translate(-50%, -50%);
+}
+.markdown-preview.markdown-preview .abre_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-left: 30px;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, -15%);
+}
+.markdown-preview.markdown-preview .cierra_comilla {
+  font-family: "Catamaran";
+  font-weight: 600;
+  color: white;
+  padding-right: 30px;
+  right: 0%;
+  position: absolute;
+  font-size: 6rem;
+  transform: translate(0%, 55%);
+}
+.markdown-preview.markdown-preview .autor {
+  font-family: Arial;
+  color: white;
+  margin: 0px;
+  padding-left: 30px;
+  position: absolute;
+  top: 83%;
+  font-size: 1rem;
+}
+.markdown-preview.markdown-preview .flotante {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: center;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    justify-content: space-between;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante {
+    flex-direction: row;
+  }
+}
+.markdown-preview.markdown-preview .flotante_izq {
+  margin-right: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_izq {
+    width: auto;
+  }
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: 100%;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .flotante_der {
+    width: auto;
+  }
+}
+.markdown-preview.markdown-preview .galeria_imagenes {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  .markdown-preview.markdown-preview .galeria_imagenes {
+    flex-direction: row;
+  }
+}
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  const configureMermaidIconPacks = () => {
+    window["mermaid"].registerIconPacks([
+      {
+        name: "logos",
+        loader: () =>
+          fetch("https://unpkg.com/@iconify-json/logos@1/icons.json").then(
+            (res) => res.json()
+          ),
+      },
+    ]);
+  };
+
+  if (document.readyState !== 'loading') {
+    configureMermaidIconPacks();
+  } else {
+    document.addEventListener("DOMContentLoaded", () => {
+      configureMermaidIconPacks();
+    });
+  }
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<p><img src="..\imagenes\img-BalmisHeader.png" alt="Cabecera"></p>
+<h1 id="psp---examen-2a-evaluación">PSP - Examen 2a Evaluación </h1>
+<h2 id="reserva-de-salas">Reserva de salas </h2>
+<p>Queremos hacer una aplicación C/S que gestione la <strong>reserva de salas</strong> en un centro de formación (aulas de informática, salas de reuniones, laboratorios, etc.). La aplicación gestionará:</p>
+<ul>
+<li>Un listado de <strong>salas disponibles</strong> (código, nombre, aforo máximo).</li>
+<li>Un listado de <strong>reservas activas</strong>, asociadas a un usuario y a una sala.</li>
+<li>Un listado de <strong>usuarios conectados</strong>.</li>
+</ul>
+<p>El sistema debe permitir:</p>
+<ul>
+<li>Consultar el listado de salas y reservas.</li>
+<li>Crear nuevas reservas asociadas al usuario que lanza la petición.</li>
+<li>Cancelar reservas existentes.</li>
+<li>Desconectarse de la aplicación.</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Aplicación Multihilo</p>
+<p>El servidor será <strong>multihilo</strong>, de forma que pueda atender a múltiples clientes concurrentemente, compartiendo y sincronizando las estructuras de datos necesarias.</p>
+</div>
+<h2 id="instrucciones-generales">Instrucciones Generales </h2>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Proyecto servidor</strong></td>
+<td>Completar la clase <code>ReservasServidor</code> y la clase <code>ReservasWorker</code></td>
+</tr>
+<tr>
+<td><strong>Proyecto cliente</strong></td>
+<td>Completar la clase <code>ReservasCliente</code> con la lógica del protocolo.</td>
+</tr>
+<tr>
+<td><strong>Estructuras datos</strong></td>
+<td>Salas y reservas.</td>
+</tr>
+<tr>
+<td><strong>Concurrencia</strong></td>
+<td>El servidor debe ser capaz de atender a varios clientes en paralelo, compartiendo la información de las estructuras de datos.</td>
+</tr>
+<tr>
+<td><strong>Excepciones</strong></td>
+<td>Capturar y gestionar correctamente las excepciones de I/O.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Datos de prueba</p>
+<p>Tenéis un conjunto de <strong>datos precargados</strong> para realizar las pruebas.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Código</th>
+<th style="text-align:left">Nombre</th>
+<th style="text-align:center">Aforo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A1</td>
+<td style="text-align:left">Aula Informática 1</td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center">A2</td>
+<td style="text-align:left">Aula Informática 2</td>
+<td style="text-align:center">25</td>
+</tr>
+<tr>
+<td style="text-align:center">SALA3</td>
+<td style="text-align:left">Sala de Reuniones</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">LAB1</td>
+<td style="text-align:left">Laboratorio Redes</td>
+<td style="text-align:center">15</td>
+</tr>
+<tr>
+<td style="text-align:center">LAB2</td>
+<td style="text-align:left">Laboratorio Servidores</td>
+<td style="text-align:center">12</td>
+</tr>
+</tbody>
+</table>
+<p>Inicialmente, <strong>todas las salas están libres</strong> (sin reservas).</p>
+</div>
+<div style="page-break-after:always;"></div>
+<h1 id="parte-1-protocolo-sin-estados-70">PARTE 1: PROTOCOLO SIN ESTADOS (70%) </h1>
+<p>En esta primera parte se propone un <strong>protocolo sin estados</strong>, es decir, todos los comandos se pueden procesar en cualquier momento, en cualquier orden y de forma independiente.</p>
+<p align="center" class="puml"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentstyletype="text/css" data-diagram-type="SEQUENCE" height="1180px" preserveAspectRatio="none" style="width:876px;height:1180px;background:#FFFFFF;" version="1.1" viewBox="0 0 876 1180" width="876px" zoomAndPan="magnify"><title>Protocolo de Reservas de Salas (sin estados)</title><defs></defs><g><text fill="#000000" font-family="Verdana" font-size="17.6" font-weight="bold" lengthAdjust="spacing" textLength="445.7492" x="213.9838" y="29.6945">Protocolo de Reservas de Salas (sin estados)</text><g><title>Cliente</title><rect fill="#000000" fill-opacity="0.00000" height="1069.8965" width="6.4" x="26.6059" y="104.6016"></rect><line style="stroke:#000000;stroke-width:0.8;" x1="29.6" x2="29.6" y1="104.6016" y2="1174.498"></line></g><g><title>Servidor</title><rect fill="#000000" fill-opacity="0.00000" height="1069.8965" width="6.4" x="826.0344" y="104.6016"></rect><line style="stroke:#000000;stroke-width:0.8;" x1="828.752" x2="828.752" y1="104.6016" y2="1174.498"></line></g><g class="participant participant-head" data-participant="Cliente"><text fill="#000000" font-family="Verdana" font-size="11.2" lengthAdjust="spacing" textLength="38.8117" x="8" y="102.25">Cliente</text><ellipse cx="29.8059" cy="49.3898" fill="#FFFFFF" rx="6.4" ry="6.4" style="stroke:#000000;stroke-width:0.8;"></ellipse><path d="M29.8059,55.7898 L29.8059,77.3898 M19.4059,62.1898 L40.2059,62.1898 M29.8059,77.3898 L19.4059,89.3898 M29.8059,77.3898 L40.2059,89.3898" fill="none" style="stroke:#000000;stroke-width:0.8;"></path></g><g class="participant participant-head" data-participant="Servidor"><rect fill="#FFFFFF" height="24.8117" rx="2" ry="2" style="stroke:#000000;stroke-width:0.8;" width="58.5648" x="799.952" y="78.9898"></rect><text fill="#000000" font-family="Verdana" font-size="11.2" lengthAdjust="spacing" textLength="47.3648" x="805.552" y="95.85">Servidor</text></g><rect fill="#FFFFFF" height="2.4" style="stroke:#FFFFFF;stroke-width:0.8;" width="866.5168" x="4" y="129.3213"></rect><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="129.3213" y2="129.3213"></line><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="131.7213" y2="131.7213"></line><rect fill="#FFFFFF" height="19.0395" style="stroke:#000000;stroke-width:0.8;" width="86.4832" x="394.0168" y="120.6016"></rect><text fill="#000000" font-family="Verdana" font-size="10.4" font-weight="bold" lengthAdjust="spacing" textLength="71.7285" x="398.8168" y="134.2574">LIST_SALAS</text><g class="message" data-participant-1="Cliente" data-participant-2="Servidor"><polygon fill="#333333" points="819.6344,161.8805,827.6344,165.0805,819.6344,168.2805,822.8344,165.0805" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;" x1="29.8059" x2="824.4344" y1="165.0805" y2="165.0805"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="64.5227" x="35.4059" y="161.2969">LIST_SALAS</text></g><path d="M33.6,175.4805 L33.6,208.2805 L189.6,208.2805 L189.6,183.4805 L181.6,175.4805 L33.6,175.4805" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M181.6,175.4805 L181.6,183.4805 L189.6,183.4805 L181.6,175.4805" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="139.8109" x="38.4" y="189.9363">Solicita el listado completo</text><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="104.0965" x="38.4" y="202.5758">de salas disponibles</text><g class="message" data-participant-1="Servidor" data-participant-2="Cliente"><polygon fill="#333333" points="38.6059,226.9988,30.6059,230.1988,38.6059,233.3988,35.4059,230.1988" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;stroke-dasharray:2.0,2.0;" x1="33.8059" x2="828.4344" y1="230.1988" y2="230.1988"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="780.2285" x="43.4059" y="226.4152">SALAS|A1,Aula Informática 1,20|A2,Aula Informática 2,25|SALA3,Sala de Reuniones,10|LAB1,Laboratorio Redes,15|LAB2,Laboratorio Servidores,12</text></g><path d="M666.4,240.5988 L666.4,273.3988 L824.8,273.3988 L824.8,248.5988 L816.8,240.5988 L666.4,240.5988" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M816.8,240.5988 L816.8,248.5988 L824.8,248.5988 L816.8,240.5988" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="141.8879" x="671.2" y="255.0547">Envía todas las salas en un</text><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="139.491" x="671.2" y="267.6941">único mensaje formateado</text><rect fill="#FFFFFF" height="2.4" style="stroke:#FFFFFF;stroke-width:0.8;" width="866.5168" x="4" y="294.5975"></rect><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="294.5975" y2="294.5975"></line><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="296.9975" y2="296.9975"></line><rect fill="#FFFFFF" height="19.0395" style="stroke:#000000;stroke-width:0.8;" width="247.2719" x="313.6225" y="285.8777"></rect><text fill="#000000" font-family="Verdana" font-size="10.4" font-weight="bold" lengthAdjust="spacing" textLength="232.5172" x="318.4225" y="299.5336">LIST_RESERVAS (sin reservas iniciales)</text><g class="message" data-participant-1="Cliente" data-participant-2="Servidor"><polygon fill="#333333" points="819.6344,327.1566,827.6344,330.3566,819.6344,333.5566,822.8344,330.3566" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;" x1="29.8059" x2="824.4344" y1="330.3566" y2="330.3566"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="86.3484" x="35.4059" y="326.573">LIST_RESERVAS</text></g><path d="M33.6,340.7566 L33.6,360.7566 L201.6,360.7566 L201.6,348.7566 L193.6,340.7566 L33.6,340.7566" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M193.6,340.7566 L193.6,348.7566 L201.6,348.7566 L193.6,340.7566" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="151.7801" x="38.4" y="355.2125">Consulta las reservas activas</text><g class="message" data-participant-1="Servidor" data-participant-2="Cliente"><polygon fill="#333333" points="38.6059,379.6355,30.6059,382.8355,38.6059,386.0355,35.4059,382.8355" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;stroke-dasharray:2.0,2.0;" x1="33.8059" x2="828.4344" y1="382.8355" y2="382.8355"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="91.0965" x="43.4059" y="379.052">RESERVAS|NONE</text></g><path d="M683.2,393.2355 L683.2,413.2355 L824.8,413.2355 L824.8,401.2355 L816.8,393.2355 L683.2,393.2355" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M816.8,393.2355 L816.8,401.2355 L824.8,401.2355 L816.8,393.2355" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="124.9828" x="688" y="407.6914">No hay reservas activas</text><rect fill="#FFFFFF" height="2.4" style="stroke:#FFFFFF;stroke-width:0.8;" width="866.5168" x="4" y="434.5947"></rect><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="434.5947" y2="434.5947"></line><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="436.9947" y2="436.9947"></line><rect fill="#FFFFFF" height="19.0395" style="stroke:#000000;stroke-width:0.8;" width="199.4816" x="337.5176" y="425.875"></rect><text fill="#000000" font-family="Verdana" font-size="10.4" font-weight="bold" lengthAdjust="spacing" textLength="184.727" x="342.3176" y="439.5309">LIST_RESERVAS (con reservas)</text><g class="message" data-participant-1="Cliente" data-participant-2="Servidor"><polygon fill="#333333" points="819.6344,467.1539,827.6344,470.3539,819.6344,473.5539,822.8344,470.3539" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;" x1="29.8059" x2="824.4344" y1="470.3539" y2="470.3539"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="86.3484" x="35.4059" y="466.5703">LIST_RESERVAS</text></g><path d="M33.6,480.7539 L33.6,500.7539 L194.4,500.7539 L194.4,488.7539 L186.4,480.7539 L33.6,480.7539" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M186.4,480.7539 L186.4,488.7539 L194.4,488.7539 L186.4,480.7539" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="144.757" x="38.4" y="495.2098">Vuelve a consultar reservas</text><g class="message" data-participant-1="Servidor" data-participant-2="Cliente"><polygon fill="#333333" points="38.6059,519.6328,30.6059,522.8328,38.6059,526.0328,35.4059,522.8328" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;stroke-dasharray:2.0,2.0;" x1="33.8059" x2="828.4344" y1="522.8328" y2="522.8328"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="115.7762" x="43.4059" y="519.0492">RESERVAS|A1,vicente</text></g><g class="message" data-participant-1="Servidor" data-participant-2="Cliente"><polygon fill="#333333" points="38.6059,543.4723,30.6059,546.6723,38.6059,549.8723,35.4059,546.6723" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;stroke-dasharray:2.0,2.0;" x1="33.8059" x2="828.4344" y1="546.6723" y2="546.6723"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="117.193" x="43.4059" y="542.8887">RESERVAS|SALA3,reis</text></g><g class="message" data-participant-1="Servidor" data-participant-2="Cliente"><polygon fill="#333333" points="38.6059,567.3117,30.6059,570.5117,38.6059,573.7117,35.4059,570.5117" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;stroke-dasharray:2.0,2.0;" x1="33.8059" x2="828.4344" y1="570.5117" y2="570.5117"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="130.1828" x="43.4059" y="566.7281">RESERVAS|LAB2,antonio</text></g><g class="message" data-participant-1="Servidor" data-participant-2="Cliente"><polygon fill="#333333" points="38.6059,591.1512,30.6059,594.3512,38.6059,597.5512,35.4059,594.3512" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;stroke-dasharray:2.0,2.0;" x1="33.8059" x2="828.4344" y1="594.3512" y2="594.3512"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="91.0965" x="43.4059" y="590.5676">RESERVAS|NONE</text></g><path d="M621.6,604.7512 L621.6,650.3512 L824.8,650.3512 L824.8,612.7512 L816.8,604.7512 L621.6,604.7512" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M816.8,604.7512 L816.8,612.7512 L824.8,612.7512 L816.8,604.7512" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="167.05" x="626.4" y="619.207">Envía todas las reservas activas</text><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="186.7023" x="626.4" y="631.8465">en mensajes separados por reserva</text><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="90.1367" x="626.4" y="644.4859">Finaliza enviando</text><text fill="#000000" font-family="Verdana" font-size="10.4" font-weight="bold" lengthAdjust="spacing" textLength="33.5563" x="720.193" y="644.4859">NONE</text><rect fill="#FFFFFF" height="2.4" style="stroke:#FFFFFF;stroke-width:0.8;" width="866.5168" x="4" y="671.3893"></rect><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="671.3893" y2="671.3893"></line><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="673.7893" y2="673.7893"></line><rect fill="#FFFFFF" height="19.0395" style="stroke:#000000;stroke-width:0.8;" width="76.7738" x="398.8715" y="662.6695"></rect><text fill="#000000" font-family="Verdana" font-size="10.4" font-weight="bold" lengthAdjust="spacing" textLength="62.0191" x="403.6715" y="676.3254">RESERVAR</text><g class="message" data-participant-1="Cliente" data-participant-2="Servidor"><polygon fill="#333333" points="819.6344,703.9484,827.6344,707.1484,819.6344,710.3484,822.8344,707.1484" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;" x1="29.8059" x2="824.4344" y1="707.1484" y2="707.1484"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="116.8375" x="35.4059" y="703.3648">RESERVAR|vicente|A1</text></g><path d="M33.6,717.5484 L33.6,750.3484 L189.6,750.3484 L189.6,725.5484 L181.6,717.5484 L33.6,717.5484" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M181.6,717.5484 L181.6,725.5484 L189.6,725.5484 L181.6,717.5484" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="139.4809" x="38.4" y="732.0043">Solicita reservar la sala A1</text><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="107.509" x="38.4" y="744.6438">a nombre de vicente</text><path d="M660.8,758.8273 L660.8,791.6273 L824.8,791.6273 L824.8,766.8273 L816.8,758.8273 L660.8,758.8273" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M816.8,758.8273 L816.8,766.8273 L824.8,766.8273 L816.8,758.8273" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="147.4637" x="665.6" y="773.2832">Comprobar existencia de A1</text><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="121.7887" x="665.6" y="785.9227">y disponibilidad de sala</text><g class="message" data-participant-1="Servidor" data-participant-2="Cliente"><polygon fill="#333333" points="38.6059,810.3457,30.6059,813.5457,38.6059,816.7457,35.4059,813.5457" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;stroke-dasharray:2.0,2.0;" x1="33.8059" x2="828.4344" y1="813.5457" y2="813.5457"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="309.7656" x="43.4059" y="809.7621">[OK | KO] // Se informa de si la operación ha ido bien o no</text></g><path d="M688.8,823.9457 L688.8,856.7457 L824.8,856.7457 L824.8,831.9457 L816.8,823.9457 L688.8,823.9457" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M816.8,823.9457 L816.8,831.9457 L824.8,831.9457 L816.8,823.9457" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="112.7648" x="693.6" y="838.4016">Reserva de la sala A1</text><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="119.3563" x="693.6" y="851.041">para el usuario vicente</text><rect fill="#FFFFFF" height="2.4" style="stroke:#FFFFFF;stroke-width:0.8;" width="866.5168" x="4" y="877.9443"></rect><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="877.9443" y2="877.9443"></line><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="880.3443" y2="880.3443"></line><rect fill="#FFFFFF" height="19.0395" style="stroke:#000000;stroke-width:0.8;" width="76.6266" x="398.9451" y="869.2246"></rect><text fill="#000000" font-family="Verdana" font-size="10.4" font-weight="bold" lengthAdjust="spacing" textLength="61.8719" x="403.7451" y="882.8805">CANCELAR</text><g class="message" data-participant-1="Cliente" data-participant-2="Servidor"><polygon fill="#333333" points="819.6344,910.5035,827.6344,913.7035,819.6344,916.9035,822.8344,913.7035" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;" x1="29.8059" x2="824.4344" y1="913.7035" y2="913.7035"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="116.7816" x="35.4059" y="909.9199">CANCELAR|vicente|A1</text></g><path d="M33.6,924.1035 L33.6,956.9035 L192.8,956.9035 L192.8,932.1035 L184.8,924.1035 L33.6,924.1035" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M184.8,924.1035 L184.8,932.1035 L192.8,932.1035 L184.8,924.1035" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="143.198" x="38.4" y="938.5594">Solicita cancelar su reserva</text><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="83.398" x="38.4" y="951.1988">sobre la sala A1</text><g class="message" data-participant-1="Servidor" data-participant-2="Cliente"><polygon fill="#333333" points="38.6059,975.6219,30.6059,978.8219,38.6059,982.0219,35.4059,978.8219" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;stroke-dasharray:2.0,2.0;" x1="33.8059" x2="828.4344" y1="978.8219" y2="978.8219"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="309.7656" x="43.4059" y="975.0383">[OK | KO] // Se informa de si la operación ha ido bien o no</text></g><path d="M664,989.2219 L664,1022.0219 L824,1022.0219 L824,997.2219 L816,989.2219 L664,989.2219" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M816,989.2219 L816,997.2219 L824,997.2219 L816,989.2219" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="143.8074" x="668.8" y="1003.6777">Reserva de A1 para vicente</text><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="131.0918" x="668.8" y="1016.3172">cancelada correctamente</text><rect fill="#FFFFFF" height="2.4" style="stroke:#FFFFFF;stroke-width:0.8;" width="866.5168" x="4" y="1043.2205"></rect><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="1043.2205" y2="1043.2205"></line><line style="stroke:#000000;stroke-width:0.4;" x1="4" x2="870.5168" y1="1045.6205" y2="1045.6205"></line><rect fill="#FFFFFF" height="19.0395" style="stroke:#000000;stroke-width:0.8;" width="76.6266" x="398.9451" y="1034.5008"></rect><text fill="#000000" font-family="Verdana" font-size="10.4" font-weight="bold" lengthAdjust="spacing" textLength="61.8719" x="403.7451" y="1048.1566">CANCELAR</text><g class="message" data-participant-1="Cliente" data-participant-2="Servidor"><polygon fill="#333333" points="819.6344,1075.7797,827.6344,1078.9797,819.6344,1082.1797,822.8344,1078.9797" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;" x1="29.8059" x2="824.4344" y1="1078.9797" y2="1078.9797"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="31.6164" x="35.4059" y="1075.1961">SALIR</text></g><path d="M33.6,1089.3797 L33.6,1109.3797 L156,1109.3797 L156,1097.3797 L148,1089.3797 L33.6,1089.3797" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M148,1089.3797 L148,1097.3797 L156,1097.3797 L148,1089.3797" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="106.3359" x="38.4" y="1103.8355">Finalizar la conexión</text><g class="message" data-participant-1="Servidor" data-participant-2="Cliente"><polygon fill="#333333" points="38.6059,1128.2586,30.6059,1131.4586,38.6059,1134.6586,35.4059,1131.4586" style="stroke:#333333;stroke-width:0.8;"></polygon><line style="stroke:#333333;stroke-width:0.8;stroke-dasharray:2.0,2.0;" x1="33.8059" x2="828.4344" y1="1131.4586" y2="1131.4586"></line><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="15.3918" x="43.4059" y="1127.675">OK</text></g><path d="M716.8,1141.8586 L716.8,1161.8586 L824.8,1161.8586 L824.8,1149.8586 L816.8,1141.8586 L716.8,1141.8586" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><path d="M816.8,1141.8586 L816.8,1149.8586 L824.8,1149.8586 L816.8,1141.8586" fill="#FFFFFF" style="stroke:#666666;stroke-width:0.8;"></path><text fill="#000000" font-family="Verdana" font-size="10.4" lengthAdjust="spacing" textLength="91.4875" x="721.6" y="1156.3145">Finaliza el worker</text><!--SRC=[nLNDRjf04BxxAQRgfK6a2KIfgaXKSX2HeY1IuIgNggeMUmZRB3jqTqsIYfVf0_JKMw-yM6SNsv0I1xKvT2zOcj_l-sQ65sw2KuIP4b97zaRgcJ1Y2XQ_vgXJZ8sXsoufCl3oABmD9oN7s9SQJybaQEgyD3aylRakp6Vykjq_pPi9teGNHKag5CBXwxTHvAJZp_U67ANi11d242sQkR3-En6AFrvPgG6j4ndPlIWIgUDiNILHEuoubfEfd0dj8E50cP699fA3puZSYEwYgDE1_ddouNCIz-C4EfseY8NzTrN8oOPBv3i78wyd3cXSLG98I74f9m0LKnGQWfIcCuMEsCmrRMWuatP6MeuKsWXr5fY8oagmpsMBd2SG2YxYLZFEbO1pFIOpNNvdH09QpVRX8cu_OcatsySB7tdKz0ojMCkr98sssJfSzEFJLhClHcG4KoM9hPct77jB-u6bxCgRsolW2iS1TyKcG4_Fbpy4ECeOdKUumeaQSitcvIyjKu8fQYk-8FXEXKDcPus-4c7OIth3AzOXg6fAiILda3mMTkzfWShmMeswf6skM2FVO9MUPqRoxqO_ZyjHfbyCBWUzMZe611Dn_rJsRRGfhT4-5-DLZcgE87ZuLc1DbNhNl5K0UUJcCWq9TtYk1isWjBiymtJn8lBiqxC8tfgtBQh13rynS3oEw4yEdmUOKSK5-vn9BPJynWkhvr9eNjT6mnTkD1vgLNGrhDMbT5WKd35zkwz4qOTX165XW8E0LTCq7HdqMrigK3LJHqYNhuoX4UV2EpuyVC1bMFkGyRuwE5B9J6Jb8Ter2nylBs015vUVuE20Y_4EXiqDuT8tJJCq8fNBdvhd7JW1Z3WKY9FMTbgSRv_a0MmlaB-RkSs5FpnRqBqEtNZGxVMVqA5q-2iTKi7_Tugvi_d6R5Zo8cpq-9_PYbihZafYeEmxytjk3APEJF-1CbxVys4jIUM6X27bSyBZnG1sSS5Kr49Qxvo2Mp8tQDRPVWC0]--></g></svg></p><p><strong>Todos los mensajes se pueden procesar en cualquier momento (sin estados).</strong></p>
+<div style="page-break-after:always;"></div>
+<h2 id="descripción-del-protocolo-sin-estados">Descripción del Protocolo (sin estados) </h2>
+<p>Se utilizarán <strong>4 comandos</strong> mas el comando <strong>SALIR</strong>. Todos los mensajes se intercambian en texto plano, usando como separador el carácter <code>|</code> cuando haya varios campos en un mismo mensaje.</p>
+<h3 id="1-comando-list_salas">1. Comando LIST_SALAS </h3>
+<p>Devuelve el listado de salas existentes en el sistema.</p>
+<p><strong>Cliente</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Envía un mensaje: <code>LIST_SALAS</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Espera una única respuesta con el listado de salas.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Parsea la respuesta y la muestra formateada al usuario.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Servidor</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Recibe <code>LIST_SALAS</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Recorre la estructura de salas</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Devuelve un único mensaje: <code>SALAS|codigo1,nombre1,aforo1|codigo2,nombre2,aforo2|...|codigoN,nombreN,aforoN</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el cliente</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: LIST_SALAS
+** Salas disponibles **
+A1 - Aula Informática 1 (Aforo: 20)
+A2 - Aula Informática 2 (Aforo: 25)
+SALA3 - Sala de Reuniones (Aforo: 10)
+LAB1 - Laboratorio Redes (Aforo: 15)
+LAB2 - Laboratorio Servidores (Aforo: 12)
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el servidor</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: LIST_SALAS
+Se envía el listado de 5 salas al usuario.
+</code></pre></div>
+<div style="page-break-after:always;"></div>
+<h3 id="2-comando-list_reservas">2. Comando LIST_RESERVAS </h3>
+<p>Devuelve el listado de <strong>todas</strong> las reservas activas del sistema.</p>
+<p><strong>Cliente</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Envía: <code>LIST_RESERVAS</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Espera un mensaje por cada una de las reservas, hasta que recibe el mensaje <code>RESERVAS|NONE</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Parsea y muestra la información al usuario.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Servidor</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Recibe <code>LIST_RESERVAS</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Accede a la estructura de reservas.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Recorre la lista de reservas activas.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Devuelve: <code>RESERVAS|sala1,usuario1</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>RESERVAS|sala2,usuario2</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>RESERVAS|...</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>RESERVAS|salaK,usuarioK</code></td>
+</tr>
+<tr>
+<td></td>
+<td>Si no hay reservas o no hay más reservas: <code>RESERVAS|NONE</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el cliente</p>
+<p>Con reservas:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: LIST_RESERVAS
+** Reservas activas **
+A1 - vicente
+SALA3 - juan
+LAB1 - ana
+</code></pre><p>Sin reservas:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: LIST_RESERVAS
+** Reservas activas **
+(No hay reservas activas)
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el servidor</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: LIST_RESERVAS
+Se envía el listado de reservas: A1 (vicente), SALA3 (juan), LAB1 (ana).
+</code></pre></div>
+<div style="page-break-after:always;"></div>
+<h3 id="3-comando-reservar">3. Comando RESERVAR </h3>
+<p>Permite reservar una sala, asociándola al usuario que lanza la petición.</p>
+<p><strong>Cliente</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Solicita por teclado el código de sala a reservar.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Solicita por teclado el usuario que quiere realizar la reserva</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Envía: <code>RESERVAR|nombreUsuario|codigoSala</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Espera respuesta: <code>OK</code> o <code>KO</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Servidor</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Recibe <code>RESERVAR|nombreUsuario|codigoSala</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Comprueba que la sala existe.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Comprueba si la sala está disponible (no tiene reserva activa).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Si está disponible, crea una entrada asociando sala y usuario en las reservas y responde <code>OK</code>.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Si la sala no existe o está ocupada, responde <code>KO</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el cliente</p>
+<p>Éxito:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: RESERVAR
+Indica el código de la sala que quieres reservar: A1
+Indica el nombre del usuario que quiere realizar la reserva: pedro
+Reserva realizada correctamente.
+</code></pre><p>Error:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: RESERVAR
+Indica el código de la sala que quieres reservar: A1
+Indica el nombre del usuario que quiere realizar la reserva: pedro
+No se ha podido realizar la reserva (sala no existe u ocupada).
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el servidor</p>
+<p>Éxito:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: RESERVAR|pedro|A1
+La sala A1 ha sido reservada por el usuario pedro.
+</code></pre><p>Error:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: RESERVAR|pedro|A1
+No se puede reservar la sala A1 para pedro (ocupada o inexistente).
+</code></pre></div>
+<div style="page-break-after:always;"></div>
+<h3 id="4-comando-cancelar">4. Comando CANCELAR </h3>
+<p>Permite cancelar una reserva existente asociada a un usuario.</p>
+<p><strong>Cliente</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Solicita por teclado el código de la sala.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Solicita por teclado el usuario que quiere realizar la reserva.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Envía: <code>CANCELAR|nombreUsuario|codigoSala</code>.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Espera respuesta: <code>OK</code> o <code>KO</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Servidor</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Recibe <code>CANCELAR|nombreUsuario|codigoSala</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Busca en la estructura de reservas una reserva de esa sala asociada a ese usuario.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Si existe, elimina la reserva de las reservas y responde <code>OK</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Si no existe, responde <code>KO</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el cliente</p>
+<p>Éxito:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: CANCELAR
+Indica el código de la sala que quieres cancelar: A1
+Indica el nombre del usuario que quiere cancelar la reserva: pedro
+
+La reserva de la sala A1 se ha cancelado correctamente.
+</code></pre><p>Error:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: CANCELAR
+Indica el código de la sala que quieres cancelar: A1
+Indica el nombre del usuario que quiere realizar la reserva: pedro
+No tienes ninguna reserva activa sobre la sala A1.
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el servidor</p>
+<p>Éxito:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: CANCELAR|vicente|A1
+La reserva de la sala A1 del usuario vicente ha sido eliminada.
+</code></pre><p>Error:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: CANCELAR|vicente|A1
+No existe reserva de la sala A1 para el usuario vicente.
+</code></pre></div>
+<div style="page-break-after:always;"></div>
+<h3 id="5-comando-salir">5. Comando SALIR </h3>
+<p>Cuando el cliente envía el comando <code>SALIR</code> se cierra la comunicación con el servidor.<br>
+El servidor finaliza la ejecución del worker que estaba atendiendo al cliente.</p>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el cliente</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: EXIT
+Sesión finalizada. Gracias por usar el sistema de reservas.
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el servidor</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: EXIT
+El usuario se desconecta de la aplicación.
+Conexión cerrada.
+</code></pre></div>
+<div style="page-break-after:always;"></div>
+<h1 id="parte-2-protocolo-con-estados-30">PARTE 2: PROTOCOLO CON ESTADOS (30%) </h1>
+<div class="admonition warning">
+<p class="admonition-title">Cliente sin estados</p>
+<p>En la aplicación cliente solo se hacen los cambios necesarios para gestionar el nuevo comando <code>LOGIN</code> y las modificaciones en los comandos <code>CANCELAR</code> y <code>RESERVAR</code>.<br>
+No se realiza ningún cambio relacionado con la gestión de los estados.</p>
+</div>
+<p>En esta segunda parte se <strong>añade el comando LOGIN</strong> y se mantiene <strong>el mismo conjunto de comandos de la Parte 1</strong>, pero definiendo un <strong>protocolo con estados</strong>, donde el orden de los comandos está restringido y se definen transiciones de estado claras.</p>
+<p><strong>Todos los comandos deben cumplir una secuencia de estados.</strong></p>
+<h2 id="máquina-de-estados">Máquina de Estados </h2>
+<p>Se propone la siguiente máquina de estados en el lado del servidor (worker):</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>┌─────────┐
+│ INICIO  │ ← Estado inicial
+└────┬────┘
+     │ LOGIN (OK)
+     | LIST_RESERVAS
+     | LIST SALAS
+     ↓
+┌──────────────┐
+│ AUTENTICADO  │ ← Usuario identificado
+└──┬──┬──┬──┬──┘
+   │  │  │  │
+   │  │  │  └─→ CANCELAR
+   │  │  │
+   │  │  └─────→ RESERVAR
+   │  │
+   │  └────────→ LIST_RESERVAS
+   │
+   └──────────→ LIST_SALAS
+   
+   SALIR (en cualquier comando de AUTENTICADO)
+     ↓
+   ┌────┐
+   │ FIN│ ← Worker termina
+   └────┘
+</code></pre><table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Descripción</th>
+<th>Comandos permitidos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>INICIO</strong></td>
+<td>El usuario aún no se ha identificado.</td>
+<td><code>LOGIN</code>, <code>LIST_SALAS</code>, <code>LIST_RESERVAS</code></td>
+</tr>
+<tr>
+<td><strong>AUTENTICADO</strong></td>
+<td>El usuario se ha identificado correctamente.</td>
+<td><code>LIST_SALAS</code>, <code>LIST_RESERVAS</code>, <code>RESERVAR</code>, <code>CANCELAR</code>, <code>EXIT</code></td>
+</tr>
+<tr>
+<td><strong>FIN</strong></td>
+<td>El usuario ha salido; el worker termina.</td>
+<td>Ninguno (la conexión se cierra).</td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after:always;"></div>
+<h3 id="reglas-de-transición">Reglas de Transición </h3>
+<ol>
+<li>
+<p><strong>Desde INICIO:</strong></p>
+<ul>
+<li>Si se recibe <code>LOGIN|nombreUsuario</code>:
+<ul>
+<li>Si es exitoso (no está conectado), cambia a <code>AUTENTICADO</code> y responde <code>OK</code>.</li>
+<li>Si falla (usuario ya conectado), responde <code>KO</code> y permanece en <code>INICIO</code>.</li>
+</ul>
+</li>
+<li>Si se recibe LIST_SALAS se procede como en la parte 1 y permanece en <code>INICIO</code>.</li>
+<li>Si se recibe LIST_RESERVAS se procede como en la parte 1 y permanece en <code>INICIO</code>.</li>
+<li>Si se recibe cualquier otro comando, responde <code>UNEXPECTED_CMD</code> y permanece en <code>INICIO</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Desde AUTENTICADO:</strong></p>
+<ul>
+<li>Se permiten todos los comandos funcionales (<code>LIST_SALAS</code>, <code>LIST_RESERVAS</code>, <code>RESERVAR</code>, <code>CANCELAR</code>). Se ejecutan los comandos y se permanece en <code>AUTENTICADO</code>.</li>
+<li>Si se recibe <code>EXIT</code>, cambia a <code>FIN</code>, responde <code>OK</code> y cierra el socket.</li>
+<li>Si se recibe <code>LOGIN</code>, responde <code>UNEXPECTED_CMD</code> y permanece en <code>AUTENTICADO</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Desde FIN:</strong></p>
+<ul>
+<li>El worker finaliza y no procesa más mensajes. La conexión se cierra.</li>
+</ul>
+</li>
+</ol>
+<div style="page-break-after:always;"></div>
+<h2 id="descripción-de-comandos-con-estados">Descripción de Comandos con Estados </h2>
+<h3 id="comando-login-con-estados">Comando LOGIN (con estados) </h3>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Estados válidos</strong></td>
+<td>Solo <code>INICIO</code>.</td>
+</tr>
+<tr>
+<td><strong>Transición</strong></td>
+<td>Si OK: <code>INICIO</code> → <code>AUTENTICADO</code>. Si KO: permanece en <code>INICIO</code>.</td>
+</tr>
+<tr>
+<td><strong>En otro estado</strong></td>
+<td>Responder <code>UNEXPECTED_CMD</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el cliente</p>
+<p>Éxito:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce tu nombre de usuario: pedro
+Usuario identificado correctamente.
+</code></pre><p>Error:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce tu nombre de usuario: pedro
+No se ha podido iniciar sesión. Prueba con otro nombre.
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el servidor</p>
+<p>Éxito:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: LOGIN|vicente
+El usuario vicente ha entrado en el sistema.
+Transición: INICIO → AUTENTICADO
+</code></pre><p>Error:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: LOGIN|pedro
+No se puede registrar al usuario pedro (ya conectado).
+Permanece en estado INICIO.
+</code></pre><p>Comando no esperado:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: LOGIN|pedro
+Comando no esperado. El usuario ya está autenticado.
+</code></pre></div>
+<div style="page-break-after:always;"></div>
+<h3 id="comando-reservar-con-estados">Comando RESERVAR (con estados) </h3>
+<p>Permite reservar una sala, asociándola al usuario que lanza la petición.</p>
+<div class="admonition warning">
+<p class="admonition-title">Cambios respecto a sin estados</p>
+<p>El principal cambio es que en el cliente ya ni se solicita ni se envía el nombre de usuario como parte del mensaje.</p>
+<p>El servidor, usa el <strong>nombre del usuario autenticado en la sesión</strong> para intentar realizar la reserva.</p>
+</div>
+<p><strong>Cliente</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Solicita por teclado el código de sala a reservar.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Envía: <code>RESERVAR|nombreUsuario|codigoSala</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Espera respuesta: <code>OK</code> o <code>KO</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Servidor</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Recibe <code>RESERVAR|codigoSala</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Comprueba que la sala existe.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Comprueba si la sala está disponible (no tiene reserva activa).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Si está disponible, crea una entrada asociando sala y <strong>usuario autenticado</strong> en las reservas y responde <code>OK</code>.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Si la sala no existe o está ocupada, responde <code>KO</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el cliente</p>
+<p>Éxito:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: RESERVAR
+Indica el código de la sala que quieres reservar: A1    
+Reserva realizada correctamente.
+</code></pre><p>Error:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: RESERVAR
+Indica el código de la sala que quieres reservar: A1
+No se ha podido realizar la reserva (sala no existe u ocupada).
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el servidor</p>
+<p>Éxito:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: RESERVAR|A1
+La sala A1 ha sido reservada por el usuario pedro.
+</code></pre><p>Error:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: RESERVAR||A1
+No se puede reservar la sala A1 para pedro (ocupada o inexistente).
+</code></pre></div>
+<div style="page-break-after:always;"></div>
+<h3 id="4-comando-cancelar-con-estados">4. Comando CANCELAR (con estados) </h3>
+<p>Permite cancelar una reserva existente asociada a un usuario.</p>
+<div class="admonition warning">
+<p class="admonition-title">Cambios respecto a sin estados</p>
+<p>El principal cambio es que en el cliente ya ni se solicita ni se envía el nombre de usuario como parte del mensaje.</p>
+<p>El servidor, usa el <strong>nombre del usuario autenticado en la sesión</strong> para intentar realizar la cancelación.<br>
+Sólo se realiza la cancelación si la sala la tiene reservada el usuario.</p>
+</div>
+<p><strong>Cliente</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Solicita por teclado el código de la sala.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Envía: <code>CANCELAR|codigoSala</code>.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Espera respuesta: <code>OK</code> o <code>KO</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Servidor</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Recibe <code>CANCELAR|codigoSala</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Busca en la estructura de reservas una reserva de esa sala asociada al <strong>usuario autenticado</strong>.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Si existe elimina la reserva de las reservas y responde <code>OK</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Si no existe o <strong>no está reservada por el usuario autenticado</strong>, responde <code>KO</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el cliente</p>
+<p>Éxito:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: CANCELAR
+Indica el código de la sala que quieres cancelar: A1
+
+La reserva de la sala A1 se ha cancelado correctamente.
+</code></pre><p>Error:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: CANCELAR
+Indica el código de la sala que quieres cancelar: A1
+No tienes ninguna reserva activa sobre la sala A1.
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el servidor</p>
+<p>Éxito:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: CANCELAR|A1
+La reserva de la sala A1 del usuario pedro ha sido eliminada.
+</code></pre><p>Error:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: CANCELAR|A1
+No existe reserva de la sala A1 para el usuario pedro.
+</code></pre></div>
+<div style="page-break-after:always;"></div>
+<h3 id="comando-exit-con-estados">Comando EXIT (con estados) </h3>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Estados válidos</strong></td>
+<td>Solo <code>AUTENTICADO</code>.</td>
+</tr>
+<tr>
+<td><strong>Transición</strong></td>
+<td><code>AUTENTICADO</code> → <code>FIN</code>.</td>
+</tr>
+<tr>
+<td><strong>Mensajes</strong></td>
+<td>Cliente envía <code>EXIT</code>. Servidor responde <code>OK</code> y cierra la conexión.</td>
+</tr>
+<tr>
+<td><strong>En otro estado</strong></td>
+<td>Si se recibe en <code>INICIO</code>, responder <code>UNEXPECTED_CMD</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el cliente</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce comando: EXIT
+Sesión finalizada. Gracias por usar el sistema de reservas.
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Salida en el servidor</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: EXIT
+El usuario pedro sale de la aplicación.
+Transición: AUTENTICADO → FIN
+Conexión cerrada.
+</code></pre></div>
+<div style="page-break-after:always;"></div>
+<h2 id="ejemplo-de-ejecución-parte-2">Ejemplo de Ejecución (Parte 2) </h2>
+<h3 id="caso-1-secuencia-válida">Caso 1: Secuencia válida </h3>
+<div class="admonition summary">
+<p class="admonition-title">Cliente</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce tu nombre de usuario: vicente
+Usuario identificado correctamente.
+
+Selecciona una opción: 2
+** Salas disponibles **
+A1 - Aula Informática 1 (Aforo: 20)
+A2 - Aula Informática 2 (Aforo: 25)
+SALA3 - Sala de Reuniones (Aforo: 10)
+LAB1 - Laboratorio Redes (Aforo: 15)
+LAB2 - Laboratorio Servidores (Aforo: 12)
+
+Selecciona una opción: 4
+Indica el código de la sala que quieres reservar: A1
+Reserva realizada correctamente.
+
+Selecciona una opción: EXIT
+Sesión finalizada. Gracias por usar el sistema de reservas.
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Servidor</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Escuchando: ServerSocket[addr=0.0.0.0/0.0.0.0,localport=4444]
+
+--&gt; Cliente: LOGIN|vicente
+El usuario vicente ha entrado en el sistema.
+Transición: INICIO → AUTENTICADO
+
+--&gt; Cliente: LIST_SALAS
+Se envía el listado de 5 salas al usuario.
+Estado actual: AUTENTICADO
+
+--&gt; Cliente: RESERVAR|vicente|A1
+La sala A1 ha sido reservada por el usuario vicente.
+Estado actual: AUTENTICADO
+
+--&gt; Cliente: EXIT
+El usuario vicente sale de la aplicación.
+Transición: AUTENTICADO → FIN
+Conexión cerrada.
+</code></pre></div>
+<div style="page-break-after:always;"></div>
+<h3 id="caso-2-comando-no-esperado-en-inicio">Caso 2: Comando no esperado en INICIO </h3>
+<div class="admonition summary">
+<p class="admonition-title">Cliente</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce tu nombre de usuario: 
+(El cliente intenta un comando antes de LOGIN)
+Comando no esperado. Primero debes iniciar sesión.
+
+Introduce tu nombre de usuario: vicente
+Usuario identificado correctamente.
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Servidor</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: LIST_SALAS
+Comando no esperado. El usuario debe autenticarse primero.
+Estado actual: INICIO
+
+--&gt; Cliente: LOGIN|vicente
+El usuario vicente ha entrado en el sistema.
+Transición: INICIO → AUTENTICADO
+</code></pre></div>
+<h3 id="caso-3-comando-no-esperado-en-autenticado">Caso 3: Comando no esperado en AUTENTICADO </h3>
+<div class="admonition summary">
+<p class="admonition-title">Cliente</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Introduce tu nombre de usuario: vicente
+Usuario identificado correctamente.
+
+Selecciona una opción: 1
+Comando no esperado. Ya estás autenticado.
+
+Selecciona una opción: 2
+** Salas disponibles **
+...
+</code></pre></div>
+<div class="admonition summary">
+<p class="admonition-title">Servidor</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>--&gt; Cliente: LOGIN|vicente
+El usuario vicente ha entrado en el sistema.
+Transición: INICIO → AUTENTICADO
+
+--&gt; Cliente: LOGIN|juan
+Comando no esperado. El usuario ya está autenticado.
+Estado actual: AUTENTICADO
+
+--&gt; Cliente: LIST_SALAS
+Se envía el listado de 5 salas al usuario.
+Estado actual: AUTENTICADO
+</code></pre></div>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
